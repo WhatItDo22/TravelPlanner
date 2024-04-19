@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Road Trip Planner</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places&callback=initMap" async defer></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+        input[type="text"], button {
+            margin: 10px;
+            padding: 10px;
+            width: 300px;
+        }
+        button {
+            cursor: pointer;
+        }
+        #waypointsContainer {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <input id="origin" type="text" placeholder="Enter origin">
+    <input id="destination" type="text" placeholder="Enter destination">
+    <div id="waypointsContainer">
+        <button onclick="addWaypoint()">Add Waypoint</button>
+    </div>
+    <button onclick="calculateAndDisplayRoute()">Get Directions</button>
+    <div id="map"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
