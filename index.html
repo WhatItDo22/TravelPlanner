@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,25 +11,20 @@
         input[type="text"], button {
             margin: 10px;
             padding: 10px;
-            width: 300px;
+            width: 30%;
         }
         button {
             cursor: pointer;
-        }
-        #waypointsContainer {
-            margin: 10px;
         }
     </style>
 </head>
 <body>
     <input id="origin" type="text" placeholder="Enter origin">
     <input id="destination" type="text" placeholder="Enter destination">
-    <div id="waypointsContainer">
-        <button onclick="addWaypoint()">Add Waypoint</button>
-    </div>
+    <input id="waypoints" type="text" placeholder="Enter waypoints (separated by '|')">
     <button onclick="calculateAndDisplayRoute()">Get Directions</button>
     <div id="map"></div>
 
-    <script src="app.js"></script>
+    <script src="app1.js"></script>
 </body>
 </html>
