@@ -1,30 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Road Trip Planner</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places&callback=initMap" async defer></script>
-    <style>
-        #map {
-            height: 400px;
-            width: 100%;
-        }
-        input[type="text"], button {
-            margin: 10px;
-            padding: 10px;
-            width: 30%;
-        }
-        button {
-            cursor: pointer;
-        }
-    </style>
+  <title>Road Trip Planner</title>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places"></script>
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+    #controlPanel {
+      text-align: left;
+      margin: 10px;
+      padding: 10px;
+      width: 20%;
+      float: left;
+    }
+    input[type="text"], button {
+      display: block;
+      margin: 5px 0;
+      padding: 10px;
+      width: 95%;
+    }
+    #mapContainer {
+      height: 400px;
+    }
+  </style>
 </head>
 <body>
-    <input id="origin" type="text" placeholder="Enter origin">
-    <input id="destination" type="text" placeholder="Enter destination">
-    <input id="waypoints" type="text" placeholder="Enter waypoints (separated by '|')">
+  <div id="controlPanel">
+    <input id="origin" type="text" placeholder="Enter origin" class="waypoint">
+    <input id="destination" type="text" placeholder="Enter destination" class="waypoint">
+    <div id="waypointsContainer">
+      <button onclick="addWaypoint()">Add Waypoint</button>
+    </div>
     <button onclick="calculateAndDisplayRoute()">Get Directions</button>
+    <div id="output"></div>
+  </div>
+  <div id="mapContainer">
     <div id="map"></div>
-
-    <script src="app.js"></script>
+  </div>
+  <script src="app30.js"></script>
 </body>
 </html>
