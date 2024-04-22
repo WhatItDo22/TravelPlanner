@@ -98,7 +98,7 @@ function searchNearbyPOIs(location, poiType) {
   const types = poiType.split(',').map(type => type.trim());
   service.nearbySearch({
     location: location,
-    radius: 20000,
+    radius: 40000,
     type: types,
     keyword: poiType
   }, (results, status) => {
