@@ -118,14 +118,18 @@ function searchNearbyPOIs(location) {
   const service = new google.maps.places.PlacesService(map);
   service.nearbySearch({
     location: location,
-    radius: 5000, // Search within 5 km radius
-    type: ['restaurant', 'museum', 'park'] 
+    radius: 20000, // Search within 20 km radius
+    type: ['restaurant', 'museum', 'park'], 
+    keyword: 'tourist attractions' 
   }, (results, status) => {
-    if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+    if (status === google.maps.places.PlacesServiceStatus.OK && results.length) {
       displayPOIs(results);
+    } else {
+      console.log('No points of interest found or API error:', status);
     }
   });
 }
+
 
 function displayPOIs(places) {
   places.slice(0, 5).forEach(place => { // Limit to 5 places
