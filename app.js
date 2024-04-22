@@ -15,8 +15,8 @@ function initMap() {
   });
 
   directionsService = new google.maps.DirectionsService();
-  directionsRenderer = new google.maps.DirectionsRenderer({map: map});
-  
+  directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
+
   // Initialize autocomplete for initially present inputs
   setupAutocomplete('origin');
   setupAutocomplete('destination');
@@ -45,6 +45,7 @@ function calculateAndDisplayRoute() {
 
   const origin = document.getElementById("origin").value;
   const destination = document.getElementById("destination").value;
+  const poiType = document.getElementById("poiType").value;
   const waypoints = Array.from(document.getElementsByClassName('waypoint'))
     .map(input => ({ location: input.value, stopover: true }))
     .filter(wp => wp.location !== "");
@@ -60,67 +61,45 @@ function calculateAndDisplayRoute() {
   directionsService.route(routeRequest, (response, status) => {
     if (status === 'OK') {
       directionsRenderer.setDirections(response);
-      displayTravelTimesAndFindPOIs(response);
+      displayTravelTimesAndFindPOIs(response, poiType);
     } else {
       window.alert('Directions request failed due to ' + status);
     }
   });
 }
 
-function displayTravelTimesAndFindPOIs(directionsResult) {
+function displayTravelTimesAndFindPOIs(directionsResult, poiType) {
   const route = directionsResult.routes[0];
   let totalTime = 0;
-  let totalDistance = 0; // Added to accumulate total distance
-  let nextPOISearchTime = 3600; // Initialize for 1 hour
+  let totalDistance = 0;
+  let nextPOISearchTime = 3600;
   let accumulatedTime = 0;
   
   route.legs.forEach((leg, index) => {
     totalTime += leg.duration.value;
-    totalDistance += leg.distance.value; // Accumulate distance
-    let legTime = 0;
-
+    totalDistance += leg.distance.value;
     leg.steps.forEach(step => {
-      legTime = step.duration.value;
-      accumulatedTime += legTime;
-
+      accumulatedTime += step.duration.value;
       if (accumulatedTime >= nextPOISearchTime) {
-        searchNearbyPOIs(step.end_location);
+        searchNearbyPOIs(step.end_location, poiType);
         nextPOISearchTime += 3600;
       }
     });
 
-    const marker = new google.maps.Marker({
-      position: leg.end_location,
-      map: map,
-      title: `Leg ${index + 1}`
-    });
-
-    const infowindow = new google.maps.InfoWindow({
-      content: `<div><strong>${leg.start_address}</strong> to <strong>${leg.end_address}</strong><br>Distance: ${leg.distance.text}<br>Duration: ${leg.duration.text}</div>`
-    });
-
-    marker.addListener('click', () => {
-      infowindow.open(map, marker);
-    });
-
-    markers.push(marker);
-
-    if (index === route.legs.length - 1) { // Ensure this only occurs for the last leg
-      const totalInfowindow = new google.maps.InfoWindow({
-        content: `<div><strong>Total Distance:</strong> ${(totalDistance / 1000).toFixed(2)} km<br><strong>Total Time:</strong> ${Math.floor(totalTime / 3600)}h ${Math.floor((totalTime % 3600) / 60)}m</div>`
-      });
-      totalInfowindow.open(map, marker);
+    if (index === route.legs.length - 1) {
+      displayEndOfRouteInfo(leg, totalTime, totalDistance);
     }
   });
 }
 
-function searchNearbyPOIs(location) {
+function searchNearbyPOIs(location, poiType) {
   const service = new google.maps.places.PlacesService(map);
+  const types = poiType.split(',').map(type => type.trim());
   service.nearbySearch({
     location: location,
-    radius: 20000, // Search within 20 km radius
-    type: ['restaurant', 'museum', 'park'], 
-    keyword: 'tourist attractions' 
+    radius: 20000,
+    type: types,
+    keyword: poiType
   }, (results, status) => {
     if (status === google.maps.places.PlacesServiceStatus.OK && results.length) {
       displayPOIs(results);
@@ -130,9 +109,8 @@ function searchNearbyPOIs(location) {
   });
 }
 
-
 function displayPOIs(places) {
-  places.slice(0, 5).forEach(place => { // Limit to 5 places
+  places.slice(0, 5).forEach(place => {
     const marker = new google.maps.Marker({
       position: place.geometry.location,
       map: map,
@@ -154,8 +132,27 @@ function displayPOIs(places) {
   });
 }
 
+function displayEndOfRouteInfo(leg, totalTime, totalDistance) {
+  const marker = new google.maps.Marker({
+    position: leg.end_location,
+    map: map,
+    title: "Route End"
+  });
+
+  const totalHours = Math.floor(totalTime / 3600);
+  const totalMinutes = Math.floor((totalTime % 3600) / 60);
+  const totalDistanceKm = (totalDistance / 1000).toFixed(2);
+  
+  const infowindow = new google.maps.InfoWindow({
+    content: `<div><strong>Total Distance:</strong> ${totalDistanceKm} km<br><strong>Total Time:</strong> ${totalHours}h ${totalMinutes}m</div>`
+  });
+
+  infowindow.open(map, marker);
+  markers.push(marker);
+}
+
 function clearPreviousResults() {
-  markers.forEach(marker => marker.setMap(null)); // Remove all markers from the map
-  markers = []; // Clear the markers array
-  directionsRenderer.setDirections({ routes: [] }); // Clear previous directions
+  markers.forEach(marker => marker.setMap(null));
+  markers = [];
+  directionsRenderer.setDirections({ routes: [] });
 }
