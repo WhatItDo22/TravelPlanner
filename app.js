@@ -81,66 +81,26 @@ function displayTravelTimes(directionsResult) {
     const marker = new google.maps.Marker({
       position: leg.end_location,
       map: map,
-      title: `Leg ${index + 1}`
+      title: `Leg ${index + 1}`,
+
     });
-    markers.push(marker);
+
+    markers.push(marker); // Add marker to the array for tracking
 
     const infowindow = new google.maps.InfoWindow({
-      content: `<div><strong>${leg.start_address}</strong> to <strong>${leg.end_address}</strong><br>
-                Distance: ${leg.distance.text}<br>
-                Duration: ${leg.duration.text}</div>`
+      content: `<div><strong>${leg.start_address}</strong> to <strong>${leg.end_address}</strong><br> Distance: ${leg.distance.text}<br> Duration: ${leg.duration.text}</div>`
     });
 
     marker.addListener('click', () => {
       infowindow.open(map, marker);
     });
 
-    // Calculate stop points for every hour
-    if (leg.duration.value >= 3600) { // more than or equal to one hour
-      const numStops = Math.floor(leg.duration.value / 3600);
-      for (let i = 1; i <= numStops; i++) {
-        let stepPoint = leg.steps[Math.floor(leg.steps.length / numStops * i)];
-        findPlacesNear(stepPoint.end_location);
-      }
-    }
-
     if (index === route.legs.length - 1) {
+      // Last leg
       new google.maps.InfoWindow({
-        content: `<div><strong>Total Distance:</strong> ${totalDistance / 1000} km<br>
-                  <strong>Total Time:</strong> ${Math.floor(totalTime / 3600)} h ${Math.floor((totalTime % 3600) / 60)} min</div>`
+        content: `<div><strong>Total Distance:</strong> ${totalDistance / 1000} km<br> <strong>Total Time:</strong> ${Math.floor(totalTime / 3600)}h ${Math.floor((totalTime % 3600) / 60)}m</div>`
       }).open(map, marker);
     }
-  });
-}
-
-function findPlacesNear(location) {
-  const request = {
-    location: location,
-    radius: '5000', // Search within 5 km
-    type: ['restaurant', 'park', 'museum']
-  };
-
-  placesService.nearbySearch(request, (results, status) => {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      for (let i = 0; i < results.length; i++) {
-        createPOIMarker(results[i]);
-      }
-    }
-  });
-}
-
-function createPOIMarker(place) {
-  if (!place.geometry || !place.geometry.location) return;
-  const poiMarker = new google.maps.Marker({
-    map: map,
-    position: place.geometry.location
-  });
-
-  google.maps.event.addListener(poiMarker, 'click', () => {
-    const poiInfoWindow = new google.maps.InfoWindow({
-      content: place.name || 'No place name'
-    });
-    poiInfoWindow.open(map, poiMarker);
   });
 }
 
