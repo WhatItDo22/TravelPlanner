@@ -70,11 +70,13 @@ function calculateAndDisplayRoute() {
 function displayTravelTimesAndFindPOIs(directionsResult) {
   const route = directionsResult.routes[0];
   let totalTime = 0;
+  let totalDistance = 0; // Added to accumulate total distance
   let nextPOISearchTime = 3600; // Initialize for 1 hour
   let accumulatedTime = 0;
   
   route.legs.forEach((leg, index) => {
     totalTime += leg.duration.value;
+    totalDistance += leg.distance.value; // Accumulate distance
     let legTime = 0;
 
     leg.steps.forEach(step => {
@@ -103,10 +105,9 @@ function displayTravelTimesAndFindPOIs(directionsResult) {
 
     markers.push(marker);
 
-    if (index === route.legs.length - 1) {
-      // Last leg
+    if (index === route.legs.length - 1) { // Ensure this only occurs for the last leg
       const totalInfowindow = new google.maps.InfoWindow({
-        content: `<div><strong>Total Distance:</strong> ${totalTime / 1000} km<br><strong>Total Time:</strong> ${Math.floor(totalTime / 3600)}h ${Math.floor((totalTime % 3600) / 60)}m</div>`
+        content: `<div><strong>Total Distance:</strong> ${(totalDistance / 1000).toFixed(2)} km<br><strong>Total Time:</strong> ${Math.floor(totalTime / 3600)}h ${Math.floor((totalTime % 3600) / 60)}m</div>`
       });
       totalInfowindow.open(map, marker);
     }
