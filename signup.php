@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    if (isset($_SESSION["user"])) {
+        header("Location: index.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,11 +74,12 @@
                         die("Prepare failed");
                     }
                     mysqli_stmt_bind_param($stmt,"sss", $username, $email, $passwordHash);
-                    mysqli_stmt_execute($stmt);
 
                     // Execute the prepared statement
                     if (mysqli_stmt_execute($stmt)) {
                         echo "<div class='alert alert-success' role='alert'>User created successfully</div>";
+                        $_SESSION["user"] = $username;
+                        header("Location: index.php");
                     } else {
                         die(" Something went wrong. Please try again later.");
                     }
