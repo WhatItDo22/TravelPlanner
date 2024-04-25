@@ -33,7 +33,7 @@
                 $userDetail = $_POST["username"];   
                 $password = $_POST["password"];
 
-                require_once "database.php";
+                require_once "config.php";
                 $sql = "SELECT * FROM users WHERE username = '$userDetail' OR email = '$userDetail'";
                 $result = mysqli_query($conn, $sql);
                 $user = mysqli_fetch_array($result);
