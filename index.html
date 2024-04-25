@@ -6,63 +6,68 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <style>
-    #map {
-      height: 400px;
-      width: 100%;
-      border-radius: 5px;
-    }
-    #controlPanel {
-      text-align: left;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-      width: 100%;
-      float: left;
-      border: 1px solid #d3d3d3;
-      border-radius: 5px;
-      margin: 15px 0;
-    }
+  #map {
+    height: 400px;
+    width: 100%;
+    border-radius: 5px;
+  }
+  #controlPanel {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Adjusts spacing between inputs */
+    padding: 10px;
+    width: 100%;
+    float: left;
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
+    margin: 15px 0;
+  }
 
-    #controlPanel input[type="text"], button {
-      flex: 1;
-      flex-wrap: wrap;
-      width: 95%;
-      padding: 0.5rem;
-      margin: 15px 0;
-      margin-right: 1rem;
-      border: 1px solid #d3d3d3;
-      border-radius: 5px;
-    }
+  .input-fixed-width {
+    flex: 0 0 20%; /* Flex grow, flex shrink, flex basis */
+    padding: 0.5rem;
+    margin-right: 1%; /* Adjust spacing between the elements */
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
+  }
 
-    #mapContainer {
-      height: 650px;
-    }
+  #controlPanel button, #controlPanel input[type="date"], #controlPanel select {
+    flex: 1;
+    padding: 0.5rem;
+    margin: 15px 0 15px 1%;
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
+  }
 
-    #submit__button {
-      color: #fff;
-      background-color: rgb(20, 75, 185);
-      border-radius: 20px;
-      cursor: pointer;
-    }
+  #mapContainer {
+    height: 650px;
+  }
 
-    #submit__button:hover {
-      background-color: rgb(14, 59, 149);
-      transition: 0.3s ease-out;
-    }
+  #submit__button {
+    color: #fff;
+    background-color: rgb(20, 75, 185);
+    border-radius: 20px;
+    cursor: pointer;
+  }
 
-    #waypoint:hover {
-      color: #fff;
-      background-color: #ADEFD1;
-      transition: 0.3s ease-out;
-    }
+  #submit__button:hover {
+    background-color: rgb(14, 59, 149);
+    transition: 0.3s ease-out;
+  }
 
-    #events-panel {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 300px;
-    }
+  #waypoint:hover {
+    color: #fff;
+    background-color: #ADEFD1;
+    transition: 0.3s ease-out;
+  }
+
+  #events-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 300px;
+  }
 
 /*     body { */
       /* background-color: #FFD166; */
@@ -92,10 +97,14 @@
 
   <main>
     <div class="container">
-      <div id="controlPanel">
-        <input id="origin" type="text" placeholder="Enter origin" class="waypoint">
-        <input id="destination" type="text" placeholder="Enter destination" class="waypoint">
-        <input id="poiType" type="text" placeholder="Enter types of places (e.g., museum, restaurant)">
+
+<div id="controlPanel">
+  <input id="origin" type="text" placeholder="Enter origin" class="waypoint input-fixed-width">
+  <input id="destination" type="text" placeholder="Enter destination" class="waypoint input-fixed-width">
+  <input id="poiType" type="text" placeholder="Enter types of places (e.g., museum, restaurant)" class="input-fixed-width">
+
+</div>
+
         <div id="waypointsContainer">
           <button onclick="addWaypoint()" id="waypoint">Add Waypoint</button>
         </div>
