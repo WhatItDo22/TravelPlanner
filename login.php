@@ -67,5 +67,6 @@
             <p>Don't have an account? <a href="signup.php">Sign Up</a></p>
         </div>
     </div>   
+
 </body>
 </html>
