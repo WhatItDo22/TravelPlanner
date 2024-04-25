@@ -24,14 +24,13 @@
             $conn->select_db($db);
             $sql = "SELECT Name, Abbreviation FROM States";
             $result = $conn->query($sql);
+            echo "<select name='state' id='state'>";
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
-                    echo "<select name='state' id='state'>";
                     echo "<option value='{$row['Abbreviation']}'>{$row['Name']}</option>";
-                    echo "</select>";
                 }
             }
-
+            echo "</select>";
             $conn->close();
         ?>
     <?php include 'footer.php'; ?>
