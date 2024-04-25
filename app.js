@@ -157,14 +157,18 @@ function clearPreviousResults() {
 }
 
 var page = 0;
-var ticketMasterWidgetTemplate = document.getElementById('Ticketmaster-widget').outerHTML;
+var ticketMatsterWidgetTemplate = document.getElementById('Ticketmaster-widget').outerHTML;
 var searchButton = $(".button");
-var cityI = "Chicago";
+var cityI= "Chicago";
 var stateI = "IL";
 var Today = moment().format('YYYY-MM-DD');
 var dateI = Today;
+var categoryI= "";
+var Family="yes";
+var TktAPIKey = "8uLjoPL8tYMRAmxKvWiqevfA4RujHewi";
 
 searchButton.on("click", function() {
+  FamilyorNot();
   selectQuery();
   getEvents(page);
   reloadTicketmasterWidget();
@@ -174,9 +178,25 @@ function selectQuery() {
   cityI = $('#City').val();
   stateI = $('#state').val(); 
   dateI = $('#eventDate').val();
-  console.log('City entered: ' + cityI);
-  console.log('State entered: ' + stateI);
-  console.log('Date entered: ' + dateI);
+  console.log(' City entered: ' + cityI);
+  console.log(' State entered: ' + stateI);
+  console.log(' Date entered: ' + dateI);
+  console.log("Show family events only is " + Family);
+}
+
+function FamilyorNot() {
+  if(document.getElementById('showFamily').checked) {
+    Family="only";
+    console.log(" Only family events is checked so mark Family as " + Family);
+  }
+  else if(document.getElementById('over21').checked) {
+    Family="no";
+    console.log("Over 21 is checked so mark it as " + Family);
+  }
+  else {
+    Family="yes";
+    console.log("Radio button was not used so both Family and other events must show : " + Family);
+  }
 }
 
 function getEvents(page) {
@@ -187,24 +207,26 @@ function getEvents(page) {
     page = 0;
     return;
   }
-  if (page > 0 && page > getEvents.json.page.totalPages - 1) {
-    page = 0;
-    return;
+  if (page > 0) {
+    if (page > getEvents.json.page.totalPages-1) {
+      page=0;
+      return;
+    }
   }
  
   $.ajax({
-    type: "GET",
-    url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey="+TktAPIKey+"&sort=date,asc"+"&city="+cityI+"&countryCode=US"+"&state="+stateI+"&startDateTime="+dateI+"&size=4&page="+page,
-    async: true,
+    type:"GET",
+    url:"https://app.ticketmaster.com/discovery/v2/events.json?apikey="+TktAPIKey+"&sort=date,asc"+"&city="+cityI+"&countryCode=US"+"&state="+stateI+"&startedatetime="+dateI+"&classificationName="+categoryI+"&includeFamily="+Family+"&size=4&page="+page,
+    async:true,
     dataType: "json",
     success: function(json) {
-      getEvents.json = json;
-      showEvents(json);
-      console.log(json);
-    },
+          getEvents.json = json;
+          showEvents(json);
+          console.log(json);
+         },
     error: function(xhr, status, err) {
-      console.log(err);
-    }
+  			  console.log(err);
+  		   }
   });
 }
 
@@ -213,7 +235,7 @@ function showEvents(json) {
   items.hide();
   var events = json._embedded.events;
   var item = items.first();
-  for (var i = 0; i < events.length; i++) {
+  for (var i=0;i<events.length;i++) {
     item.children('.list-group-item-heading').text(events[i].name);
     item.children('.list-group-item-text').text(events[i].dates.start.localDate);
     try {
@@ -228,10 +250,10 @@ function showEvents(json) {
       try {
         getAttraction(eventObject.data._embedded.attractions[0].id);
       } catch (err) {
-        console.log(err);
+      console.log(err);
       }
     });
-    item = item.next();
+    item=item.next();
   }
 }
 
@@ -243,9 +265,38 @@ $('#next').click(function() {
   getEvents(++page);
 });
 
+function getAttraction(id) {
+  $.ajax({
+    type:"GET",
+    url:"https://app.ticketmaster.com/discovery/v2/attractions/"+id+".json?apikey="+TktAPIKey,
+    async:true,
+    dataType: "json",
+    success: function(json) {
+          showAttraction(json);
+  		   },
+    error: function(xhr, status, err) {
+  			  console.log(err);
+  		   }
+  });
+}
+
+function showAttraction(json) {
+  $('#events-panel').hide();
+  $('#attraction-panel').show();
+  
+  $('#attraction-panel').click(function() {
+    getEvents(page);
+  });
+  
+  $('#attraction .list-group-item-heading').first().text(json.name);
+  $('#attraction img').first().attr('src',json.images[0].url);
+  $('#classification').text(json.classifications[0].segment.name + " - " + json.classifications[0].genre.name + " - " + json.classifications[0].subGenre.name);
+  console.log(json.classifications[0].genre.name);
+}
+
 function reloadTicketmasterWidget() {
   $('#Ticketmaster-widget').fadeOut(400, function() {
-    var newTemplate = $(ticketMasterWidgetTemplate);
+    var newTemplate = $(ticketMatsterWidgetTemplate);
     newTemplate.attr('w-city', cityI, 'w-state', stateI);
     $('#Ticketmaster-widget').html(newTemplate);
     var s = document.createElement('script');
@@ -255,4 +306,4 @@ function reloadTicketmasterWidget() {
   });
 }
 
-getEvents(page); // Initial call to load events
+getEvents(page);
