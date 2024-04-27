@@ -281,7 +281,7 @@ function getAttraction(id) {
 }
 
 function showAttraction(json) {
-  $('#events-panel').hide();
+  $('#events-panel').show(); // Keep the events panel visible
   $('#attraction-panel').show();
   
   $('#attraction-panel').click(function() {
@@ -289,7 +289,8 @@ function showAttraction(json) {
   });
   
   $('#attraction .list-group-item-heading').first().text(json.name);
-  $('#attraction img').first().attr('src',json.images[0].url);
+  $('#attraction img').first().attr('src', json.images[0].url);
+  $('#attraction img').first().css({'width': '80%', 'height': '80%'}); // Set fixed image size
   $('#classification').text(json.classifications[0].segment.name + " - " + json.classifications[0].genre.name + " - " + json.classifications[0].subGenre.name);
   console.log(json.classifications[0].genre.name);
 }
