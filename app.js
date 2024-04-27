@@ -163,12 +163,9 @@ var cityI= "Chicago";
 var stateI = "IL";
 var Today = moment().format('YYYY-MM-DD');
 var dateI = Today;
-var categoryI= "";
-var Family="yes";
 var TktAPIKey = "8uLjoPL8tYMRAmxKvWiqevfA4RujHewi";
 
 searchButton.on("click", function() {
-  FamilyorNot();
   selectQuery();
   getEvents(page);
   reloadTicketmasterWidget();
@@ -181,22 +178,6 @@ function selectQuery() {
   console.log(' City entered: ' + cityI);
   console.log(' State entered: ' + stateI);
   console.log(' Date entered: ' + dateI);
-  console.log("Show family events only is " + Family);
-}
-
-function FamilyorNot() {
-  if(document.getElementById('showFamily').checked) {
-    Family="only";
-    console.log(" Only family events is checked so mark Family as " + Family);
-  }
-  else if(document.getElementById('over21').checked) {
-    Family="no";
-    console.log("Over 21 is checked so mark it as " + Family);
-  }
-  else {
-    Family="yes";
-    console.log("Radio button was not used so both Family and other events must show : " + Family);
-  }
 }
 
 function getEvents(page) {
@@ -216,7 +197,7 @@ function getEvents(page) {
  
   $.ajax({
     type:"GET",
-    url:"https://app.ticketmaster.com/discovery/v2/events.json?apikey="+TktAPIKey+"&sort=date,asc"+"&city="+cityI+"&countryCode=US"+"&state="+stateI+"&startedatetime="+dateI+"&classificationName="+categoryI+"&includeFamily="+Family+"&size=4&page="+page,
+    url:"https://app.ticketmaster.com/discovery/v2/events.json?apikey="+TktAPIKey+"&sort=date,asc"+"&city="+cityI+"&countryCode=US"+"&state="+stateI+"&startedatetime="+dateI+"&size=4&page="+page,
     async:true,
     dataType: "json",
     success: function(json) {
