@@ -238,6 +238,18 @@ function showEvents(json) {
   }
 }
 
+// Add the following code to fix the positions of previous and next buttons
+var prevButton = $('#prev');
+var nextButton = $('#next');
+
+prevButton.css('position', 'fixed');
+prevButton.css('bottom', '20px');
+prevButton.css('left', '20px');
+
+nextButton.css('position', 'fixed');
+nextButton.css('bottom', '20px');
+nextButton.css('right', '20px');
+
 $('#prev').click(function() { 
   getEvents(--page);
 });
