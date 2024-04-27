@@ -10,6 +10,19 @@
     padding: 0 10%;
 }
 
+#events-section {
+  padding: 2rem 0;
+}
+
+#events-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+#events-panel {
+  position: relative;
+  width: 100%;
+}
 .navbar {
     display: flex;
     justify-content: flex-end;
