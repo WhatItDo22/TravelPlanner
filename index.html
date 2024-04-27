@@ -25,7 +25,7 @@
   }
 
   .input-fixed-width {
-    flex: 0 0 20%; /* Flex grow, flex shrink, flex basis */
+    flex: 0 0 30%; /* Increased width for origin, destination, and POI boxes */
     padding: 0.5rem;
     margin-right: 1%; /* Adjust spacing between the elements */
     border: 1px solid #d3d3d3;
@@ -48,32 +48,26 @@
     border-radius: 5px;
   }
 
-  #submit__button {
+  #submit__button, #waypoint {
     color: #fff;
     background-color: rgb(20, 75, 185);
     border-radius: 20px;
     cursor: pointer;
+    padding: 0.5rem 1rem;
+    margin-left: 1%;
   }
 
-  #submit__button:hover {
+  #submit__button:hover, #waypoint:hover {
     background-color: rgb(14, 59, 149);
     transition: 0.3s ease-out;
   }
 
-  #waypoint:hover {
-    color: #fff;
-    background-color: #ADEFD1;
-    transition: 0.3s ease-out;
+  .waypoint {
+    padding: 0.5rem;
+    margin-right: 1%;
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
   }
-
-/*     body { */
-      /* background-color: #FFD166; */
-      /* background-color: #ADEFD1; */
-      /* background-color: #FFE09D; */
-      /* background-color: #0c0c0c; */
-      /* background-color: #0b1215; */
-      /* background-color: #020d19; */
-/*     } */
   </style>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -105,8 +99,8 @@
 
       <div id="waypointsContainer">
         <button onclick="addWaypoint()" id="waypoint">Add Waypoint</button>
+        <button onclick="calculateAndDisplayRoute()" id="submit__button">Get Directions</button>
       </div>
-      <button onclick="calculateAndDisplayRoute()" id="submit__button">Get Directions</button>
       <div id="output"></div>
     </div>
 
