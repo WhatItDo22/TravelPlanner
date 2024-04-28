@@ -6,6 +6,38 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <link rel="stylesheet" href="styles.css">
   <style>
+    
+    .restaurant-search-container {
+      padding: 2rem 0;
+      background-color: #f9f9f9;
+    }
+
+    #restaurant-map {
+      height: 400px;
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    #restaurant-results {
+      margin-top: 1rem;
+    }
+
+    #restaurant-results table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    #restaurant-results tr {
+      cursor: pointer;
+    }
+
+    #restaurant-results tr:hover {
+      background-color: #e0e0e0;
+    }
+
+    #restaurant-results td {
+      padding: 0.5rem;
+    }
     .events-container {
       padding: 2rem 0;
       background-color: #f5f5f5;
@@ -207,19 +239,7 @@
       </div>
     </section>
 
-    <section class="hotel-search-container">
-      <div class="container">
-        <h2>Hotel Search</h2>
-        <div class="search-form">
-          <input id="autocomplete" type="text" placeholder="Enter a city">
-          <button id="search-button">Search</button>
-        </div>
-        <div id="map"></div>
-        <div id="hotel-results">
-          <table id="results"></table>
-        </div>
-      </div>
-    </section>
+
 
     <div class="container">
       <div id="attraction-panel">
@@ -237,6 +257,33 @@
 
       <div id="Ticketmaster-widget"></div>
     </div>
+        <section class="hotel-search-container">
+      <div class="container">
+        <h2>Hotel Search</h2>
+        <div class="search-form">
+          <input id="autocomplete" type="text" placeholder="Enter a city">
+          <button id="search-button">Search</button>
+        </div>
+        <div id="map"></div>
+        <div id="hotel-results">
+          <table id="results"></table>
+        </div>
+      </div>
+    </section>
+    <section class="restaurant-search-container">
+      <div class="container">
+        <h2>Restaurant Search</h2>
+        <div class="search-form">
+          <input id="restaurant-location" type="text" placeholder="Enter a location">
+          <input id="restaurant-query" type="text" placeholder="Enter a cuisine type (optional)">
+          <button id="restaurant-search-button">Search</button>
+        </div>
+        <div id="restaurant-map"></div>
+        <div id="restaurant-results">
+          <table id="restaurant-table"></table>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="footer__container">
