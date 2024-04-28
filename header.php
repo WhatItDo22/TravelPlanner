@@ -1,4 +1,4 @@
-<?php include 'header.php'; ?>
+<?php include 'check.php'; ?>
 
 <?php if ($loginst == 0) { ?>
     <div class="navbar">
