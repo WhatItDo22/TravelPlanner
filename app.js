@@ -7,7 +7,6 @@ let waypointCount = 0;
 // Hotel search variables
 let places;
 let autocomplete;
-const countryRestrict = { country: "us" };
 const MARKER_PATH =
   "https://developers.google.com/maps/documentation/javascript/images/marker_green";
 const hostnameRegexp = new RegExp("^https?://.+?/");
@@ -20,9 +19,9 @@ function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 4,
     center: { lat: 37.1, lng: -95.7 },
-    mapTypeControl: false,
-    panControl: false,
-    zoomControl: false,
+    mapTypeControl: true,
+    panControl: true,
+    zoomControl: true,
     streetViewControl: false,
   });
 
@@ -36,12 +35,12 @@ function initMap() {
     document.getElementById("autocomplete"),
     {
       types: ["(cities)"],
-      componentRestrictions: countryRestrict,
     }
   );
 
   places = new google.maps.places.PlacesService(map);
 
+  autocomplete.addListener("place_changed", onPlaceChanged);
   document.getElementById("search-button").addEventListener("click", search);
 }
 
@@ -180,68 +179,62 @@ function clearPreviousResults() {
   directionsRenderer.setDirections({ routes: [] });
 }
 
+function onPlaceChanged() {
+  const place = autocomplete.getPlace();
+
+  if (place.geometry) {
+    map.panTo(place.geometry.location);
+    map.setZoom(15);
+    search();
+  } else {
+    document.getElementById("autocomplete").placeholder = "Enter a city";
+  }
+}
+
 function search() {
   const city = document.getElementById("autocomplete").value;
 
   if (city) {
-    const locationRequest = {
-      query: city,
-      fields: ["name", "geometry"],
+    const search = {
+      bounds: map.getBounds(),
+      types: ["lodging"],
     };
 
-    places.findPlaceFromQuery(locationRequest, (results, status) => {
-      if (status === google.maps.places.PlacesServiceStatus.OK && results[0]) {
-        const place = results[0];
-        map.panTo(place.geometry.location);
-        map.setZoom(15);
-        searchHotels(place);
-      } else {
-        console.log("No location found or API error:", status);
+    places.nearbySearch(search, (results, status, pagination) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+        clearResults();
+        clearMarkers();
+
+        for (let i = 0; i < results.length; i++) {
+          const markerLetter = String.fromCharCode("A".charCodeAt(0) + (i % 26));
+          const markerIcon = MARKER_PATH + markerLetter + ".png";
+          const marker = new google.maps.Marker({
+            position: results[i].geometry.location,
+            map: map,
+            icon: markerIcon,
+          });
+          markers.push(marker);
+
+          const tr = document.createElement("tr");
+          tr.style.backgroundColor = i % 2 === 0 ? "#F0F0F0" : "#FFFFFF";
+          tr.onclick = function () {
+            google.maps.event.trigger(marker, "click");
+          };
+          const iconTd = document.createElement("td");
+          const nameTd = document.createElement("td");
+          const icon = document.createElement("img");
+          icon.src = markerIcon;
+          icon.setAttribute("class", "placeIcon");
+          const name = document.createTextNode(results[i].name);
+          iconTd.appendChild(icon);
+          nameTd.appendChild(name);
+          tr.appendChild(iconTd);
+          tr.appendChild(nameTd);
+          document.getElementById("results").appendChild(tr);
+        }
       }
     });
   }
-}
-
-function searchHotels(place) {
-  const search = {
-    bounds: map.getBounds(),
-    types: ["lodging"],
-  };
-
-  places.nearbySearch(search, (results, status, pagination) => {
-    if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-      clearResults();
-      clearMarkers();
-
-      for (let i = 0; i < results.length; i++) {
-        const markerLetter = String.fromCharCode("A".charCodeAt(0) + (i % 26));
-        const markerIcon = MARKER_PATH + markerLetter + ".png";
-        const marker = new google.maps.Marker({
-          position: results[i].geometry.location,
-          map: map,
-          icon: markerIcon,
-        });
-        markers.push(marker);
-
-        const tr = document.createElement("tr");
-        tr.style.backgroundColor = i % 2 === 0 ? "#F0F0F0" : "#FFFFFF";
-        tr.onclick = function () {
-          google.maps.event.trigger(marker, "click");
-        };
-        const iconTd = document.createElement("td");
-        const nameTd = document.createElement("td");
-        const icon = document.createElement("img");
-        icon.src = markerIcon;
-        icon.setAttribute("class", "placeIcon");
-        const name = document.createTextNode(results[i].name);
-        iconTd.appendChild(icon);
-        nameTd.appendChild(name);
-        tr.appendChild(iconTd);
-        tr.appendChild(nameTd);
-        document.getElementById("results").appendChild(tr);
-      }
-    }
-  });
 }
 
 function clearResults() {
@@ -342,9 +335,10 @@ function showEvents(json) {
   }
 }
 
-
+// Add the following code to fix the positions of previous and next buttons
 var prevButton = $('#prev');
 var nextButton = $('#next');
+
 $('#prev').click(function() { 
   getEvents(--page);
 });
