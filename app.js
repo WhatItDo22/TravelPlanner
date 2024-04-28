@@ -11,9 +11,18 @@ const MARKER_PATH =
   "https://developers.google.com/maps/documentation/javascript/images/marker_green";
 const hostnameRegexp = new RegExp("^https?://.+?/");
 
+let restaurantMap;
+let restaurantAutocomplete;
+let restaurantMarkers = [];
+
 window.onload = function() {
-  initMap();
+  initMaps();
 };
+
+function initMaps() {
+  initMap();
+  initRestaurantMap();
+}
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
@@ -40,6 +49,25 @@ function initMap() {
   autocomplete.addListener("place_changed", onPlaceChanged);
   document.getElementById("search-button").addEventListener("click", search);
 }
+
+function initRestaurantMap() {
+  restaurantMap = new google.maps.Map(document.getElementById("restaurant-map"), {
+    zoom: 12,
+    center: { lat: 37.7749, lng: -122.4194 },
+    mapTypeControl: true,
+    panControl: true,
+    zoomControl: true,
+    streetViewControl: false,
+  });
+
+  restaurantAutocomplete = new google.maps.places.Autocomplete(
+    document.getElementById("restaurant-location")
+  );
+
+  restaurantAutocomplete.addListener("place_changed", onRestaurantPlaceChanged);
+  document.getElementById("restaurant-search-button").addEventListener("click", searchRestaurants);
+}
+
 function setupAutocomplete(id) {
   new google.maps.places.Autocomplete(document.getElementById(id), {
     types: ['geocode']
@@ -265,6 +293,83 @@ function clearMarkers() {
   markers = [];
 }
 
+function onRestaurantPlaceChanged() {
+  const place = restaurantAutocomplete.getPlace();
+
+  if (place.geometry) {
+    restaurantMap.panTo(place.geometry.location);
+    restaurantMap.setZoom(15);
+    searchRestaurants();
+  } else {
+    document.getElementById("restaurant-location").placeholder = "Enter a location";
+  }
+}
+
+function searchRestaurants() {
+  const location = document.getElementById("restaurant-location").value;
+  const query = document.getElementById("restaurant-query").value;
+
+  if (location) {
+    const request = {
+      location: restaurantMap.getCenter(),
+      radius: 5000,
+      type: ["restaurant"],
+      keyword: query,
+    };
+
+    places.nearbySearch(request, (results, status) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+        clearRestaurantResults();
+        clearRestaurantMarkers();
+
+        for (let i = 0; i < results.length; i++) {
+          const markerLetter = String.fromCharCode("A".charCodeAt(0) + (i % 26));
+          const markerIcon = MARKER_PATH + markerLetter + ".png";
+          const marker = new google.maps.Marker({
+            position: results[i].geometry.location,
+            map: restaurantMap,
+            icon: markerIcon,
+          });
+          restaurantMarkers.push(marker);
+
+          const tr = document.createElement("tr");
+          tr.style.backgroundColor = i % 2 === 0 ? "#F0F0F0" : "#FFFFFF";
+          tr.onclick = function () {
+            google.maps.event.trigger(marker, "click");
+          };
+          const iconTd = document.createElement("td");
+          const nameTd = document.createElement("td");
+          const icon = document.createElement("img");
+          icon.src = markerIcon;
+          icon.setAttribute("class", "placeIcon");
+          const name = document.createTextNode(results[i].name);
+          iconTd.appendChild(icon);
+          nameTd.appendChild(name);
+          tr.appendChild(iconTd);
+          tr.appendChild(nameTd);
+          document.getElementById("restaurant-table").appendChild(tr);
+        }
+      }
+    });
+  }
+}
+
+function clearRestaurantResults() {
+  const results = document.getElementById("restaurant-table");
+  while (results.childNodes[0]) {
+    results.removeChild(results.childNodes[0]);
+  }
+}
+
+function clearRestaurantMarkers() {
+  for (let i = 0; i < restaurantMarkers.length; i++) {
+    if (restaurantMarkers[i]) {
+      restaurantMarkers[i].setMap(null);
+    }
+  }
+  restaurantMarkers = [];
+}
+
 var page = 0;
 var ticketMatsterWidgetTemplate = document.getElementById('Ticketmaster-widget').outerHTML;
 var searchButton = $(".button");
@@ -341,7 +446,7 @@ function showEvents(json) {
         getAttraction(eventObject.data._embedded.attractions[0].id);
       } catch (err) {
       console.log(err);
-      }
+        }
     });
     item=item.next();
   }
