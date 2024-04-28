@@ -270,6 +270,16 @@ function search() {
           nameTd.appendChild(name);
           tr.appendChild(iconTd);
           tr.appendChild(nameTd);
+
+          const addButton = document.createElement("button");
+          addButton.textContent = "Add to Itinerary";
+          addButton.classList.add("add-to-itinerary");
+          addButton.onclick = function() {
+            console.log(`Added ${results[i].name} to the itinerary`);
+            // add logic
+          };
+          tr.appendChild(addButton);
+
           document.getElementById("results").appendChild(tr);
         }
       }
@@ -347,13 +357,22 @@ function searchRestaurants() {
           nameTd.appendChild(name);
           tr.appendChild(iconTd);
           tr.appendChild(nameTd);
+
+          const addButton = document.createElement("button");
+          addButton.textContent = "Add to Itinerary";
+          addButton.classList.add("add-to-itinerary");
+          addButton.onclick = function() {
+            console.log(`Added ${results[i].name} to the itinerary`);
+            // add logic
+          };
+          tr.appendChild(addButton);
+
           document.getElementById("restaurant-table").appendChild(tr);
         }
       }
     });
   }
 }
-
 function clearRestaurantResults() {
   const results = document.getElementById("restaurant-table");
   while (results.childNodes[0]) {
@@ -430,7 +449,7 @@ function showEvents(json) {
   items.hide();
   var events = json._embedded.events;
   var item = items.first();
-  for (var i=0;i<events.length;i++) {
+  for (var i = 0; i < events.length; i++) {
     item.children('.list-group-item-heading').text(events[i].name);
     item.children('.list-group-item-text').text(events[i].dates.start.localDate);
     try {
@@ -445,13 +464,21 @@ function showEvents(json) {
       try {
         getAttraction(eventObject.data._embedded.attractions[0].id);
       } catch (err) {
-      console.log(err);
-        }
+        console.log(err);
+      }
     });
-    item=item.next();
+
+    // Add the "Add to Itinerary" button
+    const addButton = $('<button>').addClass('add-to-itinerary').text('Add to Itinerary');
+    addButton.on('click', function() {
+      console.log(`Added ${events[i].name} to the itinerary`);
+      // add logic
+    });
+    item.append(addButton);
+
+    item = item.next();
   }
 }
-
 // Add the following code to fix the positions of previous and next buttons
 var prevButton = $('#prev');
 var nextButton = $('#next');
