@@ -458,15 +458,8 @@ function showEvents(json) {
       console.log(err);
     }
     item.show();
-
-    // Create a separate container for the event details
-    const eventDetails = $('<div>').addClass('event-details');
-    eventDetails.append(item.children('.list-group-item-heading'));
-    eventDetails.append(item.children('.list-group-item-text'));
-    eventDetails.append(item.children('.venue'));
-
-    // Add click event to the event details container
-    eventDetails.click(events[i], function(eventObject) {
+    item.off("click");
+    item.click(events[i], function(eventObject) {
       console.log(eventObject.data);
       try {
         getAttraction(eventObject.data._embedded.attractions[0].id);
@@ -475,29 +468,18 @@ function showEvents(json) {
       }
     });
 
-    // Create a container for the "Add to Itinerary" button
-    const buttonContainer = $('<div>').addClass('button-container');
-
     // Add the "Add to Itinerary" button
     const addButton = $('<button>').addClass('add-to-itinerary').text('Add to Itinerary');
-    addButton.on('click', function(event) {
-      event.stopPropagation(); // Prevent the event click event from triggering
+    addButton.on('click', function() {
       console.log(`Added ${events[i].name} to the itinerary`);
-      // Add logic
+      // add logic
     });
-
-    // Append the button to the button container
-    buttonContainer.append(addButton);
-
-    // Clear the item's content and append the event details and button containers
-    item.empty();
-    item.append(eventDetails);
-    item.append(buttonContainer);
+    item.append(addButton);
 
     item = item.next();
   }
 }
-
+// Add the following code to fix the positions of previous and next buttons
 var prevButton = $('#prev');
 var nextButton = $('#next');
 
