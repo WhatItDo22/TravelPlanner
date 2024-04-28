@@ -42,7 +42,7 @@ function initMap() {
 
   places = new google.maps.places.PlacesService(map);
 
-  autocomplete.addListener("place_changed", onPlaceChanged);
+  document.getElementById("search-button").addEventListener("click", search);
 }
 
 function setupAutocomplete(id) {
@@ -180,19 +180,29 @@ function clearPreviousResults() {
   directionsRenderer.setDirections({ routes: [] });
 }
 
-function onPlaceChanged() {
-  const place = autocomplete.getPlace();
+function search() {
+  const city = document.getElementById("autocomplete").value;
 
-  if (place.geometry) {
-    map.panTo(place.geometry.location);
-    map.setZoom(15);
-    search();
-  } else {
-    document.getElementById("autocomplete").placeholder = "Enter a city";
+  if (city) {
+    const locationRequest = {
+      query: city,
+      fields: ["name", "geometry"],
+    };
+
+    places.findPlaceFromQuery(locationRequest, (results, status) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK && results[0]) {
+        const place = results[0];
+        map.panTo(place.geometry.location);
+        map.setZoom(15);
+        searchHotels(place);
+      } else {
+        console.log("No location found or API error:", status);
+      }
+    });
   }
 }
 
-function search() {
+function searchHotels(place) {
   const search = {
     bounds: map.getBounds(),
     types: ["lodging"],
@@ -206,10 +216,17 @@ function search() {
       for (let i = 0; i < results.length; i++) {
         const markerLetter = String.fromCharCode("A".charCodeAt(0) + (i % 26));
         const markerIcon = MARKER_PATH + markerLetter + ".png";
+        const marker = new google.maps.Marker({
+          position: results[i].geometry.location,
+          map: map,
+          icon: markerIcon,
+        });
+        markers.push(marker);
+
         const tr = document.createElement("tr");
         tr.style.backgroundColor = i % 2 === 0 ? "#F0F0F0" : "#FFFFFF";
         tr.onclick = function () {
-          google.maps.event.trigger(markers[i], "click");
+          google.maps.event.trigger(marker, "click");
         };
         const iconTd = document.createElement("td");
         const nameTd = document.createElement("td");
@@ -328,7 +345,6 @@ function showEvents(json) {
 
 var prevButton = $('#prev');
 var nextButton = $('#next');
-
 $('#prev').click(function() { 
   getEvents(--page);
 });
