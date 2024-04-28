@@ -32,10 +32,7 @@ function initMap() {
   setupAutocomplete('destination');
 
   autocomplete = new google.maps.places.Autocomplete(
-    document.getElementById("autocomplete"),
-    {
-      types: ["(cities)"],
-    }
+    document.getElementById("autocomplete")
   );
 
   places = new google.maps.places.PlacesService(map);
@@ -43,7 +40,6 @@ function initMap() {
   autocomplete.addListener("place_changed", onPlaceChanged);
   document.getElementById("search-button").addEventListener("click", search);
 }
-
 function setupAutocomplete(id) {
   new google.maps.places.Autocomplete(document.getElementById(id), {
     types: ['geocode']
