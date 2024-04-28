@@ -139,11 +139,27 @@ function displayPOIs(places) {
     });
 
     const infowindow = new google.maps.InfoWindow({
-      content: `<div><strong>${place.name}</strong><br>Rating: ${place.rating || 'N/A'}</div>`
+      content: `
+        <div>
+          <strong>${place.name}</strong><br>
+          Rating: ${place.rating || 'N/A'}<br>
+          <button class="add-to-itinerary">Add to Itinerary</button>
+        </div>
+      `
     });
 
     marker.addListener('click', () => {
       infowindow.open(map, marker);
+    });
+
+    // Add click event listener to the "Add to Itinerary" button
+    google.maps.event.addListener(infowindow, 'domready', () => {
+      const addButton = infowindow.getContent().querySelector('.add-to-itinerary');
+      addButton.addEventListener('click', () => {
+        // Handle the button click event here
+        console.log(`Added ${place.name} to the itinerary`);
+        //add logic
+      });
     });
 
     markers.push(marker);
