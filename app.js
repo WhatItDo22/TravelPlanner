@@ -7,6 +7,7 @@ let waypointCount = 0;
 // Hotel search variables
 let places;
 let autocomplete;
+const countryRestrict = { country: "us" };
 const MARKER_PATH =
   "https://developers.google.com/maps/documentation/javascript/images/marker_green";
 const hostnameRegexp = new RegExp("^https?://.+?/");
