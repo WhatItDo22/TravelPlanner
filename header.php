@@ -1,10 +1,4 @@
-<?php
-session_start();
-$loginst = 0;
-if (isset($_SESSION["user"])) {
-    $loginst = 1;
-}
-?>
+<?php include 'header.php'; ?>
 
 <?php if ($loginst == 0) { ?>
     <div class="navbar">

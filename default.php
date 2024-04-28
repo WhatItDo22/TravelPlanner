@@ -10,7 +10,6 @@
 
 <body> 
     <?php include 'header.php'; ?>
-
         <?php
             // Establish connection info to database one
             $server = "localhost";
