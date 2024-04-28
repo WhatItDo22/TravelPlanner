@@ -1,290 +1,395 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Events - Road Trip Planner</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    .events-container {
-      padding: 2rem 0;
-      background-color: #f5f5f5;
+let map;
+let directionsService;
+let directionsRenderer;
+let markers = [];
+let waypointCount = 0;
+
+// Hotel search variables
+let places;
+let autocomplete;
+const countryRestrict = { country: "us" };
+const MARKER_PATH =
+  "https://developers.google.com/maps/documentation/javascript/images/marker_green";
+const hostnameRegexp = new RegExp("^https?://.+?/");
+
+window.onload = function() {
+  initMap();
+};
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 4,
+    center: { lat: 37.1, lng: -95.7 },
+    mapTypeControl: false,
+    panControl: false,
+    zoomControl: false,
+    streetViewControl: false,
+  });
+
+  directionsService = new google.maps.DirectionsService();
+  directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
+
+  setupAutocomplete('origin');
+  setupAutocomplete('destination');
+
+  autocomplete = new google.maps.places.Autocomplete(
+    document.getElementById("autocomplete"),
+    {
+      types: ["(cities)"],
+      componentRestrictions: countryRestrict,
     }
+  );
 
-    .events-container h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: #333;
+  places = new google.maps.places.PlacesService(map);
+
+  document.getElementById("search-button").addEventListener("click", search);
+}
+
+function setupAutocomplete(id) {
+  new google.maps.places.Autocomplete(document.getElementById(id), {
+    types: ['geocode']
+  });
+}
+
+function addWaypoint() {
+  const container = document.getElementById('waypointsContainer');
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.placeholder = 'Enter waypoint';
+  input.className = 'waypoint';
+  input.id = `waypoint-${waypointCount}`;
+  container.insertBefore(input, container.lastChild);
+  setupAutocomplete(input.id);
+  waypointCount++;
+}
+
+function calculateAndDisplayRoute() {
+  clearPreviousResults();
+
+  const origin = document.getElementById("origin").value;
+  const destination = document.getElementById("destination").value;
+  const poiType = document.getElementById("poiType").value;
+  const waypoints = Array.from(document.getElementsByClassName('waypoint'))
+    .map(input => ({ location: input.value, stopover: true }))
+    .filter(wp => wp.location !== "");
+
+  const routeRequest = {
+    origin: origin,
+    destination: destination,
+    waypoints: waypoints,
+    travelMode: google.maps.TravelMode.DRIVING,
+    optimizeWaypoints: waypoints.length > 0
+  };
+
+  directionsService.route(routeRequest, (response, status) => {
+    if (status === 'OK') {
+      directionsRenderer.setDirections(response);
+      displayTravelTimesAndFindPOIs(response, poiType);
+    } else {
+      window.alert('Directions request failed due to ' + status);
     }
+  });
+}
 
-    #events-panel {
-      position: relative;
-      width: 100%;
-      background-color: #fff;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      padding: 1rem;
+function displayTravelTimesAndFindPOIs(directionsResult, poiType) {
+  const route = directionsResult.routes[0];
+  let totalTime = 0;
+  let totalDistance = 0;
+  let nextPOISearchTime = 3600;
+  let accumulatedTime = 0;
+  
+  route.legs.forEach((leg, index) => {
+    totalTime += leg.duration.value;
+    totalDistance += leg.distance.value;
+    leg.steps.forEach(step => {
+      accumulatedTime += step.duration.value;
+      if (accumulatedTime >= nextPOISearchTime) {
+        searchNearbyPOIs(step.end_location, poiType);
+        nextPOISearchTime += 3600;
+      }
+    });
+
+    if (index === route.legs.length - 1) {
+      displayEndOfRouteInfo(leg, totalTime, totalDistance);
     }
+  });
+}
 
-    .search-form {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1rem;
+function searchNearbyPOIs(location, poiType) {
+  const service = new google.maps.places.PlacesService(map);
+  const types = poiType.split(',').map(type => type.trim());
+  service.nearbySearch({
+    location: location,
+    radius: 40000,
+    type: types,
+    keyword: poiType
+  }, (results, status) => {
+    if (status === google.maps.places.PlacesServiceStatus.OK && results.length) {
+      displayPOIs(results);
+    } else {
+      console.log('No points of interest found or API error:', status);
     }
+  });
+}
 
-    .search-form input,
-    .search-form select {
-      padding: 0.5rem;
-      margin-right: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+function displayPOIs(places) {
+  places.slice(0, 5).forEach(place => {
+    const marker = new google.maps.Marker({
+      position: place.geometry.location,
+      map: map,
+      title: place.name,
+      icon: {
+        url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+      }
+    });
+
+    const infowindow = new google.maps.InfoWindow({
+      content: `<div><strong>${place.name}</strong><br>Rating: ${place.rating || 'N/A'}</div>`
+    });
+
+    marker.addListener('click', () => {
+      infowindow.open(map, marker);
+    });
+
+    markers.push(marker);
+  });
+}
+
+function displayEndOfRouteInfo(leg, totalTime, totalDistance) {
+  const marker = new google.maps.Marker({
+    position: leg.end_location,
+    map: map,
+    title: "Route End"
+  });
+
+  const totalHours = Math.floor(totalTime / 3600);
+  const totalMinutes = Math.floor((totalTime % 3600) / 60);
+  const totalDistanceKm = (totalDistance / 1000).toFixed(2);
+  
+  const infowindow = new google.maps.InfoWindow({
+    content: `<div><strong>Total Distance:</strong> ${totalDistanceKm} km<br><strong>Total Time:</strong> ${totalHours}h ${totalMinutes}m</div>`
+  });
+
+  infowindow.open(map, marker);
+  markers.push(marker);
+}
+
+function clearPreviousResults() {
+  markers.forEach(marker => marker.setMap(null));
+  markers = [];
+  directionsRenderer.setDirections({ routes: [] });
+}
+
+function search() {
+  const city = document.getElementById("autocomplete").value;
+
+  if (city) {
+    const locationRequest = {
+      query: city,
+      fields: ["name", "geometry"],
+    };
+
+    places.findPlaceFromQuery(locationRequest, (results, status) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK && results[0]) {
+        const place = results[0];
+        map.panTo(place.geometry.location);
+        map.setZoom(15);
+        searchHotels(place);
+      } else {
+        console.log("No location found or API error:", status);
+      }
+    });
+  }
+}
+
+function searchHotels(place) {
+  const search = {
+    bounds: map.getBounds(),
+    types: ["lodging"],
+  };
+
+  places.nearbySearch(search, (results, status, pagination) => {
+    if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+      clearResults();
+      clearMarkers();
+
+      for (let i = 0; i < results.length; i++) {
+        const markerLetter = String.fromCharCode("A".charCodeAt(0) + (i % 26));
+        const markerIcon = MARKER_PATH + markerLetter + ".png";
+        const marker = new google.maps.Marker({
+          position: results[i].geometry.location,
+          map: map,
+          icon: markerIcon,
+        });
+        markers.push(marker);
+
+        const tr = document.createElement("tr");
+        tr.style.backgroundColor = i % 2 === 0 ? "#F0F0F0" : "#FFFFFF";
+        tr.onclick = function () {
+          google.maps.event.trigger(marker, "click");
+        };
+        const iconTd = document.createElement("td");
+        const nameTd = document.createElement("td");
+        const icon = document.createElement("img");
+        icon.src = markerIcon;
+        icon.setAttribute("class", "placeIcon");
+        const name = document.createTextNode(results[i].name);
+        iconTd.appendChild(icon);
+        nameTd.appendChild(name);
+        tr.appendChild(iconTd);
+        tr.appendChild(nameTd);
+        document.getElementById("results").appendChild(tr);
+      }
     }
+  });
+}
 
-    .search-form button {
-      padding: 0.5rem 1rem;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+function clearResults() {
+  const results = document.getElementById("results");
+  while (results.childNodes[0]) {
+    results.removeChild(results.childNodes[0]);
+  }
+}
+
+function clearMarkers() {
+  for (let i = 0; i < markers.length; i++) {
+    if (markers[i]) {
+      markers[i].setMap(null);
     }
+  }
+  markers = [];
+}
 
-    .pagination {
-      display: flex;
-      justify-content: center;
-      margin-top: 1rem;
+var page = 0;
+var ticketMatsterWidgetTemplate = document.getElementById('Ticketmaster-widget').outerHTML;
+var searchButton = $(".button");
+var cityI= "Chicago";
+var stateI = "IL";
+var Today = moment().format('YYYY-MM-DD');
+var dateI = Today;
+var TktAPIKey = "8uLjoPL8tYMRAmxKvWiqevfA4RujHewi";
+
+searchButton.on("click", function() {
+  selectQuery();
+  getEvents(page);
+  reloadTicketmasterWidget();
+});
+
+function selectQuery() {
+  cityI = $('#City').val();
+  stateI = $('#state').val(); 
+  dateI = $('#eventDate').val();
+  console.log(' City entered: ' + cityI);
+  console.log(' State entered: ' + stateI);
+  console.log(' Date entered: ' + dateI);
+}
+
+function getEvents(page) {
+  $('#events-panel').show();
+  $('#attraction-panel').hide();
+
+  if (page < 0) {
+    page = 0;
+    return;
+  }
+  if (page > 0) {
+    if (page > getEvents.json.page.totalPages-1) {
+      page=0;
+      return;
     }
+  }
+ 
+  $.ajax({
+    type:"GET",
+    url:"https://app.ticketmaster.com/discovery/v2/events.json?apikey="+TktAPIKey+"&sort=date,asc"+"&city="+cityI+"&countryCode=US"+"&state="+stateI+"&startedatetime="+dateI+"&size=4&page="+page,
+    async:true,
+    dataType: "json",
+    success: function(json) {
+          getEvents.json = json;
+          showEvents(json);
+          console.log(json);
+         },
+    error: function(xhr, status, err) {
+  			  console.log(err);
+  		   }
+  });
+}
 
-    .pagination button {
-      padding: 0.5rem 1rem;
-      margin: 0 0.5rem;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+function showEvents(json) {
+  var items = $('#events .list-group-item');
+  items.hide();
+  var events = json._embedded.events;
+  var item = items.first();
+  for (var i=0;i<events.length;i++) {
+    item.children('.list-group-item-heading').text(events[i].name);
+    item.children('.list-group-item-text').text(events[i].dates.start.localDate);
+    try {
+      item.children('.venue').text(events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name);
+    } catch (err) {
+      console.log(err);
     }
+    item.show();
+    item.off("click");
+    item.click(events[i], function(eventObject) {
+      console.log(eventObject.data);
+      try {
+        getAttraction(eventObject.data._embedded.attractions[0].id);
+      } catch (err) {
+      console.log(err);
+      }
+    });
+    item=item.next();
+  }
+}
 
-    .hotel-search-container {
-      padding: 2rem 0;
-      background-color: #f9f9f9;
-    }
 
-    #map {
-      height: 400px;
-      width: 100%;
-      margin-top: 1rem;
-    }
+var prevButton = $('#prev');
+var nextButton = $('#next');
 
-    #hotel-results {
-      margin-top: 1rem;
-    }
+$('#prev').click(function() { 
+  getEvents(--page);
+});
 
-    #results {
-      width: 100%;
-      border-collapse: collapse;
-    }
+$('#next').click(function() {
+  getEvents(++page);
+});
 
-    #results tr {
-      cursor: pointer;
-    }
+function getAttraction(id) {
+  $.ajax({
+    type:"GET",
+    url:"https://app.ticketmaster.com/discovery/v2/attractions/"+id+".json?apikey="+TktAPIKey,
+    async:true,
+    dataType: "json",
+    success: function(json) {
+          showAttraction(json);
+  		   },
+    error: function(xhr, status, err) {
+  			  console.log(err);
+  		   }
+  });
+}
 
-    #results tr:hover {
-      background-color: #e0e0e0;
-    }
+function showAttraction(json) {
+  $('#events-panel').show(); 
+  $('#attraction-panel').show();
+  
+  $('#attraction .list-group-item-heading').first().text(json.name);
+  $('#attraction img').first().attr('src', json.images[0].url);
+  $('#attraction img').first().css({'width': '80%', 'height': '80%'});
+  $('#classification').text(json.classifications[0].segment.name + " - " + json.classifications[0].genre.name + " - " + json.classifications[0].subGenre.name);
+  console.log(json.classifications[0].genre.name);
+}
 
-    #results td {
-      padding: 0.5rem;
-    }
+function reloadTicketmasterWidget() {
+  $('#Ticketmaster-widget').fadeOut(400, function() {
+    var newTemplate = $(ticketMatsterWidgetTemplate);
+    newTemplate.attr('w-city', cityI, 'w-state', stateI);
+    $('#Ticketmaster-widget').html(newTemplate);
+    var s = document.createElement('script');
+    s.src = 'https://ticketmaster-api-staging.github.io/products-and-docs/widgets/event-discovery/1.0.0/lib/main-widget.js';
+    document.body.appendChild(s);
+    $('#Ticketmaster-widget').fadeIn(400);
+  });
+}
 
-    .placeIcon {
-      width: 24px;
-      height: 24px;
-      margin-right: 0.5rem;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <nav class="navbar">
-      <a class="logo" href="index.html"><img src="logo.png" alt="Logo"></a>
-      <div class="nav_menu">
-        <a href="index.html">Home</a>
-        <a href="events.html">Events</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
-      </div>
-      <div class="hamburger_menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </nav>
-  </header>
-
-  <main>
-    <section class="events-container">
-      <div class="container">
-        <h2>Events</h2>
-        <div class="search-form">
-          <input id="City" type="text" placeholder="Enter city">
-          <select id="state">
-            <option value="AL">Alabama</option>
-            <option value="AK">Alaska</option>
-            <option value="AZ">Arizona</option>
-            <option value="AR">Arkansas</option>
-            <option value="CA">California</option>
-            <option value="CO">Colorado</option>
-            <option value="CT">Connecticut</option>
-            <option value="DE">Delaware</option>
-            <option value="DC">District Of Columbia</option>
-            <option value="FL">Florida</option>
-            <option value="GA">Georgia</option>
-            <option value="HI">Hawaii</option>
-            <option value="ID">Idaho</option>
-            <option value="IL">Illinois</option>
-            <option value="IN">Indiana</option>
-            <option value="IA">Iowa</option>
-            <option value="KS">Kansas</option>
-            <option value="KY">Kentucky</option>
-            <option value="LA">Louisiana</option>
-            <option value="ME">Maine</option>
-            <option value="MD">Maryland</option>
-            <option value="MA">Massachusetts</option>
-            <option value="MI">Michigan</option>
-            <option value="MN">Minnesota</option>
-            <option value="MS">Mississippi</option>
-            <option value="MO">Missouri</option>
-            <option value="MT">Montana</option>
-            <option value="NE">Nebraska</option>
-            <option value="NV">Nevada</option>
-            <option value="NH">New Hampshire</option>
-            <option value="NJ">New Jersey</option>
-            <option value="NM">New Mexico</option>
-            <option value="NY">New York</option>
-            <option value="NC">North Carolina</option>
-            <option value="ND">North Dakota</option>
-            <option value="OH">Ohio</option>
-            <option value="OK">Oklahoma</option>
-            <option value="OR">Oregon</option>
-            <option value="PA">Pennsylvania</option>
-            <option value="RI">Rhode Island</option>
-            <option value="SC">South Carolina</option>
-            <option value="SD">South Dakota</option>
-            <option value="TN">Tennessee</option>
-            <option value="TX">Texas</option>
-            <option value="UT">Utah</option>
-            <option value="VT">Vermont</option>
-            <option value="VA">Virginia</option>
-            <option value="WA">Washington</option>
-            <option value="WV">West Virginia</option>
-            <option value="WI">Wisconsin</option>
-            <option value="WY">Wyoming</option>
-          </select>
-          <input type="date" id="eventDate">
-          <button class="button">Search</button>
-        </div>
-        <div id="events-panel">
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <h3 class="panel-title">Events</h3>
-            </div>
-            <div class="panel-body">
-              <div id="events" class="list-group">
-                <a href="#" class="list-group-item">
-                  <h4 class="list-group-item-heading"></h4>
-                  <p class="list-group-item-text"></p>
-                  <p class="venue"></p>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="pagination">
-          <button id="prev">Previous</button>
-          <button id="next">Next</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="hotel-search-container">
-      <div class="container">
-        <h2>Hotel Search</h2>
-        <div class="search-form">
-          <input id="autocomplete" type="text" placeholder="Enter a city">
-          <button id="search-button">Search</button>
-        </div>
-        <div id="map"></div>
-        <div id="hotel-results">
-          <table id="results"></table>
-        </div>
-      </div>
-    </section>
-
-    <div class="container">
-      <div id="attraction-panel">
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title" id="attraction">Attraction</h3>
-          </div>
-          <div id="attraction" class="panel-body">
-            <h4 class="list-group-item-heading">Attraction title</h4>
-            <img class="col-xs-12" src="">
-            <p id="classification"></p>
-          </div>
-        </div>
-      </div>
-
-      <div id="Ticketmaster-widget"></div>
-    </div>
-  </main>
-
-  <footer class="footer__container">
-    <p id="footer__id">ItineraEase Group:</p>
-    <div class="footer__links">
-      <div class="footer__link--wrapper">
-        <div class="footer__link--items">
-          <p><strong>Company</strong></p>
-          <a href="#">About</a>
-          <a href="#">Jobs</a>
-          <a href="#">Partnerships</a>
-          <a href="#">Newsroom</a>
-          <a href="#">Advertising</a>
-          <a href="#">Feedback</a>
-        </div>
-        <div class="footer__link--items">
-          <p><strong>Explore</strong></p>
-          <a href="#">Hotels in United States of America</a>
-          <a href="#">United States of America travel guide</a>
-          <a href="#">Domestic Flights</a>
-        </div>
-        <div class="footer__link--items">
-          <p><strong>Policies</strong></p>
-          <a href="#">Privacy</a>
-          <a href="#">Terms of use</a>
-          <a href="#">One Key<sup>TM</sup> terms and conditions</a>
-          <a href="#">Accessibility</a>
-          <a href="#">Your privacy choices</a>
-        </div>
-        <div class="footer__link--items">
-          <p><strong>Help</strong></p>
-          <a href="#">Support</a>
-          <a href="#">Cancel your hotel</a>
-          <a href="#">Refund timelines, policies & processes</a>
-          <a href="#">Use a ItineraEase coupon</a>
-        </div>
-      </div>
-    </div>
-    <hr style="border: .1px solid lightgrey;">
-    <div class="social__media">
-      <div class="social__media--wrap">
-        <p class="website__rights"> © 2024 ItineraEase, Inc., an ItineraEase 
-          Group company. All rights reserved. ItineraEase and the ItineraEase 
-          Logo are trademarks of ItineraEase, Inc.</p>
-      </div>
-    </div>
-  </footer>
-  <script src="app.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places"></script>
-</body>
-</html>
+getEvents(page);
