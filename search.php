@@ -11,19 +11,5 @@
 <body> 
     <?php include 'header.php'; ?>
     <?php include 'footer.php'; ?>
-
-    <script>
-        var element = document.getElementById("search");
-        element.classList.add("active");
-
-        const hamburgerMenu = document.querySelector(".hamburger_menu");
-        const navMenu = document.querySelector(".nav_menu");
-        hamburgerMenu.addEventListener("click", toggleMenu);
-
-        function toggleMenu() {
-            hamburgerMenu.classList.toggle("change");
-            navMenu.classList.toggle("change");
-        }
-    </script>
 </body>
 </html>

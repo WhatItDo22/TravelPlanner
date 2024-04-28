@@ -34,32 +34,5 @@
             $conn->close();
         ?>
     <?php include 'footer.php'; ?>
-
-    <script>
-        function funcName() {
-            var request = new XMLHttpRequest();
-            request.open("GET", "", true);
-            request.onreadystatechange = function() {
-                // Runs if the URL could be loaded and it loads correctly
-                if (request.readyState == 4 && request.status == 200) {
-                    let data = request.responseText;
-                    // Converts the text into a JavaScript object
-                    let myObj = JSON.parse(data);
-                }
-                else if (request.readyState == 4 && request.status != 200) {
-                    console.log("Request failed");
-                }
-            }
-            request.send();
-        }
-        const hamburgerMenu = document.querySelector(".hamburger_menu");
-        const navMenu = document.querySelector(".nav_menu");
-        hamburgerMenu.addEventListener("click", toggleMenu);
-
-        function toggleMenu() {
-            hamburgerMenu.classList.toggle("change");
-            navMenu.classList.toggle("change");
-        }
-    </script>
 </body>
 </html>
