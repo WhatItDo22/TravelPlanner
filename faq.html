@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Page</title>
+    <script src="jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="faq-styling.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar__container">
+            <a class="logo" href="default.php" id="home">
+                <img src="images/logo.png" alt="Travel Logo">
+                <h1 class="logo__text">ItineraEase</h1>
+            </a>
+            <div class="nav_menu">
+                <a href="search.php" id="search">Search</a>
+                <a href="faq.php" id="faq">FAQ</a>
+                <a href="contact.php" id="contact">Contact</a>
+                <a href="login.php" id="login">Log In</a>
+            </div>
+            <div class="hamburger_menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-header">
+        <h1 class="page-header-title">FAQ</h1>
+        <p class="page-header-subtitle">Frequently Asked Questions</p>
+
+        <div class="search-container">
+            <input type="text" placeholder="Search...">
+            <button>Search</button>
+        </div>
+    </div>
+    <div class="faq-container">
+        <div class="faq-image-box">
+            <h1 class="faq-image-title">Have <br> questions?</h1>
+            <img class="faq-image" src="images/faq-image.jpg">
+        </div>
+        <div class="faq-box">
+            <div class="faq-wrapper">
+                <input type="checkbox" class="faq-trigger" id="faq-trigger-1">
+                <label for="faq-trigger-1" class="faq-title">How do I plan a road trip using the app?</label>
+                <div class="faq-content">
+                    <p>To plan a road trip using our app, simply navigate to the login section and create an account. Enter your starting point and destination, select any waypoints or stops you'd like to include, and customize your route preferences on the home page. Once you're satisfied with your trip plan, you can save it </p>
+                </div>
+            </div>
+            <div class="faq-wrapper">
+                <input type="checkbox" class="faq-trigger" id="faq-trigger-2">
+                <label for="faq-trigger-2" class="faq-title">Does the app offer recommendations for attractions and restaurants along the way?</label>
+                <div class="faq-content">
+                    <p>Yes! Our app provides recommendations for attractions, restaurants, and other points of interest along your route. You can customize your preferences to filter recommendations based on your interests and preferences.</p>
+                </div>
+            </div>
+            <div class="faq-wrapper">
+                <input type="checkbox" class="faq-trigger" id="faq-trigger-3">
+                <label for="faq-trigger-3" class="faq-title">Can I share my trip plan with friends and family?</label>
+                <div class="faq-content">
+                    <p>Yes! You can share your trip plan with friends and family by generating a shareable link or sending an invitation via email. Your friends and family can view your trip plan and collaborate on the itinerary.</p>
+                </div>
+            </div>
+            <div class="faq-wrapper">
+                <input type="checkbox" class="faq-trigger" id="faq-trigger-4">
+                <label for="faq-trigger-4" class="faq-title">How do I access my saved trip plans?</label>
+                <div class="faq-content">
+                    <p>To access your saved trip plans, simply log in to your account and navigate to the "My Trips" section. Here, you'll find a list of all your saved trip plans, which you can view, edit, or delete as needed.</p>
+                </div>
+            </div>
+            <div class="faq-wrapper">
+                <input type="checkbox" class="faq-trigger" id="faq-trigger-5">
+                <label for="faq-trigger-5" class="faq-title">Can I customize my route preferences, such as avoiding toll roads or highways?</label>
+                <div class="faq-content">
+                    <p>Yes! You can customize your route preferences to avoid toll roads, highways, or other specific road types. Simply adjust the settings on the home page to reflect your preferences, and the app will generate a route that meets your criteria.</p>
+                </div>
+            </div>
+            <div class="faq-wrapper">
+                <input type="checkbox" class="faq-trigger" id="faq-trigger-6">
+                <label for="faq-trigger-6" class="faq-title">How do I provide feedback or report an issue with the app?</label>
+                <div class="faq-content">
+                    <p>To provide feedback or report an issue with the app, navigate to the "Contact Us" section and fill out the feedback form. You can also send an email to our support team at
+                        <a href="mailto: support@itineraease.com"> support@itineraease.com</a></p>
+                </div>
+            </div>           
+        </div>
+    </div>  
+
+    <footer class="footer__container">
+        <p id="footer__id">ItineraEase Group:</p>
+        <div class="footer__links">
+            <div class="footer__link--wrapper">
+                <div class="footer__link--items">
+                    <p><strong>Company</strong></p>
+                    <a href="#">About</a>
+                    <a href="#">Jobs</a>
+                    <a href="#">Partnerships</a>
+                    <a href="#">Newsroom</a>
+                    <a href="#">Advertising</a>
+                    <a href="#">Feedback</a>
+                </div>
+                <div class="footer__link--items">
+                    <p><strong>Explore</strong></p>
+                    <a href="#">Hotels in United States of America</a>
+                    <a href="#">United States of America travel guide</a>
+                    <a href="#">Domestic Flights</a>
+                </div>
+                <div class="footer__link--items">
+                    <p><strong>Policies</strong></p>
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms of use</a>
+                    <a href="#">One Key<sup>TM</sup> terms and conditions</a>
+                    <a href="#">Accessibility</a>
+                    <a href="#">Your privacy choices</a>
+                </div>
+                <div class="footer__link--items">
+                    <p><strong>Help</strong></p>
+                    <a href="#">Support</a>
+                    <a href="#">Cancel your hotel</a>
+                    <a href="#">Refund timelines, policies & processes</a>
+                    <a href="#">Use a ItineraEase coupon</a>
+                </div>
+            </div>
+        </div>
+        <hr style="border: .1px solid lightgrey;">
+        <div class="social__media">
+            <div class="social__media--wrap">
+                <p class="website__rights"> © 2024 ItineraEase, Inc., an ItineraEase 
+                  Group company. All rights reserved. ItineraEase and the ItineraEase 
+                  Logo are trademarks of ItineraEase, Inc.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+    
+    // Close the dropdown menu if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }   
+                }
+            }
+        }
+        const hamburgerMenu = document.querySelector(".hamburger_menu");
+        const navMenu = document.querySelector(".nav_menu");
+        hamburgerMenu.addEventListener("click", toggleMenu);
+    
+        function toggleMenu() {
+            hamburgerMenu.classList.toggle("change");
+            navMenu.classList.toggle("change");
+        }
+    </script>
+</body>
+</html>
