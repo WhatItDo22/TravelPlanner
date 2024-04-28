@@ -4,14 +4,26 @@ let directionsRenderer;
 let markers = [];
 let waypointCount = 0;
 
+// Hotel search variables
+let places;
+let autocomplete;
+const countryRestrict = { country: "us" };
+const MARKER_PATH =
+  "https://developers.google.com/maps/documentation/javascript/images/marker_green";
+const hostnameRegexp = new RegExp("^https?://.+?/");
+
 window.onload = function() {
   initMap();
 };
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 6,
-    center: { lat: 37.1, lng: -95.7 }
+    zoom: 4,
+    center: { lat: 37.1, lng: -95.7 },
+    mapTypeControl: false,
+    panControl: false,
+    zoomControl: false,
+    streetViewControl: false,
   });
 
   directionsService = new google.maps.DirectionsService();
@@ -19,6 +31,18 @@ function initMap() {
 
   setupAutocomplete('origin');
   setupAutocomplete('destination');
+
+  autocomplete = new google.maps.places.Autocomplete(
+    document.getElementById("autocomplete"),
+    {
+      types: ["(cities)"],
+      componentRestrictions: countryRestrict,
+    }
+  );
+
+  places = new google.maps.places.PlacesService(map);
+
+  autocomplete.addListener("place_changed", onPlaceChanged);
 }
 
 function setupAutocomplete(id) {
@@ -156,6 +180,69 @@ function clearPreviousResults() {
   directionsRenderer.setDirections({ routes: [] });
 }
 
+function onPlaceChanged() {
+  const place = autocomplete.getPlace();
+
+  if (place.geometry) {
+    map.panTo(place.geometry.location);
+    map.setZoom(15);
+    search();
+  } else {
+    document.getElementById("autocomplete").placeholder = "Enter a city";
+  }
+}
+
+function search() {
+  const search = {
+    bounds: map.getBounds(),
+    types: ["lodging"],
+  };
+
+  places.nearbySearch(search, (results, status, pagination) => {
+    if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+      clearResults();
+      clearMarkers();
+
+      for (let i = 0; i < results.length; i++) {
+        const markerLetter = String.fromCharCode("A".charCodeAt(0) + (i % 26));
+        const markerIcon = MARKER_PATH + markerLetter + ".png";
+        const tr = document.createElement("tr");
+        tr.style.backgroundColor = i % 2 === 0 ? "#F0F0F0" : "#FFFFFF";
+        tr.onclick = function () {
+          google.maps.event.trigger(markers[i], "click");
+        };
+        const iconTd = document.createElement("td");
+        const nameTd = document.createElement("td");
+        const icon = document.createElement("img");
+        icon.src = markerIcon;
+        icon.setAttribute("class", "placeIcon");
+        const name = document.createTextNode(results[i].name);
+        iconTd.appendChild(icon);
+        nameTd.appendChild(name);
+        tr.appendChild(iconTd);
+        tr.appendChild(nameTd);
+        document.getElementById("results").appendChild(tr);
+      }
+    }
+  });
+}
+
+function clearResults() {
+  const results = document.getElementById("results");
+  while (results.childNodes[0]) {
+    results.removeChild(results.childNodes[0]);
+  }
+}
+
+function clearMarkers() {
+  for (let i = 0; i < markers.length; i++) {
+    if (markers[i]) {
+      markers[i].setMap(null);
+    }
+  }
+  markers = [];
+}
+
 var page = 0;
 var ticketMatsterWidgetTemplate = document.getElementById('Ticketmaster-widget').outerHTML;
 var searchButton = $(".button");
@@ -238,17 +325,9 @@ function showEvents(json) {
   }
 }
 
-// Add the following code to fix the positions of previous and next buttons
+
 var prevButton = $('#prev');
 var nextButton = $('#next');
-
-prevButton.css('position', 'fixed');
-prevButton.css('bottom', '20px');
-prevButton.css('left', '20px');
-
-nextButton.css('position', 'fixed');
-nextButton.css('bottom', '20px');
-nextButton.css('right', '20px');
 
 $('#prev').click(function() { 
   getEvents(--page);
