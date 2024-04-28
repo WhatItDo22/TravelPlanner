@@ -43,7 +43,7 @@ body {
 }
 
 .navbar__container {
-    /* padding: 0 10%; */
+    padding: 0 10%;
     display: flex;
     justify-content: space-between;
     height: 80px;
@@ -51,7 +51,7 @@ body {
     width: 100%;
     /* max-width: 1300px; */
     margin: 0 auto;
-    padding: 0 50px;
+/*     padding: 0 50px; */
 }
 
 .nav_menu {
