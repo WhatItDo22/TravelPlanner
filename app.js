@@ -250,7 +250,7 @@ function search() {
 
         for (let i = 0; i < results.length; i++, globalMarkerIndex++) {
           const markerLetter = String.fromCharCode("A".charCodeAt(0) + (globalMarkerIndex % 26));
-          const markerIcon = MARKER_PATH +  + ".png";
+          const markerIcon = MARKER_PATH + ".png";
           const marker = new google.maps.Marker({
             position: results[i].geometry.location,
             map: map,
