@@ -182,12 +182,7 @@ function calculateAndDisplayRoute() {
   }
 }
 
-function displayCoordinatesInOrder() {
-  console.log('Coordinates in logical order:');
-  coordinatesArray.forEach((coords, index) => {
-    console.log(`Point ${index + 1}: Latitude: ${coords.lat}, Longitude: ${coords.lng}`);
-  });
-}
+
 function displayTravelTimesAndFindPOIs(directionsResult, poiType) {
   const route = directionsResult.routes[0];
   let totalTime = 0;
