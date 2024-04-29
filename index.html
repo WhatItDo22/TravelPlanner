@@ -167,5 +167,16 @@
     </div>
   </footer>
   <script src="app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const hamburger = document.querySelector('.hamburger_menu');
+      const navMenu = document.querySelector('.nav_menu');
+
+      hamburger.addEventListener('click', function() {
+        this.classList.toggle('change');
+        navMenu.classList.toggle('change');
+      });
+    });
+  </script>
 </body>
 </html>
