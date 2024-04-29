@@ -87,55 +87,93 @@ function addWaypoint() {
   setupAutocomplete(input.id);
   waypointCount++;
 }
+let originCoords, destinationCoords, waypointCoords = [];
+
 function calculateAndDisplayRoute() {
   clearPreviousResults();
 
-  const originInput = document.getElementById("origin");
-  const destinationInput = document.getElementById("destination");
-  const waypointsInputs = Array.from(document.getElementsByClassName('waypoint'))
-    .filter(input => input.value !== "");
+  const origin = document.getElementById("origin").value;
+  const destination = document.getElementById("destination").value;
+  const poiType = document.getElementById("poiType").value;
+  const waypoints = Array.from(document.getElementsByClassName('waypoint'))
+    .map(input => ({ location: input.value, stopover: true }))
+    .filter(wp => wp.location !== "");
 
-  // Get latitude and longitude for origin
-  const originPlace = autocomplete.getPlace(); // Assuming origin uses autocomplete
-  const originLat = originPlace.geometry.location.lat();
-  const originLng = originPlace.geometry.location.lng();
-  console.log("Origin: Lat:", originLat, ", Lng:", originLng);
+  const geocoder = new google.maps.Geocoder();
 
-  // Get latitude and longitude for destination
-  const destinationPlace = autocomplete.getPlace(); // Assuming destination uses autocomplete
-  const destinationLat = destinationPlace.geometry.location.lat();
-  const destinationLng = destinationPlace.geometry.location.lng();
-  console.log("Destination: Lat:", destinationLat, ", Lng:", destinationLng);
-
-  // Get latitude and longitude for each waypoint
-  waypointsInputs.forEach((waypointInput, index) => {
-    const waypointPlace = autocomplete.getPlace(); // Assuming waypoints use autocomplete
-    const waypointLat = waypointPlace.geometry.location.lat();
-    const waypointLng = waypointPlace.geometry.location.lng();
-    console.log(`Waypoint ${index + 1}: Lat:`, waypointLat, ", Lng:", waypointLng);
-  });
-
-  const waypoints = waypointsInputs.map(input => ({ location: input.value, stopover: true }));
-
-  const routeRequest = {
-    origin: originInput.value,
-    destination: destinationInput.value,
-    waypoints: waypoints,
-    travelMode: google.maps.TravelMode.DRIVING,
-    optimizeWaypoints: waypoints.length > 0
-  };
-
-
-  directionsService.route(routeRequest, (response, status) => {
+  // Geocode origin
+  geocoder.geocode({ address: origin }, (results, status) => {
     if (status === 'OK') {
-      directionsRenderer.setDirections(response);
-      displayTravelTimesAndFindPOIs(response, poiType);
+      originCoords = {
+        lat: results[0].geometry.location.lat(),
+        lng: results[0].geometry.location.lng()
+      };
+      geocodeDestination();
     } else {
-      window.alert('Directions request failed due to ' + status);
+      console.error('Geocode was not successful for the following reason: ' + status);
     }
   });
-}
 
+  function geocodeDestination() {
+    // Geocode destination
+    geocoder.geocode({ address: destination }, (results, status) => {
+      if (status === 'OK') {
+        destinationCoords = {
+          lat: results[0].geometry.location.lat(),
+          lng: results[0].geometry.location.lng()
+        };
+        geocodeWaypoints(0);
+      } else {
+        console.error('Geocode was not successful for the following reason: ' + status);
+      }
+    });
+  }
+
+  function geocodeWaypoints(index) {
+    if (index === waypoints.length) {
+      // All waypoints geocoded, display coordinates
+      displayCoordinates();
+      return;
+    }
+
+    // Geocode waypoint
+    geocoder.geocode({ address: waypoints[index].location }, (results, status) => {
+      if (status === 'OK') {
+        waypointCoords[index] = {
+          lat: results[0].geometry.location.lat(),
+          lng: results[0].geometry.location.lng()
+        };
+        geocodeWaypoints(index + 1);
+      } else {
+        console.error('Geocode was not successful for the following reason: ' + status);
+      }
+    });
+  }
+
+  function displayCoordinates() {
+    console.log('Origin:', originCoords);
+    console.log('Destination:', destinationCoords);
+    console.log('Waypoints:', waypointCoords);
+
+    // Continue with the rest of the route calculation and display logic
+    const routeRequest = {
+      origin: origin,
+      destination: destination,
+      waypoints: waypoints,
+      travelMode: google.maps.TravelMode.DRIVING,
+      optimizeWaypoints: waypoints.length > 0
+    };
+
+    directionsService.route(routeRequest, (response, status) => {
+      if (status === 'OK') {
+        directionsRenderer.setDirections(response);
+        displayTravelTimesAndFindPOIs(response, poiType);
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+  }
+}
 function displayTravelTimesAndFindPOIs(directionsResult, poiType) {
   const route = directionsResult.routes[0];
   let totalTime = 0;
