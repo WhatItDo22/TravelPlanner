@@ -4,6 +4,7 @@ let directionsService;
 let directionsRenderer;
 let markers = [];
 let waypointCount = 0;
+let geocoder;
 
 // Hotel search variables
 let places;
@@ -47,10 +48,11 @@ function initMap() {
 
   places = new google.maps.places.PlacesService(map);
 
+  geocoder = new google.maps.Geocoder(); // Initialize the geocoder here
+
   autocomplete.addListener("place_changed", onPlaceChanged);
   document.getElementById("search-button").addEventListener("click", search);
 }
-
 function initRestaurantMap() {
   restaurantMap = new google.maps.Map(document.getElementById("restaurant-map"), {
     zoom: 12,
