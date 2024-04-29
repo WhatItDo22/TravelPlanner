@@ -240,27 +240,18 @@ function clearPreviousResults() {
 
 function onPlaceChanged() {
   const place = autocomplete.getPlace();
+  console.log(place); // Log the whole place object to see what data is available
 
-  if (place.geometry) {
-
-    console.log("Selected Place Coordinates: Latitude = " + place.geometry.location.lat() + ", Longitude = " + place.geometry.location.lng());
-
-    map.panTo(place.geometry.location);
-    map.setZoom(15);
-
-    const marker = new google.maps.Marker({
-      position: place.geometry.location,
-      map: map,
-      title: place.name 
-    });
-
-    markers.push(marker);
-
-    search(); 
-  } else {
-    document.getElementById("autocomplete").placeholder = "Enter a location"; // Placeholder text if no geometry found
+  if (!place.geometry) {
+    console.log("No geometry data available for this place.");
+    return; // Exit the function if no geometry data
   }
+
+  const lat = place.geometry.location.lat();
+  const lng = place.geometry.location.lng();
+  console.log("Selected Place Coordinates: Latitude = " + lat + ", Longitude = " + lng);
 }
+
 
 
 let globalMarkerIndex = 0; 
