@@ -1,7 +1,8 @@
+/* --------------- universal styling  -------------*/
+
 * {
     margin: 0;
     padding: 0;
-    /* font-family: 'Poppins', sans-serif; */
     font-family: 'Poppins', sans-serif;
     box-sizing: border-box;
 }
@@ -9,24 +10,18 @@
 body {
     width: 100%;
     height: auto;
-    /* padding: 0 3%; */
     padding: 0 10%;
     background-color: #fff;
 }
 
-#events-section {
-  padding: 2rem 0;
+.container {
+    padding: 10px 12%;
+    align-items: center;
+    box-shadow: 0 0 1 rgba(0, 0, 0, .5);
 }
 
-#events-section h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
+/* --------------- navbar styling  -------------*/
 
-#events-panel {
-  position: relative;
-  width: 100%;
-}
 .navbar {
     background-color: #fff;
     display: flex;
@@ -40,6 +35,7 @@ body {
     left: 0;
     z-index: 999;
     box-shadow: 0 0 1 rgba(0, 0, 0, .5);
+    backdrop-filter: blur(25px);
 }
 
 .navbar__container {
@@ -49,9 +45,7 @@ body {
     height: 80px;
     z-index: 1;
     width: 100%;
-    /* max-width: 1300px; */
     margin: 0 auto;
-    /* padding: 0 50px; */
 }
 
 .nav_menu {
@@ -78,7 +72,7 @@ body {
     padding-top: 15px;
     text-decoration: none;
     color: #0b1215;
-    font-size: 1.5rem;
+    font-size: 1.5em;
     font-weight: 500;
 }
 
@@ -129,6 +123,8 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
+/* --------------- navbar mobile menu styling  -------------*/
+
 @media screen and (max-width: 980px) { 
     .hamburger_menu {
         display: block;
@@ -169,7 +165,7 @@ body {
     }
 }
 
-/* old css styling */
+/* --------------- account login/sign up styling  -------------*/
 
 .signup-container {
     max-width: 600px;
@@ -206,12 +202,7 @@ body {
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
 
-/* universal container padding */
-.container {
-    padding: 10px 12%;
-    align-items: center;
-    box-shadow: 0 0 1 rgba(0, 0, 0, .5);
-}
+/* --------------- Hero (main content for index.html) styling  -------------*/
 
 #hero {
     background-image: url("hero.jpg");
@@ -297,13 +288,7 @@ body {
     margin-top: 0.5rem;
 }
 
-
-
-
-
-
-
-/* Footer */
+/* --------------- Footer styling  -------------*/
 
 .footer__container {
     padding: 10px 0;
@@ -377,6 +362,8 @@ body {
     color: #0c0c0c;
     font-size: 1.25rem;
 }
+
+/* --------------- Footer responsive styling  -------------*/
 
 @media screen and (max-width: 960px) {
     .nav_menu a {
