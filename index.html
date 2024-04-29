@@ -18,7 +18,7 @@
     .hamburger_menu.change span:nth-child(3) {
       transform: translateY(-10px) rotate(-45deg);
     }
-     body, html {
+    body, html {
       margin: 0;
       padding: 0;
       height: 100%;
@@ -31,27 +31,32 @@
       height: 80vh;
       margin: 0 auto; 
     }
-    #controlPanel, #waypointsContainer {
+    #inputContainer {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       margin-bottom: 10px;
     }
-    input[type="text"], button {
+    input[type="text"] {
       padding: 0.8rem;
-      margin: 0 5px;
-      flex: 1;
+      margin-bottom: 5px; /* Ensure margin for wrapping */
+      flex: 1 1 31%; /* Adjust so no more than three items per row */
       border: 1px solid #ccc;
       border-radius: 5px;
     }
     #waypointsContainer {
-      align-items: center;
+      display: flex;
+      justify-content: center;
+      margin-top: 10px; /* Separate buttons from inputs */
     }
     button {
+      padding: 0.8rem 1.2rem;
       background-color: #4CAF50;
       color: white;
       border: none;
       cursor: pointer;
       transition: background 0.3s ease;
+      margin: 0 10px;
     }
     button:hover {
       background-color: #45a049;
