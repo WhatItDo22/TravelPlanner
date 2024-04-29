@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="defaultstyles.css">
     <link rel="stylesheet" href="searchstyles.css">
+    <link rel="stylesheet" href="contact.css">
     <link rel="stylesheet" href="faqstyles.css">
     <link rel="stylesheet" href="eventsstyles.css">
     <link rel="stylesheet" href="profilestyles.css">
