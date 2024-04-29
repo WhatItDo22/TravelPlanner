@@ -6,7 +6,12 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <style>
-    .nav_menu.change {
+  #map {
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+  }
+      .nav_menu.change {
       left: 0;
     }
     .hamburger_menu.change span:nth-child(1) {
@@ -18,163 +23,213 @@
     .hamburger_menu.change span:nth-child(3) {
       transform: translateY(-10px) rotate(-45deg);
     }
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Arial, sans-serif;
-    }
-    header, main, footer {
-      padding: 1rem;
-    }
-    #mapContainer, #map {
-      height: 80vh;
-      margin: 0 auto; 
-    }
-    #controlPanel {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-    #controlPanel input[type="text"] {
-      flex-basis: calc(33.33% - 10px);
-      margin-bottom: 10px;
-    }
-    #dynamicWaypointsContainer {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-    #dynamicWaypointsContainer input[type="text"] {
-      flex-basis: calc(33.33% - 10px);
-      margin-bottom: 10px;
-      padding: 0.8rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    #waypointsContainer {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-    input[type="text"] {
-      padding: 0.8rem;
-      margin: 0 5px;
-      flex: 1;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      padding: 0.8rem;
-      margin: 0 5px;
-      flex: 1;
-      border-radius: 5px;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
+  #controlPanel {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Adjusts spacing between inputs */
+    padding: 10px;
+    width: 100%;
+    float: left;
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
+    margin: 15px 0;
+  }
+
+  .input-fixed-width {
+    flex: 0 0 32%; /* Increased width for origin, destination, and POI boxes */
+    padding: 0.5rem;
+    margin-right: 1%; /* Adjust spacing between the elements */
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
+  }
+
+  #controlPanel button, #controlPanel input[type="date"], #controlPanel select {
+    flex: 1;
+    padding: 0.5rem;
+    margin: 15px 0 15px 1%;
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
+  }
+
+ #mapContainer {
+    height: 650px;
+    width: 80%;
+    margin: 0 auto; 
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
+  }
+
+  button {
+    font-size: 18px;
+    display: inline-block;
+    outline: 0;
+    border: 0;
+    cursor: pointer;
+    will-change: box-shadow,transform;
+    background: radial-gradient( 100% 100% at 100% 0%, #89E5FF 0%, #5468FF 100% );
+    box-shadow: 0px 0.01em 0.01em rgb(45 35 66 / 40%), 0px 0.3em 0.7em -0.01em rgb(45 35 66 / 30%), inset 0px -0.01em 0px rgb(58 65 111 / 50%);
+    padding: 0 2em;
+    border-radius: 0.3em;
+    color: #fff;
+    height: 2.6em;
+    text-shadow: 0 1px 0 rgb(0 0 0 / 40%);
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+    margin-left: 1%;
+  }
+
+  button:hover {
+    box-shadow: 0px 0.1em 0.2em rgb(45 35 66 / 40%), 0px 0.4em 0.7em -0.1em rgb(45 35 66 / 30%), inset 0px -0.1em 0px #3c4fe0;
+    transform: translateY(-0.1em);
+  }
+
+  button:active {
+    box-shadow: inset 0px 0.1em 0.6em #3c4fe0;
+    transform: translateY(0em);
+  }
+
+  .waypoint {
+    padding: 0.5rem;
+    margin-right: 1%;
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
+  }
   </style>
+<!--   <link rel="stylesheet" href="styles.css"> -->
   <link rel="stylesheet" href="newstyles.css">
 </head>
 <body>
   <header>
-    <div class="navbar">
-      <div class="navbar__container">
-        <a class="logo" href="default.php" id="home">
-          <img src="images/logo.png" alt="Travel Logo">
-          <h1 class="logo__text">ItineraEase</h1>
-        </a>
-        <div class="nav_menu">
-          <a href="search.php" id="search">Search</a>
-          <a href="faq.php" id="faq">FAQ</a>
-          <a href="contact.php" id="contact">Contact</a>
-          <a href="login.php" id="login">Log In</a>
-        </div>
-        <div class="hamburger_menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+<!--     <nav class="navbar">
+      <a class="logo" href="index.html"><img src="logo.png" alt="Logo"></a>
+      <div class="nav_menu">
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
       </div>
+      <div class="hamburger_menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav> -->
+    <div class="navbar">
+        <div class="navbar__container">
+            <a class="logo" href="default.php" id="home">
+                <img src="images/logo.png" alt="Travel Logo">
+                <h1 class="logo__text">ItineraEase</h1>
+            </a>
+            <div class="nav_menu">
+                <a href="search.php" id="search">Search</a>
+                <a href="faq.php" id="faq">FAQ</a>
+                <a href="contact.php" id="contact">Contact</a>
+                <a href="login.php" id="login">Log In</a>
+            </div>
+            <div class="hamburger_menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
     </div>
   </header>
 
   <main>
-<div class="container" style="margin-top: 12vh;">
-  <div id="controlPanel">
-    <input id="origin" type="text" placeholder="Enter origin" class="waypoint input-fixed-width">
-    <input id="destination" type="text" placeholder="Enter destination" class="waypoint input-fixed-width">
-    <input id="poiType" type="text" placeholder="Types of places(Sep. by comma)" class="input-fixed-width">
-  </div>
+    <div class="container" style="margin-top: 12vh;">
+      <div id="controlPanel">
+        <input id="origin" type="text" placeholder="Enter origin" class="waypoint input-fixed-width">
+        <input id="destination" type="text" placeholder="Enter destination" class="waypoint input-fixed-width">
+        <input id="poiType" type="text" placeholder="Enter types of places (e.g., museum, restaurant)" class="input-fixed-width">
+      </div>
 
-  <div id="dynamicWaypointsContainer"></div>
-
-  <div id="waypointsContainer">
-    <button onclick="addWaypoint()" id="waypoint">Add Waypoint</button>
-    <button onclick="calculateAndDisplayRoute()" id="submit__button">Get Directions</button>
-  </div>
-</div>
+      <div id="waypointsContainer">
+        <button onclick="addWaypoint()" id="waypoint">Add Waypoint</button>
+        <button onclick="calculateAndDisplayRoute()" id="submit__button">Get Directions</button>
+      </div>
+      <div id="output"></div>
+    </div>
 
     <div id="mapContainer">
       <div id="map"></div>
     </div>
 
+    <section id="featured-hotels">
+      <div class="container">
+        <h2>Featured hotels</h2>
+        <ul>
+          <li>
+            <a href="#">
+              <img src="hotel1.jpg" alt="Hotel 1">
+              <h3>Hotel 1</h3>
+              <p>Location, price, and ratings</p>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <img src="hotel2.jpg" alt="Hotel 2">
+              <h3>Hotel 2</h3>
+              <p>Location, price, and ratings</p>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <img src="hotel3.jpg" alt="Hotel 3">
+              <h3>Hotel 3</h3>
+              <p>Location, price, and ratings</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
   </main>
 
   <footer class="footer__container">
     <p id="footer__id">ItineraEase Group:</p>
     <div class="footer__links">
-      <div class="footer__link--wrapper">
-        <div class="footer__link--items">
-          <p><strong>Company</strong></p>
-          <a href="#">About</a>
-          <a href="#">Jobs</a>
-          <a href="#">Partnerships</a>
-          <a href="#">Newsroom</a>
-          <a href="#">Advertising</a>
-          <a href="#">Feedback</a>
+        <div class="footer__link--wrapper">
+            <div class="footer__link--items">
+                <p><strong>Company</strong></p>
+                <a href="#">About</a>
+                <a href="#">Jobs</a>
+                <a href="#">Partnerships</a>
+                <a href="#">Newsroom</a>
+                <a href="#">Advertising</a>
+                <a href="#">Feedback</a>
+            </div>
+            <div class="footer__link--items">
+                <p><strong>Explore</strong></p>
+                <a href="#">Hotels in United States of America</a>
+                <a href="#">United States of America travel guide</a>
+                <a href="#">Domestic Flights</a>
+            </div>
+            <div class="footer__link--items">
+                <p><strong>Policies</strong></p>
+                <a href="#">Privacy</a>
+                <a href="#">Terms of use</a>
+                <a href="#">One Key<sup>TM</sup> terms and conditions</a>
+                <a href="#">Accessibility</a>
+                <a href="#">Your privacy choices</a>
+            </div>
+            <div class="footer__link--items">
+                <p><strong>Help</strong></p>
+                <a href="#">Support</a>
+                <a href="#">Cancel your hotel</a>
+                <a href="#">Refund timelines, policies & processes</a>
+                <a href="#">Use a ItineraEase coupon</a>
+            </div>
         </div>
-        <div class="footer__link--items">
-          <p><strong>Explore</strong></p>
-          <a href="#">Hotels in United States of America</a>
-          <a href="#">United States of America travel guide</a>
-          <a href="#">Domestic Flights</a>
-        </div>
-        <div class="footer__link--items">
-          <p><strong>Policies</strong></p>
-          <a href="#">Privacy</a>
-          <a href="#">Terms of use</a>
-          <a href="#">One Key<sup>TM</sup> terms and conditions</a>
-          <a href="#">Accessibility</a>
-          <a href="#">Your privacy choices</a>
-        </div>
-        <div class="footer__link--items">
-          <p><strong>Help</strong></p>
-          <a href="#">Support</a>
-          <a href="#">Cancel your hotel</a>
-          <a href="#">Refund timelines, policies & processes</a>
-          <a href="#">Use a ItineraEase coupon</a>
-        </div>
-      </div>
     </div>
     <hr style="border: .1px solid lightgrey;">
     <div class="social__media">
-      <div class="social__media--wrap">
-        <p class="website__rights"> © 2024 ItineraEase, Inc., an ItineraEase 
-          Group company. All rights reserved. ItineraEase and the ItineraEase 
-          Logo are trademarks of ItineraEase, Inc.</p>
-      </div>
+        <div class="social__media--wrap">
+            <p class="website__rights"> © 2024 ItineraEase, Inc., an ItineraEase 
+              Group company. All rights reserved. ItineraEase and the ItineraEase 
+              Logo are trademarks of ItineraEase, Inc.</p>
+        </div>
     </div>
   </footer>
-
-  <script src="app.js"></script>
+<script src="app.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const hamburger = document.querySelector('.hamburger_menu');
@@ -185,16 +240,6 @@
         navMenu.classList.toggle('change');
       });
     });
-
-    function addWaypoint() {
-      const dynamicWaypointsContainer = document.getElementById('dynamicWaypointsContainer');
-      const newWaypoint = document.createElement('input');
-      newWaypoint.type = 'text';
-      newWaypoint.placeholder = 'Enter waypoint';
-      newWaypoint.classList.add('waypoint', 'input-fixed-width');
-      dynamicWaypointsContainer.appendChild(newWaypoint);
-      setupAutocomplete(newWaypoint.id);
-    }
   </script>
 </body>
 </html>
