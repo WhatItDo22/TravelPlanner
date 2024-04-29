@@ -85,7 +85,6 @@ function addWaypoint() {
   setupAutocomplete(newWaypoint.id);
   waypointCount++;
 }
-
 function calculateAndDisplayRoute() {
   clearPreviousResults();
 
