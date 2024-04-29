@@ -17,9 +17,16 @@
         }
         $sql = "SELECT numTrips FROM users WHERE username = '$username'";
         $result = $conn->query($sql);
-        if ($result->num_rows > 0)
-        {
-            echo "ad";
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                for ($i = 0; $i < $row['numTrips']; $i++) {
+                    echo "<div class=trip_container>";
+                    echo "<h2>Trip ($i + 1)</h2>";
+                    echo "<button type='button' href='savedroutes.php'>Route</button>";
+                    echo "<button type='button' href='savedevents.php'>Events</button>";
+                    echo "</div>";
+                }
+            }
         }
         $conn->close();
     ?>
