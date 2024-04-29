@@ -11,18 +11,6 @@
     width: 100%;
     border-radius: 5px;
   }
-      .nav_menu.change {
-      left: 0;
-    }
-    .hamburger_menu.change span:nth-child(1) {
-      transform: translateY(10px) rotate(45deg);
-    }
-    .hamburger_menu.change span:nth-child(2) {
-      opacity: 0;
-    }
-    .hamburger_menu.change span:nth-child(3) {
-      transform: translateY(-10px) rotate(-45deg);
-    }
   #controlPanel {
     text-align: left;
     display: flex;
@@ -95,12 +83,11 @@
     border-radius: 5px;
   }
   </style>
-<!--   <link rel="stylesheet" href="styles.css"> -->
-  <link rel="stylesheet" href="newstyles.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-<!--     <nav class="navbar">
+    <nav class="navbar">
       <a class="logo" href="index.html"><img src="logo.png" alt="Logo"></a>
       <div class="nav_menu">
         <a href="index.html">Home</a>
@@ -113,30 +100,11 @@
         <span></span>
         <span></span>
       </div>
-    </nav> -->
-    <div class="navbar">
-        <div class="navbar__container">
-            <a class="logo" href="default.php" id="home">
-                <img src="images/logo.png" alt="Travel Logo">
-                <h1 class="logo__text">ItineraEase</h1>
-            </a>
-            <div class="nav_menu">
-                <a href="search.php" id="search">Search</a>
-                <a href="faq.php" id="faq">FAQ</a>
-                <a href="contact.php" id="contact">Contact</a>
-                <a href="login.php" id="login">Log In</a>
-            </div>
-            <div class="hamburger_menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </div>
+    </nav>
   </header>
 
   <main>
-    <div class="container" style="margin-top: 12vh;">
+    <div class="container">
       <div id="controlPanel">
         <input id="origin" type="text" placeholder="Enter origin" class="waypoint input-fixed-width">
         <input id="destination" type="text" placeholder="Enter destination" class="waypoint input-fixed-width">
@@ -229,17 +197,6 @@
         </div>
     </div>
   </footer>
-<script src="app.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const hamburger = document.querySelector('.hamburger_menu');
-      const navMenu = document.querySelector('.nav_menu');
-
-      hamburger.addEventListener('click', function() {
-        this.classList.toggle('change');
-        navMenu.classList.toggle('change');
-      });
-    });
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
