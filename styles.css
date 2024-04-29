@@ -174,7 +174,7 @@ body {
     flex-direction: column;
     border-radius: 30px;
     max-height: 300px;
-    padding-top: 100px;
+    padding-top: 140px;
 }
 
 .page-header-title {
@@ -208,6 +208,10 @@ body {
 .returnHome {
     text-align: center;
     margin-top: 20px;
+}
+
+.dropdown {
+    display: inline-block;
 }
 
 .dropdown-content {

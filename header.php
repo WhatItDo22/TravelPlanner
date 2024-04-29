@@ -29,9 +29,11 @@
             <a href="faq.php" id="faq">FAQ</a>
             <a href="contact.php" id="contact">Contact</a>
             <a onclick="myFunction()" class="dropbtn">Account</a>
-            <div id="myDropdown" class="dropdown-content">
-                <a href="savedtrips.php">Saved Trips</a>
-                <a href="logout.php">Log Out</a>
+            <div class="dropdown">
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="savedtrips.php">Saved Trips</a>
+                    <a href="logout.php">Log Out</a>
+                </div>
             </div>
         </div>
         <div class="hamburger_menu">
