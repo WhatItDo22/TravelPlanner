@@ -11,6 +11,18 @@
     width: 100%;
     border-radius: 5px;
   }
+      .nav_menu.change {
+      left: 0;
+    }
+    .hamburger_menu.change span:nth-child(1) {
+      transform: translateY(10px) rotate(45deg);
+    }
+    .hamburger_menu.change span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger_menu.change span:nth-child(3) {
+      transform: translateY(-10px) rotate(-45deg);
+    }
   #controlPanel {
     text-align: left;
     display: flex;
@@ -217,6 +229,17 @@
         </div>
     </div>
   </footer>
-  <script src="app.js"></script>
+<script src="app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const hamburger = document.querySelector('.hamburger_menu');
+      const navMenu = document.querySelector('.nav_menu');
+
+      hamburger.addEventListener('click', function() {
+        this.classList.toggle('change');
+        navMenu.classList.toggle('change');
+      });
+    });
+  </script>
 </body>
 </html>
