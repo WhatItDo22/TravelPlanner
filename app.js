@@ -155,17 +155,18 @@ function calculateAndDisplayRoute() {
   }
 
 function displayCoordinates() {
-  console.log('Origin:', originCoords);
-  console.log('Destination:', destinationCoords);
-  console.log('Waypoints:', waypointCoords);
-
   // Create an array to store the coordinates in the logical order
-  coordinatesArray = [originCoords, ...waypointCoords, destinationCoords];
+  coordinatesArray = [originCoords, ...waypointCoords];
 
-  // Remove duplicate coordinates
-  coordinatesArray = coordinatesArray.filter((coord, index, self) =>
-    index === self.findIndex((c) => c.lat === coord.lat && c.lng === coord.lng)
-  );
+  // Check if the destination is already included in the waypoints
+  if (!waypointCoords.some(coord => coord.lat === destinationCoords.lat && coord.lng === destinationCoords.lng)) {
+    coordinatesArray.push(destinationCoords);
+  }
+
+  console.log('Coordinates in logical order:');
+  coordinatesArray.forEach((coords, index) => {
+    console.log(`Point ${index + 1}: Latitude: ${coords.lat}, Longitude: ${coords.lng}`);
+  });
 
   // Continue with the rest of the route calculation and display logic
   const routeRequest = {
@@ -180,17 +181,9 @@ function displayCoordinates() {
     if (status === 'OK') {
       directionsRenderer.setDirections(response);
       displayTravelTimesAndFindPOIs(response, poiType);
-      displayCoordinatesInOrder();
     } else {
       window.alert('Directions request failed due to ' + status);
     }
-  });
-}
-
-function displayCoordinatesInOrder() {
-  console.log('Coordinates in logical order:');
-  coordinatesArray.forEach((coords, index) => {
-    console.log(`Point ${index + 1}: Latitude: ${coords.lat}, Longitude: ${coords.lng}`);
   });
 }
 function displayTravelTimesAndFindPOIs(directionsResult, poiType) {
