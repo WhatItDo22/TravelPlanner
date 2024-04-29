@@ -457,11 +457,9 @@ function showEvents(json) {
         } catch (err) {
             console.log(err);
         }
-
-        // Ensure any previously attached click events are removed
         item.off("click");
 
-        // Attach a click event to the whole item, not just the details
+
         item.click(events[i], function(eventObject) {
             console.log(eventObject.data);
             try {
@@ -471,14 +469,16 @@ function showEvents(json) {
             }
         });
 
-        // Create and append the button
-        var addButton = $('<button>').text('Add to Itinerary');
-        addButton.click(function(e) {
-            e.stopPropagation(); // Prevent click from bubbling up to parent
-            console.log('Add to itinerary:', events[i].name);
-            // Add function to handle adding to itinerary here
-        });
-        item.append(addButton);
+
+        if (item.find('.add-to-itinerary').length === 0) {
+            var addButton = $('<button>').addClass('add-to-itinerary').text('Add to Itinerary');
+            addButton.click(function(e) {
+                e.stopPropagation();
+                console.log('Add to itinerary:', $(this).parent().find('.list-group-item-heading').text());
+                // Add function to handle adding to itinerary here
+            });
+            item.append(addButton);
+        }
 
         item.show();
         item = item.next(); // move to the next item
