@@ -69,8 +69,8 @@ function initRestaurantMap() {
   document.getElementById("restaurant-search-button").addEventListener("click", searchRestaurants);
 }
 
-function setupAutocomplete(id) {
-  new google.maps.places.Autocomplete(document.getElementById(id), {
+function setupAutocomplete(inputElement) {
+  new google.maps.places.Autocomplete(inputElement, {
     types: ['geocode']
   });
 }
@@ -84,7 +84,7 @@ function addWaypoint() {
   input.className = 'waypoint';
   input.id = `waypoint-${waypointCount}`;
   container.appendChild(input);
-  setupAutocomplete(input.id);
+  setupAutocomplete(input);
   waypointCount++;
 }
 
