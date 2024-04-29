@@ -1,94 +1,141 @@
-:root {
-    --primary-color: #c39e41;
-    --whiteColor: #fff;
-    --darkColor: #333;
+.add-to-itinerary {
+    padding: 0.5rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-left: 1rem;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-    outline: none;
+.restaurant-search-container {
+    padding: 2rem 0;
+    background-color: #f9f9f9;
 }
 
-body {
+#restaurant-map {
+    height: 400px;
     width: 100%;
-    height: auto;
-    padding: 3%;
-    background-color: var(--whiteColor);
+    margin-top: 1rem;
 }
-.page-header {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/event-img.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
+
+#restaurant-results {
+    margin-top: 1rem;
+}
+
+#restaurant-results table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#restaurant-results tr {
+    cursor: pointer;
+}
+
+#restaurant-results tr:hover {
+    background-color: #e0e0e0;
+}
+
+#restaurant-results td {
+    padding: 0.5rem;
+}
+
+.events-container {
+    padding: 2rem 0;
+    background-color: #f5f5f5;
+}
+
+.events-container h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+#events-panel {
+    position: relative;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+.search-form {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    padding: 5% 3%;
-    border-radius: 30px;
-    max-height: 300px;
-    color: var(--whiteColor);
+    margin-bottom: 1rem;
 }
 
-.page-header-title {
-    font-size: 40px;
-    letter-spacing: 1.5;
-}
-.events {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+.search-form input, .search-form select {
+    padding: 0.5rem;
+    margin-right: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-.event-container {
-    display: flex;
-    justify-content: safe;
-    padding: 5px;
-    margin-top: 5%;
-    width: 40%;
-    background: var(--primary-color);
-    border-radius: 10px;
-    margin-right: 40px;
+.search-form button {
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.event-date {
+.pagination {
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 5px;
-    background: var(--whiteColor);
-    border-radius: 10px;
-    margin: 10px;
-    width: 25%;
+    margin-top: 1rem;
 }
 
-.event-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 5px;
-    border-radius: 10px;
-    margin: 10px;
-    width: 75%;
+.pagination button {
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.event-date-info {
-    font-size: 20px;
-    letter-spacing: 1;
-    align-items: center;
+.hotel-search-container {
+    padding: 2rem 0;
+    background-color: #f9f9f9;
 }
-@media screen and (max-width: 680px) {
-    .page-header {
-        padding: 10% 3%;
-    }
-    .events {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .event-container {
-        width: 80%;
-    }   
+
+#map {
+    height: 400px;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+#hotel-results {
+    margin-top: 1rem;
+}
+
+#results {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#results tr {
+    cursor: pointer;
+}
+
+#results tr:hover {
+    background-color: #e0e0e0;
+}
+
+#results td {
+    padding: 0.5rem;
+}
+
+.placeIcon {
+    width: 24px;
+    height: 24px;
+    margin-right: 0.5rem;
+}
+
+.small--container {
+    padding: 5px 5%;
 }
