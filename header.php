@@ -49,4 +49,4 @@
         </div>
     </div>
 <?php } ?>
-<h2> $loginst </h2>
+<?php echo "<h2>$loginst</h2>"; ?>
