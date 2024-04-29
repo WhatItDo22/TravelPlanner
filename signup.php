@@ -1,9 +1,3 @@
-<?php
-    session_start();
-    if (isset($_SESSION["user"])) {
-        header("Location: index.php");
-    }
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,8 +78,7 @@
                     // Execute the prepared statement
                     if (mysqli_stmt_execute($stmt)) {
                         echo "<div class='alert alert-success' role='alert'>User created successfully</div>";
-                        $_SESSION["user"] = $username;
-                        header("Location: index.php");
+                        header("Location: login.php");
                     } else {
                         die(" Something went wrong. Please try again later.");
                     }
