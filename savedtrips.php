@@ -19,12 +19,13 @@
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
-                for ($i = 0; $i < $row['numTrips']; $i++) {
+                for ($i = 1; $i <= $row['numTrips']; $i++) {
+                    $_SESSION['numTrips'] = $row['numTrips'];
                     echo "<div class='container'><div class=trip_container>";
-                    echo "<h2>Trip ($i + 1)</h2>";
+                    echo "<h2>Trip $i</h2>";
                     echo "<div class='buttons_container'";
-                    echo "<a class='trip_btn' href='savedroutes.php'>Route</a>";
-                    echo "<a class='trip_btn' href='savedevents.php'>Events</a>";
+                    echo "<a class='trip_btn' id='route_$i' href='savedroutes.php'>Route</a>";
+                    echo "<a class='trip_btn' id='events_$i' href='savedevents.php'>Events</a>";
                     echo "</div></div></div>";
                 }
             }
@@ -32,5 +33,16 @@
         $conn->close();
     ?>
     <?php include 'footer.php'; ?>
+    <script>
+        var numTrips = <?php $_SESSION['numTrips']?>;
+        for (var i = 1; i <= numTrips; i++) {
+            document.getElementById("route_" + i).addEventListener("click", function() {
+                $_SESSION['tripNum'] = i;
+            });
+            document.getElementById("events_" + i).addEventListener("click", function() {
+                $_SESSION['tripNum'] = i;
+            });
+        }
+    </script>
 </body>
 </html>

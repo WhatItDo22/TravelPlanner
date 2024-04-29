@@ -1,3 +1,7 @@
+<?php
+    session_start();
+    $title = "ItineraEase | Saved Events";
+?>
 <?php include 'header.php'; ?>
     <div class="page-header">
         <h1 class="page-header-title">Events</h1>
@@ -9,11 +13,12 @@
         $dbusername = "upjomg4jsiwwg";
         $dbpassword = "533%3611n_4`";
         $db = "dbeffkmumygldq";
+        $tripNum = $_SESSION["tripNum"];
         $conn_event = new mysqli($server, $dbusername, $dbpassword, $db);
         if ($conn_event->connect_error) {
             die("Connection failed: " . $conn_event->connect_error);
           }
-        $sql = "SELECT * FROM events WHERE username = $username";
+        $sql = "SELECT * FROM events WHERE username = $username AND tripID = $tripNum";
         $result = mysqli_query($conn_event, $sql);
         $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
