@@ -107,6 +107,10 @@ body {
     text-underline-offset: 2px;
 }
 
+.dropdown {
+    padding-top: 15px;
+}
+
 .hamburger_menu {
     display: none;
     cursor: pointer;
