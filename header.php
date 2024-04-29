@@ -1,4 +1,5 @@
 <?php include 'check.php'; ?>
+<?php session_start() ?>
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
