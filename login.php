@@ -1,8 +1,5 @@
 <?php
-    session_start();
-    if (isset($_SESSION["user"])) {
-        header("Location: default.php");
-    }
+    ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
