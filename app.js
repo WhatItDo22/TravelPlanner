@@ -276,70 +276,11 @@ function search() {
           addButton.classList.add("add-to-itinerary");
           addButton.onclick = function() {
             console.log(`Added ${results[i].name} to the itinerary`);
-            // Add your logic to handle adding the hotel to the itinerary
+            // add logic
           };
           tr.appendChild(addButton);
 
           document.getElementById("results").appendChild(tr);
-        }
-      }
-    });
-  }
-}
-
-function searchRestaurants() {
-  const location = document.getElementById("restaurant-location").value;
-  const query = document.getElementById("restaurant-query").value;
-
-  if (location) {
-    const request = {
-      location: restaurantMap.getCenter(),
-      radius: 5000,
-      type: ["restaurant"],
-      keyword: query,
-    };
-
-    places.nearbySearch(request, (results, status) => {
-      if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-        clearRestaurantResults();
-        clearRestaurantMarkers();
-
-        for (let i = 0; i < results.length; i++) {
-          const markerLetter = String.fromCharCode("A".charCodeAt(0) + (i % 26));
-          const markerIcon = MARKER_PATH + markerLetter + ".png";
-          const marker = new google.maps.Marker({
-            position: results[i].geometry.location,
-            map: restaurantMap,
-            icon: markerIcon,
-          });
-          restaurantMarkers.push(marker);
-
-          const tr = document.createElement("tr");
-          tr.style.backgroundColor = i % 2 === 0 ? "#F0F0F0" : "#FFFFFF";
-          tr.onclick = function () {
-            google.maps.event.trigger(marker, "click");
-          };
-          const iconTd = document.createElement("td");
-          const nameTd = document.createElement("td");
-          const icon = document.createElement("img");
-          icon.src = markerIcon;
-          icon.setAttribute("class", "placeIcon");
-          const name = document.createTextNode(results[i].name);
-          iconTd.appendChild(icon);
-          nameTd.appendChild(name);
-          tr.appendChild(iconTd);
-          tr.appendChild(nameTd);
-
-          const addButton = document.createElement("button");
-          addButton.textContent = "Add to Itinerary";
-          addButton.classList.add("add-to-itinerary");
-          addButton.onclick = function() {
-            console.log(`Added ${results[i].name} to the itinerary`);
-            // Add logic
-          };
-          tr.appendChild(addButton);
-
-          document.getElementById("restaurant-table").appendChild(tr);
         }
       }
     });
@@ -422,7 +363,7 @@ function searchRestaurants() {
           addButton.classList.add("add-to-itinerary");
           addButton.onclick = function() {
             console.log(`Added ${results[i].name} to the itinerary`);
-            // add logic
+            //add logic
           };
           tr.appendChild(addButton);
 
@@ -517,8 +458,18 @@ function showEvents(json) {
       console.log(err);
     }
     item.show();
+
+    // Remove the previous click event handler
     item.off("click");
-    item.click(events[i], function(eventObject) {
+
+    // Create a new container for the event details
+    const eventDetails = $('<div>').addClass('event-details');
+    eventDetails.append(item.children('.list-group-item-heading'));
+    eventDetails.append(item.children('.list-group-item-text'));
+    eventDetails.append(item.children('.venue'));
+
+    // Add click event to the event details container
+    eventDetails.on("click", events[i], function(eventObject) {
       console.log(eventObject.data);
       try {
         getAttraction(eventObject.data._embedded.attractions[0].id);
@@ -527,18 +478,27 @@ function showEvents(json) {
       }
     });
 
+    // Create a new container for the "Add to Itinerary" button
+    const buttonContainer = $('<div>').addClass('button-container');
+
     // Add the "Add to Itinerary" button
     const addButton = $('<button>').addClass('add-to-itinerary').text('Add to Itinerary');
-    addButton.on('click', function() {
+    addButton.on('click', function(event) {
+      event.stopPropagation();
       console.log(`Added ${events[i].name} to the itinerary`);
-      // Add logic
+      // Add your logic to handle adding the event to the itinerary
     });
-    item.append(addButton);
+
+    buttonContainer.append(addButton);
+
+    // Clear the item's content and append the event details and button containers
+    item.empty();
+    item.append(eventDetails);
+    item.append(buttonContainer);
 
     item = item.next();
   }
 }
-
 var prevButton = $('#prev');
 var nextButton = $('#next');
 
