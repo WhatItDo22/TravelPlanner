@@ -3,6 +3,10 @@
     $title = "ItineraEase | Contact";
 ?>
     <?php include 'header.php'; ?>
+    <div class="page-header">
+        <h1 class="page-header-title">Contact</h1>
+        <p class="page-header-subtitle">Drop a message! We'd love to hear from you.</p>
+    </div>
     <div id="form" class="content">
         <form name = "myForm" action="#">
             <div class="container">
@@ -10,8 +14,6 @@
                 <figcaption class="img--caption"> <em>"If you don't know where you are going, any road will get you there"</em> </figcaption>
             </div>   
             <div class="contact">
-                <h3>Contact</h3><br>
-                <p>Drop a message! We'd love to hear from you.</p><br>
                 <label for="first-name">First Name:</label><br>
                 <input type="text" placeholder="Your first name" id="first-name" name="first-name" required/><br>
                 <label for="last-name">Last Name:</label><br>

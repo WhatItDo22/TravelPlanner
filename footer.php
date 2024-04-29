@@ -3,34 +3,16 @@
     <div class="footer__links">
         <div class="footer__link--wrapper">
             <div class="footer__link--items">
-                <p><strong>Company</strong></p>
-                <a href="#">About</a>
-                <a href="#">Jobs</a>
-                <a href="#">Partnerships</a>
-                <a href="#">Newsroom</a>
-                <a href="#">Advertising</a>
-                <a href="#">Feedback</a>
+                <a href="default.php"><strong>Home</strong></a>
             </div>
             <div class="footer__link--items">
-                <p><strong>Explore</strong></p>
-                <a href="#">Hotels in United States of America</a>
-                <a href="#">United States of America travel guide</a>
-                <a href="#">Domestic Flights</a>
+                <a href="search.php"><strong>Search</strong></a>
             </div>
             <div class="footer__link--items">
-                <p><strong>Policies</strong></p>
-                <a href="#">Privacy</a>
-                <a href="#">Terms of use</a>
-                <a href="#">One Key<sup>TM</sup> terms and conditions</a>
-                <a href="#">Accessibility</a>
-                <a href="#">Your privacy choices</a>
+                <a href="faq.php"><strong>FAQ</strong></a>
             </div>
             <div class="footer__link--items">
-                <p><strong>Help</strong></p>
-                <a href="#">Support</a>
-                <a href="#">Cancel your hotel</a>
-                <a href="#">Refund timelines, policies & processes</a>
-                <a href="#">Use a ItineraEase coupon</a>
+                <a href="contact.php"><strong>Contact</strong></a>
             </div>
         </div>
     </div>

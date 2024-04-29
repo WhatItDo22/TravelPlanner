@@ -6,11 +6,6 @@
     <div class="page-header">
         <h1 class="page-header-title">FAQ</h1>
         <p class="page-header-subtitle">Frequently Asked Questions</p>
-
-        <div class="search-container">
-            <input type="text" placeholder="Search...">
-            <button>Search</button>
-        </div>
     </div>
     <div class="faq-container">
         <div class="faq-image-box">

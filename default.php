@@ -1,10 +1,13 @@
 <?php
-session_start();
-$title = "ItineraEase";
+    session_start();
+    $title = "ItineraEase";
 ?>
 
 <?php include 'header.php'; ?>
-
+<div class="page-header">
+        <h1 class="page-header-title">ItineraEase</h1>
+        <p class="page-header-subtitle">Start here to plan your next great roadtrip!</p>
+    </div>
 <div class="container">
     <div id="controlPanel">
         <input id="origin" type="text" placeholder="Enter origin" class="waypoint input-fixed-width">
