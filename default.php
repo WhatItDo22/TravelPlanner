@@ -20,5 +20,6 @@
         <div id="map"></div>
     </div>
     <?php include 'footer.php'; ?>
+    <script src="app.js"></script>
 </body>
 </html>

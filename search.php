@@ -97,5 +97,6 @@
         </div>
     </section>
     <?php include 'footer.php'; ?>
+    <script src="app.js"></script>
 </body>
 </html>
