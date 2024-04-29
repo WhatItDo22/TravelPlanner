@@ -47,6 +47,7 @@
                 if ($user) {
                     if (password_verify($password, $user["password"])) {
                         $_SESSION["user"] = $user;
+                        session_regenerate_id(true);
                         header("Location: default.php");
                         die();
                     } else {
