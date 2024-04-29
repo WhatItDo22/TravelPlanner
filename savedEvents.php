@@ -4,16 +4,16 @@
     </div>
     <?php
         $user = $_SESSION["user"];
-        $userName = $user["username"];
+        $username = $user["username"];
         $server = "localhost";
-        $username = "upjomg4jsiwwg";
-        $password = "533%3611n_4`";
+        $dbusername = "upjomg4jsiwwg";
+        $dbpassword = "533%3611n_4`";
         $db = "dbeffkmumygldq";
-        $conn_event = new mysqli($server, $username, $password, $db);
+        $conn_event = new mysqli($server, $dbusername, $dbpassword, $db);
         if ($conn_event->connect_error) {
             die("Connection failed: " . $conn_event->connect_error);
           }
-        $sql = "SELECT * FROM events WHERE username = $userName";
+        $sql = "SELECT * FROM events WHERE username = $username";
         $result = mysqli_query($conn_event, $sql);
         $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
