@@ -92,7 +92,7 @@ function calculateAndDisplayRoute() {
   const origin = document.getElementById("origin").value;
   const destination = document.getElementById("destination").value;
   const poiType = document.getElementById("poiType").value;
-  const waypoints = Array.from(document.querySelectorAll('#dynamicWaypointsContainer .waypoint'))
+  const waypoints = Array.from(document.getElementsByClassName('waypoint'))
     .map(input => ({ location: input.value, stopover: true }))
     .filter(wp => wp.location !== "");
 
