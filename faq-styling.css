@@ -1,16 +1,12 @@
+/* --------------- main colors  -------------*/
+
 :root {
     --primary-color: #f5b104;
     --whiteColor: #fff;
     --darkColor: #333;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-    outline: none;
-}
+/* --------------- FAQ main content styling  -------------*/
 
 .page-header {
     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/sky.jpg');
@@ -108,7 +104,6 @@
 }
 .faq-title {
     display: block;
-    /* position: relative; */
     width: 100%;
     letter-spacing: 1.2;
     font-size: 24px;
@@ -146,6 +141,8 @@
     transform: rotate(-45deg);
     transition: 0.4s ease-in-out;
 }
+
+/* --------------- content responsive  styling  -------------*/
 
 @media screen and (max-width: 980px) {
     .page-header-title {
