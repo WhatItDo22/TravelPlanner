@@ -1,4 +1,11 @@
-<?php include 'check.php'; ?>
+<?php 
+    session_start();
+    $user = $_SESSION["user"];
+    $loginst = 0;
+    if ($user) {
+        $loginst = 1;
+    }
+?>
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
