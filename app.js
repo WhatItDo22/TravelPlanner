@@ -270,7 +270,76 @@ function search() {
           nameTd.appendChild(name);
           tr.appendChild(iconTd);
           tr.appendChild(nameTd);
+
+          const addButton = document.createElement("button");
+          addButton.textContent = "Add to Itinerary";
+          addButton.classList.add("add-to-itinerary");
+          addButton.onclick = function() {
+            console.log(`Added ${results[i].name} to the itinerary`);
+            // Add your logic to handle adding the hotel to the itinerary
+          };
+          tr.appendChild(addButton);
+
           document.getElementById("results").appendChild(tr);
+        }
+      }
+    });
+  }
+}
+
+function searchRestaurants() {
+  const location = document.getElementById("restaurant-location").value;
+  const query = document.getElementById("restaurant-query").value;
+
+  if (location) {
+    const request = {
+      location: restaurantMap.getCenter(),
+      radius: 5000,
+      type: ["restaurant"],
+      keyword: query,
+    };
+
+    places.nearbySearch(request, (results, status) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+        clearRestaurantResults();
+        clearRestaurantMarkers();
+
+        for (let i = 0; i < results.length; i++) {
+          const markerLetter = String.fromCharCode("A".charCodeAt(0) + (i % 26));
+          const markerIcon = MARKER_PATH + markerLetter + ".png";
+          const marker = new google.maps.Marker({
+            position: results[i].geometry.location,
+            map: restaurantMap,
+            icon: markerIcon,
+          });
+          restaurantMarkers.push(marker);
+
+          const tr = document.createElement("tr");
+          tr.style.backgroundColor = i % 2 === 0 ? "#F0F0F0" : "#FFFFFF";
+          tr.onclick = function () {
+            google.maps.event.trigger(marker, "click");
+          };
+          const iconTd = document.createElement("td");
+          const nameTd = document.createElement("td");
+          const icon = document.createElement("img");
+          icon.src = markerIcon;
+          icon.setAttribute("class", "placeIcon");
+          const name = document.createTextNode(results[i].name);
+          iconTd.appendChild(icon);
+          nameTd.appendChild(name);
+          tr.appendChild(iconTd);
+          tr.appendChild(nameTd);
+
+          const addButton = document.createElement("button");
+          addButton.textContent = "Add to Itinerary";
+          addButton.classList.add("add-to-itinerary");
+          addButton.onclick = function() {
+            console.log(`Added ${results[i].name} to the itinerary`);
+            // Add logic
+          };
+          tr.appendChild(addButton);
+
+          document.getElementById("restaurant-table").appendChild(tr);
         }
       }
     });
@@ -347,13 +416,22 @@ function searchRestaurants() {
           nameTd.appendChild(name);
           tr.appendChild(iconTd);
           tr.appendChild(nameTd);
+
+          const addButton = document.createElement("button");
+          addButton.textContent = "Add to Itinerary";
+          addButton.classList.add("add-to-itinerary");
+          addButton.onclick = function() {
+            console.log(`Added ${results[i].name} to the itinerary`);
+            // add logic
+          };
+          tr.appendChild(addButton);
+
           document.getElementById("restaurant-table").appendChild(tr);
         }
       }
     });
   }
 }
-
 function clearRestaurantResults() {
   const results = document.getElementById("restaurant-table");
   while (results.childNodes[0]) {
