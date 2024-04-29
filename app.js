@@ -75,14 +75,14 @@ function setupAutocomplete(id) {
 }
 
 function addWaypoint() {
-  const container = document.getElementById('dynamicWaypointsContainer');
-  const input = document.createElement('input');
-  input.type = 'text';
-  input.placeholder = 'Enter waypoint';
-  input.className = 'waypoint input-fixed-width';
-  input.id = `waypoint-${waypointCount}`;
-  container.appendChild(input);
-  setupAutocomplete(input.id);
+  const dynamicWaypointsContainer = document.getElementById('dynamicWaypointsContainer');
+  const newWaypoint = document.createElement('input');
+  newWaypoint.type = 'text';
+  newWaypoint.placeholder = 'Enter waypoint';
+  newWaypoint.classList.add('waypoint', 'input-fixed-width');
+  newWaypoint.id = `waypoint-${waypointCount}`;
+  dynamicWaypointsContainer.appendChild(newWaypoint);
+  setupAutocomplete(newWaypoint.id);
   waypointCount++;
 }
 
