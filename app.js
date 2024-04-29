@@ -1,4 +1,3 @@
-// Test
 let map;
 let directionsService;
 let directionsRenderer;
@@ -76,13 +75,13 @@ function setupAutocomplete(id) {
 }
 
 function addWaypoint() {
-  const container = document.getElementById('dynamicWaypointsContainer');
+  const container = document.getElementById('waypointsContainer');
   const input = document.createElement('input');
   input.type = 'text';
   input.placeholder = 'Enter waypoint';
   input.className = 'waypoint';
   input.id = `waypoint-${waypointCount}`;
-  container.appendChild(input);
+  container.insertBefore(input, container.lastChild);
   setupAutocomplete(input.id);
   waypointCount++;
 }
@@ -93,9 +92,10 @@ function calculateAndDisplayRoute() {
   const origin = document.getElementById("origin").value;
   const destination = document.getElementById("destination").value;
   const poiType = document.getElementById("poiType").value;
-  const waypoints = Array.from(document.querySelectorAll('#dynamicWaypointsContainer .waypoint'))
+  const waypoints = Array.from(document.getElementsByClassName('waypoint'))
     .map(input => ({ location: input.value, stopover: true }))
     .filter(wp => wp.location !== "");
+
   const routeRequest = {
     origin: origin,
     destination: destination,
