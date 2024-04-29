@@ -1,9 +1,3 @@
-<?php
-    session_start();
-    if (isset($_SESSION["user"])) {
-        header("Location: index.php");
-    }
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +27,14 @@
                 $userDetail = $_POST["username"];   
                 $password = $_POST["password"];
 
-                require_once "config.php";
+                $server = "localhost";
+                $username = "upjomg4jsiwwg";
+                $password = "533%3611n_4`";
+                $db = "dbz0xs4h1mcple";
+                $conn = new mysqli($server, $username, $password, $db);
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                  }
                 $sql = "SELECT * FROM users WHERE username = '$userDetail' OR email = '$userDetail'";
                 $result = mysqli_query($conn, $sql);
                 $user = mysqli_fetch_array($result);
