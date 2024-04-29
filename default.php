@@ -30,6 +30,7 @@
 </div>
 
 <?php include 'footer.php'; ?>
+<script src="app.js"></script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places"></script>
 <script>
