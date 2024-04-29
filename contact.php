@@ -1,4 +1,5 @@
 <?php
+    session_start();
     $title = "ItineraEase | Contact";
 ?>
     <?php include 'header.php'; ?>
