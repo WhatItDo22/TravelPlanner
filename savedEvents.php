@@ -1,6 +1,7 @@
 <?php
     session_start();
     $title = "ItineraEase | Saved Events";
+    $style = "eventsstyles";
 ?>
 <?php include 'header.php'; ?>
     <div class="page-header">

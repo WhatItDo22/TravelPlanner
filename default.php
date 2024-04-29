@@ -1,5 +1,6 @@
 <?php
     session_start();
+    $style = "defaultstyles.css";
     $title = "ItineraEase";
 ?>
 

@@ -1,6 +1,7 @@
 <?php
     session_start();
     $title = "ItineraEase | Contact";
+    $style = "contact.css";
 ?>
     <?php include 'header.php'; ?>
     <div class="page-header">

@@ -1,6 +1,7 @@
 <?php
     session_start();
     $title = "ItineraEase | FAQ";
+    $style = "faqstyles.css";
 ?>
     <?php include 'header.php'; ?>
     <div class="page-header">

@@ -1,6 +1,7 @@
 <?php
     session_start();
     $title = "ItineraEase | Saved Trips";
+    $style = "profilestyles.css";
 ?>
     <?php include 'header.php'; ?>
     <h1>Saved Trips</h1>
