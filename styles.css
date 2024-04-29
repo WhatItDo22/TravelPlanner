@@ -74,6 +74,10 @@
     text-underline-offset: 2px;
 }
 
+.dropdown-content a:hover {
+    text-decoration: none;
+}
+
 .hamburger_menu {
     display: none;
     cursor: pointer;
