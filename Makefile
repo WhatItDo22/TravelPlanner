@@ -6,8 +6,9 @@ CXX = clang++
 CXXFLAGS = -g3 -Wall -Wextra -Wpedantic -Wshadow
 LDFLAGS = -g3
 
-gerp: $(OBJS) FSTree.o DirNode.o
-	$(CXX) $(LDFLAGS) -o gerp $(OBJS) FSTree.o DirNode.o
+gerp: main.o GerpIndex.o QueryProcessor.o processing.o hashmap.o ColisionTree.o WordNode.o FSTree.o DirNode.o
+	$(CXX) $(LDFLAGS) -o gerp main.o GerpIndex.o QueryProcessor.o processing.o \
+	hashmap.o ColisionTree.o WordNode.o FSTree.o DirNode.o
 
 main.o: main.cpp GerpIndex.h QueryProcessor.h
 	$(CXX) $(CXXFLAGS) -c main.cpp
