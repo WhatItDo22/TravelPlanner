@@ -6,7 +6,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <style>
-      .nav_menu.change {
+    .nav_menu.change {
       left: 0;
     }
     .hamburger_menu.change span:nth-child(1) {
@@ -18,7 +18,7 @@
     .hamburger_menu.change span:nth-child(3) {
       transform: translateY(-10px) rotate(-45deg);
     }
-     body, html {
+    body, html {
       margin: 0;
       padding: 0;
       height: 100%;
@@ -31,7 +31,30 @@
       height: 80vh;
       margin: 0 auto; 
     }
-    #controlPanel, #waypointsContainer {
+    #controlPanel {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    #controlPanel input[type="text"] {
+      flex-basis: calc(33.33% - 10px);
+      margin-bottom: 10px;
+    }
+    #dynamicWaypointsContainer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    #dynamicWaypointsContainer input[type="text"] {
+      flex-basis: calc(33.33% - 10px);
+      margin-bottom: 10px;
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    #waypointsContainer {
       display: flex;
       justify-content: space-between;
       margin-bottom: 10px;
@@ -57,43 +80,28 @@
       background-color: #45a049;
     }
   </style>
-<!--   <link rel="stylesheet" href="styles.css"> -->
   <link rel="stylesheet" href="newstyles.css">
 </head>
 <body>
   <header>
-<!--     <nav class="navbar">
-      <a class="logo" href="index.html"><img src="logo.png" alt="Logo"></a>
-      <div class="nav_menu">
-        <a href="index.html">Home</a>
-        <a href="events.html">Events</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
-      </div>
-      <div class="hamburger_menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </nav> -->
     <div class="navbar">
-        <div class="navbar__container">
-            <a class="logo" href="default.php" id="home">
-                <img src="images/logo.png" alt="Travel Logo">
-                <h1 class="logo__text">ItineraEase</h1>
-            </a>
-            <div class="nav_menu">
-                <a href="search.php" id="search">Search</a>
-                <a href="faq.php" id="faq">FAQ</a>
-                <a href="contact.php" id="contact">Contact</a>
-                <a href="login.php" id="login">Log In</a>
-            </div>
-            <div class="hamburger_menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+      <div class="navbar__container">
+        <a class="logo" href="default.php" id="home">
+          <img src="images/logo.png" alt="Travel Logo">
+          <h1 class="logo__text">ItineraEase</h1>
+        </a>
+        <div class="nav_menu">
+          <a href="search.php" id="search">Search</a>
+          <a href="faq.php" id="faq">FAQ</a>
+          <a href="contact.php" id="contact">Contact</a>
+          <a href="login.php" id="login">Log In</a>
         </div>
+        <div class="hamburger_menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -109,8 +117,9 @@
         <button onclick="addWaypoint()" id="waypoint">Add Waypoint</button>
         <button onclick="calculateAndDisplayRoute()" id="submit__button">Get Directions</button>
       </div>
-      <div id="output"></div>
     </div>
+
+    <div id="dynamicWaypointsContainer"></div>
 
     <div id="mapContainer">
       <div id="map"></div>
@@ -149,49 +158,50 @@
   <footer class="footer__container">
     <p id="footer__id">ItineraEase Group:</p>
     <div class="footer__links">
-        <div class="footer__link--wrapper">
-            <div class="footer__link--items">
-                <p><strong>Company</strong></p>
-                <a href="#">About</a>
-                <a href="#">Jobs</a>
-                <a href="#">Partnerships</a>
-                <a href="#">Newsroom</a>
-                <a href="#">Advertising</a>
-                <a href="#">Feedback</a>
-            </div>
-            <div class="footer__link--items">
-                <p><strong>Explore</strong></p>
-                <a href="#">Hotels in United States of America</a>
-                <a href="#">United States of America travel guide</a>
-                <a href="#">Domestic Flights</a>
-            </div>
-            <div class="footer__link--items">
-                <p><strong>Policies</strong></p>
-                <a href="#">Privacy</a>
-                <a href="#">Terms of use</a>
-                <a href="#">One Key<sup>TM</sup> terms and conditions</a>
-                <a href="#">Accessibility</a>
-                <a href="#">Your privacy choices</a>
-            </div>
-            <div class="footer__link--items">
-                <p><strong>Help</strong></p>
-                <a href="#">Support</a>
-                <a href="#">Cancel your hotel</a>
-                <a href="#">Refund timelines, policies & processes</a>
-                <a href="#">Use a ItineraEase coupon</a>
-            </div>
+      <div class="footer__link--wrapper">
+        <div class="footer__link--items">
+          <p><strong>Company</strong></p>
+          <a href="#">About</a>
+          <a href="#">Jobs</a>
+          <a href="#">Partnerships</a>
+          <a href="#">Newsroom</a>
+          <a href="#">Advertising</a>
+          <a href="#">Feedback</a>
         </div>
+        <div class="footer__link--items">
+          <p><strong>Explore</strong></p>
+          <a href="#">Hotels in United States of America</a>
+          <a href="#">United States of America travel guide</a>
+          <a href="#">Domestic Flights</a>
+        </div>
+        <div class="footer__link--items">
+          <p><strong>Policies</strong></p>
+          <a href="#">Privacy</a>
+          <a href="#">Terms of use</a>
+          <a href="#">One Key<sup>TM</sup> terms and conditions</a>
+          <a href="#">Accessibility</a>
+          <a href="#">Your privacy choices</a>
+        </div>
+        <div class="footer__link--items">
+          <p><strong>Help</strong></p>
+          <a href="#">Support</a>
+          <a href="#">Cancel your hotel</a>
+          <a href="#">Refund timelines, policies & processes</a>
+          <a href="#">Use a ItineraEase coupon</a>
+        </div>
+      </div>
     </div>
     <hr style="border: .1px solid lightgrey;">
     <div class="social__media">
-        <div class="social__media--wrap">
-            <p class="website__rights"> © 2024 ItineraEase, Inc., an ItineraEase 
-              Group company. All rights reserved. ItineraEase and the ItineraEase 
-              Logo are trademarks of ItineraEase, Inc.</p>
-        </div>
+      <div class="social__media--wrap">
+        <p class="website__rights"> © 2024 ItineraEase, Inc., an ItineraEase 
+          Group company. All rights reserved. ItineraEase and the ItineraEase 
+          Logo are trademarks of ItineraEase, Inc.</p>
+      </div>
     </div>
   </footer>
-<script src="app.js"></script>
+
+  <script src="app.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const hamburger = document.querySelector('.hamburger_menu');
@@ -202,6 +212,16 @@
         navMenu.classList.toggle('change');
       });
     });
+
+    function addWaypoint() {
+      const dynamicWaypointsContainer = document.getElementById('dynamicWaypointsContainer');
+      const newWaypoint = document.createElement('input');
+      newWaypoint.type = 'text';
+      newWaypoint.placeholder = 'Enter waypoint';
+      newWaypoint.classList.add('waypoint', 'input-fixed-width');
+      dynamicWaypointsContainer.appendChild(newWaypoint);
+      setupAutocomplete(newWaypoint.id);
+    }
   </script>
 </body>
 </html>
