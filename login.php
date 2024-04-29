@@ -28,6 +28,7 @@
     <div class="signup-container">
         <?php
             if (isset($_POST["login"])) {
+                $_SESSION["test"] = "abc";
                 $userDetail = $_POST["username"];   
                 $password = $_POST["password"];
 
