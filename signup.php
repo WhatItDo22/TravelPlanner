@@ -109,6 +109,9 @@
                 <input type="submit" name="submit" class="btn btn-primary" value="Sign Up">
             </div>
         </form>
+        <div class="returnHome">
+            <p><a href="default.php">Return to Home</a></p>
+        </div>
     </div>
 </body>
 </html>

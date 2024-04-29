@@ -95,7 +95,6 @@ body {
 
 .navbar a.logo {
     margin-right: auto;
-    border-radius: 5px;
     border: 0px;
     padding: 0;
 }
@@ -198,13 +197,19 @@ body {
     max-width: 600px;
     margin: 0 auto;
     padding: 50px;
+    margin-top: 8%;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .form-class {
     margin-bottom: 30px;
 }
-  
+
+.returnHome {
+    text-align: center;
+    margin-top: 20px;
+}
+
 .dropdown {
     display: inline-block;
 }

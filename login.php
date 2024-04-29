@@ -72,6 +72,7 @@
         </form>
         <div>
             <p>Don't have an account? <a href="signup.php">Sign Up</a></p>
+            <p><a href="default.php">Return to Home</a></p>
         </div>
     </div>   
 
