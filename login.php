@@ -49,7 +49,7 @@
                     if (password_verify($password, $user["password"])) {
                         $_SESSION["user"] = $user;
                         var_dump($_SESSION["user"]);
-                        header("Location: default.php");
+                        // header("Location: default.php");
                         die();
                     } else {
                         echo "<div class='alert alert-danger'>Incorrect password</div>";
