@@ -102,7 +102,7 @@ function calculateAndDisplayRoute() {
     destination: destination,
     waypoints: waypoints,
     travelMode: google.maps.TravelMode.DRIVING,
-    optimizeWaypoints: waypoints.length > 0
+    optimizeWaypoints: true
   };
 
   directionsService.route(routeRequest, (response, status) => {
