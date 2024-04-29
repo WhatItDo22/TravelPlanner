@@ -27,6 +27,56 @@ $title = "ItineraEase";
 
 <?php include 'footer.php'; ?>
 
-<script src="app.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places"></script>
+<script>
+let map, geocoder, directionsService, directionsRenderer;
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 8,
+    center: { lat: 37.7749, lng: -122.4194 } 
+  });
+
+  geocoder = new google.maps.Geocoder();
+  directionsService = new google.maps.DirectionsService();
+  directionsRenderer = new google.maps.DirectionsRenderer();
+  directionsRenderer.setMap(map);
+
+
+  const originInput = document.getElementById('origin');
+  const destinationInput = document.getElementById('destination');
+
+  originInput.addEventListener('input', geocodeOrigin);
+  destinationInput.addEventListener('input', geocodeDestination);
+}
+
+function geocodeOrigin() {
+  const address = this.value;
+  geocoder.geocode({ 'address': address }, function(results, status) {
+    if (status === 'OK') {
+      const originCoords = results[0].geometry.location;
+
+    } else {
+      console.log('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
+
+function geocodeDestination() {
+  const address = this.value;
+  geocoder.geocode({ 'address': address }, function(results, status) {
+    if (status === 'OK') {
+      const destinationCoords = results[0].geometry.location;
+
+    } else {
+      console.log('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
+
+
+window.onload = initMap;
+</script>
+
 </body>
 </html>
