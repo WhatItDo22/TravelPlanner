@@ -3,28 +3,22 @@
     $title = "ItineraEase";
 ?>
     <?php include 'header.php'; ?>
-        <?php
-            // Establish connection info to database one
-            $server = "localhost";
-            $username = "upjomg4jsiwwg";
-            $password = "533%3611n_4`";
-            $db = "dbxr6uvbrsv2dg";
-            $conn = new mysqli($server, $username, $password);
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-            $conn->select_db($db);
-            $sql = "SELECT Name, Abbreviation FROM States";
-            $result = $conn->query($sql);
-            echo "<select name='state' id='state'>";
-            if ($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
-                    echo "<option value='{$row['Abbreviation']}'>{$row['Name']}</option>";
-                }
-            }
-            echo "</select>";
-            $conn->close();
-        ?>
+    <div class="container">
+        <div id="controlPanel">
+            <input id="origin" type="text" placeholder="Enter origin" class="waypoint input-fixed-width">
+            <input id="destination" type="text" placeholder="Enter destination" class="waypoint input-fixed-width">
+            <input id="poiType" type="text" placeholder="Enter types of places (e.g., museum, restaurant)" class="input-fixed-width">
+      </div>
+
+    <div id="dynamicWaypointsContainer"></div>
+        <div id="waypointsContainer">
+            <button onclick="addWaypoint()" id="waypoint">Add Waypoint</button>
+            <button onclick="calculateAndDisplayRoute()" id="submit__button">Get Directions</button>
+        </div>
+    </div>
+    <div id="mapContainer">
+        <div id="map"></div>
+    </div>
     <?php include 'footer.php'; ?>
 </body>
 </html>
