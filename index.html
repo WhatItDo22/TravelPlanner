@@ -6,11 +6,6 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <style>
-  #map {
-    height: 100%;
-    width: 100%;
-    border-radius: 5px;
-  }
       .nav_menu.change {
       left: 0;
     }
@@ -23,77 +18,44 @@
     .hamburger_menu.change span:nth-child(3) {
       transform: translateY(-10px) rotate(-45deg);
     }
-  #controlPanel {
-    text-align: left;
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Adjusts spacing between inputs */
-    padding: 10px;
-    width: 100%;
-    float: left;
-    border: 1px solid #d3d3d3;
-    border-radius: 5px;
-    margin: 15px 0;
-  }
-
-  .input-fixed-width {
-    flex: 0 0 32%; /* Increased width for origin, destination, and POI boxes */
-    padding: 0.5rem;
-    margin-right: 1%; /* Adjust spacing between the elements */
-    border: 1px solid #d3d3d3;
-    border-radius: 5px;
-  }
-
-  #controlPanel button, #controlPanel input[type="date"], #controlPanel select {
-    flex: 1;
-    padding: 0.5rem;
-    margin: 15px 0 15px 1%;
-    border: 1px solid #d3d3d3;
-    border-radius: 5px;
-  }
-
- #mapContainer {
-    height: 650px;
-    width: 80%;
-    margin: 0 auto; 
-    border: 1px solid #d3d3d3;
-    border-radius: 5px;
-  }
-
-  button {
-    font-size: 18px;
-    display: inline-block;
-    outline: 0;
-    border: 0;
-    cursor: pointer;
-    will-change: box-shadow,transform;
-    background: radial-gradient( 100% 100% at 100% 0%, #89E5FF 0%, #5468FF 100% );
-    box-shadow: 0px 0.01em 0.01em rgb(45 35 66 / 40%), 0px 0.3em 0.7em -0.01em rgb(45 35 66 / 30%), inset 0px -0.01em 0px rgb(58 65 111 / 50%);
-    padding: 0 2em;
-    border-radius: 0.3em;
-    color: #fff;
-    height: 2.6em;
-    text-shadow: 0 1px 0 rgb(0 0 0 / 40%);
-    transition: box-shadow 0.15s ease, transform 0.15s ease;
-    margin-left: 1%;
-  }
-
-  button:hover {
-    box-shadow: 0px 0.1em 0.2em rgb(45 35 66 / 40%), 0px 0.4em 0.7em -0.1em rgb(45 35 66 / 30%), inset 0px -0.1em 0px #3c4fe0;
-    transform: translateY(-0.1em);
-  }
-
-  button:active {
-    box-shadow: inset 0px 0.1em 0.6em #3c4fe0;
-    transform: translateY(0em);
-  }
-
-  .waypoint {
-    padding: 0.5rem;
-    margin-right: 1%;
-    border: 1px solid #d3d3d3;
-    border-radius: 5px;
-  }
+     body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+    }
+    header, main, footer {
+      padding: 1rem;
+    }
+    #mapContainer, #map {
+      height: 80vh;
+      margin: 0 auto; 
+    }
+    #controlPanel, #waypointsContainer {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    input[type="text"], button {
+      padding: 0.8rem;
+      margin: 0 5px;
+      flex: 1;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    #waypointsContainer {
+      align-items: center;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
   </style>
 <!--   <link rel="stylesheet" href="styles.css"> -->
   <link rel="stylesheet" href="newstyles.css">
