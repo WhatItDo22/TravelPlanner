@@ -28,10 +28,10 @@
                 $password = $_POST["password"];
 
                 $server = "localhost";
-                $username = "upjomg4jsiwwg";
-                $password = "533%3611n_4`";
+                $dbusername = "upjomg4jsiwwg";
+                $dbpassword = "533%3611n_4`";
                 $db = "dbz0xs4h1mcple";
-                $conn = new mysqli($server, $username, $password, $db);
+                $conn = new mysqli($server, $dbusername, $dbpassword, $db);
                 if ($conn->connect_error) {
                     die("Connection failed: " . $conn->connect_error);
                   }
@@ -42,7 +42,6 @@
                 if ($user) {
                     if (password_verify($password, $user["password"])) {
                         $_SESSION["user"] = $user;
-                        // header("Location: index.php");
                         die();
                     } else {
                         echo "<div class='alert alert-danger'>Incorrect password</div>";
