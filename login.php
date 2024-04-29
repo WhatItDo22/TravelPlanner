@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    if (isset($_SESSION["user"])) {
+        header("Location: default.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,6 +48,7 @@
                 if ($user) {
                     if (password_verify($password, $user["password"])) {
                         $_SESSION["user"] = $user;
+                        header("Location: default.php");
                         die();
                     } else {
                         echo "<div class='alert alert-danger'>Incorrect password</div>";
