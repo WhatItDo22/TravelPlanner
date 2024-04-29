@@ -446,35 +446,23 @@ function getEvents(page) {
 
 function showEvents(json) {
     var items = $('#events .list-group-item');
-    items.hide(); // hide all existing items to reset the view
+    items.hide();
     var events = json._embedded.events;
-    var templateItem = items.first().clone(); // clone the first item to use as a template
-
-    $('#events').empty(); // clear the list to re-populate
-
+    var item = items.first();
     for (var i = 0; i < events.length; i++) {
-        var item = templateItem.clone(); // clone the template for each event
-
-        item.find('.list-group-item-heading').text(events[i].name);
-        item.find('.list-group-item-text').text(events[i].dates.start.localDate);
-
+        item.children('.list-group-item-heading').text(events[i].name);
+        item.children('.list-group-item-text').text(events[i].dates.start.localDate);
         try {
-            item.find('.venue').text(events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name);
+            item.children('.venue').text(events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name);
         } catch (err) {
             console.log(err);
         }
 
-        // Button for adding to itinerary
-        var addButton = $('<button>').addClass('btn btn-primary btn-sm').text('Add to Itinerary');
-        addButton.on('click', function(event) {
-            event.stopPropagation(); // prevent the list item event from firing
-            console.log('Add to itinerary:', events[i].name); // replace with your actual function
-        });
+        // Ensure any previously attached click events are removed
+        item.off("click");
 
-        item.append(addButton);
-
-        // Set click event for the entire item
-        item.on('click', events[i], function(eventObject) {
+        // Attach a click event to the whole item, not just the details
+        item.click(events[i], function(eventObject) {
             console.log(eventObject.data);
             try {
                 getAttraction(eventObject.data._embedded.attractions[0].id);
@@ -483,8 +471,17 @@ function showEvents(json) {
             }
         });
 
-        $('#events').append(item); // add the item to the list
-        item.show(); // make sure the item is visible
+        // Create and append the button
+        var addButton = $('<button>').text('Add to Itinerary');
+        addButton.click(function(e) {
+            e.stopPropagation(); // Prevent click from bubbling up to parent
+            console.log('Add to itinerary:', events[i].name);
+            // Add function to handle adding to itinerary here
+        });
+        item.append(addButton);
+
+        item.show();
+        item = item.next(); // move to the next item
     }
 }
 
