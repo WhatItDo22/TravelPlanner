@@ -1,4 +1,3 @@
-
 let map;
 let directionsService;
 let directionsRenderer;
@@ -88,33 +87,32 @@ function addWaypoint() {
 }
 
 function calculateAndDisplayRoute() {
-    clearPreviousResults();
+  clearPreviousResults();
 
-    const origin = document.getElementById("origin").value;
-    const destination = document.getElementById("destination").value;
-    const poiType = document.getElementById("poiType").value;
-    const waypoints = Array.from(document.getElementsByClassName('waypoint'))
-        .map(input => ({ location: input.value, stopover: true }))
-        .filter(wp => wp.location !== "");
+  const origin = document.getElementById("origin").value;
+  const destination = document.getElementById("destination").value;
+  const poiType = document.getElementById("poiType").value;
+  const waypoints = Array.from(document.getElementsByClassName('waypoint'))
+    .map(input => ({ location: input.value, stopover: true }))
+    .filter(wp => wp.location !== "");
 
-    const routeRequest = {
-        origin: origin,
-        destination: destination,
-        waypoints: waypoints,
-        optimizeWaypoints: waypoints.length > 0,
-        travelMode: google.maps.TravelMode.DRIVING
-    };
+  const routeRequest = {
+    origin: origin,
+    destination: destination,
+    waypoints: waypoints,
+    travelMode: google.maps.TravelMode.DRIVING,
+    optimizeWaypoints: waypoints.length > 0
+  };
 
-    directionsService.route(routeRequest, (response, status) => {
-        if (status === 'OK') {
-            directionsRenderer.setDirections(response);
-            displayTravelTimesAndFindPOIs(response, poiType);
-        } else {
-            window.alert('Directions request failed due to ' + status);
-        }
-    });
+  directionsService.route(routeRequest, (response, status) => {
+    if (status === 'OK') {
+      directionsRenderer.setDirections(response);
+      displayTravelTimesAndFindPOIs(response, poiType);
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
 }
-
 
 function displayTravelTimesAndFindPOIs(directionsResult, poiType) {
   const route = directionsResult.routes[0];
@@ -251,7 +249,7 @@ function search() {
 
         for (let i = 0; i < results.length; i++, globalMarkerIndex++) {
           const markerLetter = String.fromCharCode("A".charCodeAt(0) + (globalMarkerIndex % 26));
-          const markerIcon = MARKER_PATH + ".png";
+          const markerIcon = MARKER_PATH + markerLetter + ".png";
           const marker = new google.maps.Marker({
             position: results[i].geometry.location,
             map: map,
@@ -338,7 +336,7 @@ function searchRestaurants() {
 
         for (let i = 0; i < results.length; i++) {
           const markerLetter = String.fromCharCode("A".charCodeAt(0) + (i % 26));
-          const markerIcon = MARKER_PATH + ".png";
+          const markerIcon = MARKER_PATH + markerLetter + ".png";
           const marker = new google.maps.Marker({
             position: results[i].geometry.location,
             map: restaurantMap,
