@@ -116,7 +116,6 @@ function calculateAndDisplayRoute() {
       console.error('Geocode was not successful for the following reason: ' + status);
     }
   });
-}
 
   function geocodeDestination() {
     // Geocode destination
