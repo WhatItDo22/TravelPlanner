@@ -4,7 +4,6 @@ let directionsService;
 let directionsRenderer;
 let markers = [];
 let waypointCount = 0;
-let geocoder;
 
 // Hotel search variables
 let places;
@@ -48,11 +47,10 @@ function initMap() {
 
   places = new google.maps.places.PlacesService(map);
 
-  geocoder = new google.maps.Geocoder(); // Initialize the geocoder here
-
   autocomplete.addListener("place_changed", onPlaceChanged);
   document.getElementById("search-button").addEventListener("click", search);
 }
+
 function initRestaurantMap() {
   restaurantMap = new google.maps.Map(document.getElementById("restaurant-map"), {
     zoom: 12,
@@ -135,38 +133,39 @@ function calculateAndDisplayRoute() {
     });
   }
 
-function geocodeWaypoints(index) {
-  if (index === waypoints.length) {
-    // All waypoints geocoded, create the coordinates array and display coordinates
-    const coordinatesArray = [originCoords, ...waypointCoords];
-    
-    // Check if the destination is already included in the waypoints
-    if (!waypointCoords.some(coord => coord.lat === destinationCoords.lat && coord.lng === destinationCoords.lng)) {
-      coordinatesArray.push(destinationCoords);
+  function geocodeWaypoints(index) {
+    if (index === waypoints.length) {
+      // All waypoints geocoded, display coordinates
+      displayCoordinates();
+      return;
     }
-    
-    displayCoordinates(coordinatesArray);
-    return;
+
+    // Geocode waypoint
+    geocoder.geocode({ address: waypoints[index].location }, (results, status) => {
+      if (status === 'OK') {
+        waypointCoords[index] = {
+          lat: results[0].geometry.location.lat(),
+          lng: results[0].geometry.location.lng()
+        };
+        geocodeWaypoints(index + 1);
+      } else {
+        console.error('Geocode was not successful for the following reason: ' + status);
+      }
+    });
   }
 
-  // Geocode waypoint
-  geocoder.geocode({ address: waypoints[index].location }, (results, status) => {
-    if (status === 'OK') {
-      waypointCoords[index] = {
-        lat: results[0].geometry.location.lat(),
-        lng: results[0].geometry.location.lng()
-      };
-      geocodeWaypoints(index + 1);
-    } else {
-      console.error('Geocode was not successful for the following reason: ' + status);
-    }
-  });
-}
-
-function displayCoordinates(coordinatesArray) {
+function displayCoordinates() {
   console.log('Origin:', originCoords);
   console.log('Destination:', destinationCoords);
   console.log('Waypoints:', waypointCoords);
+
+  // Create an array to store the coordinates in the logical order
+  coordinatesArray = [originCoords, ...waypointCoords, destinationCoords];
+
+  // Remove duplicate coordinates
+  coordinatesArray = coordinatesArray.filter((coord, index, self) =>
+    index === self.findIndex((c) => c.lat === coord.lat && c.lng === coord.lng)
+  );
 
   // Continue with the rest of the route calculation and display logic
   const routeRequest = {
@@ -181,14 +180,14 @@ function displayCoordinates(coordinatesArray) {
     if (status === 'OK') {
       directionsRenderer.setDirections(response);
       displayTravelTimesAndFindPOIs(response, poiType);
-      displayCoordinatesInOrder(coordinatesArray);
+      displayCoordinatesInOrder();
     } else {
       window.alert('Directions request failed due to ' + status);
     }
   });
 }
 
-function displayCoordinatesInOrder(coordinatesArray) {
+function displayCoordinatesInOrder() {
   console.log('Coordinates in logical order:');
   coordinatesArray.forEach((coords, index) => {
     console.log(`Point ${index + 1}: Latitude: ${coords.lat}, Longitude: ${coords.lng}`);
