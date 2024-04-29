@@ -59,15 +59,12 @@
       justify-content: space-between;
       margin-bottom: 10px;
     }
-    input[type="text"], button {
+    input[type="text"] {
       padding: 0.8rem;
       margin: 0 5px;
       flex: 1;
       border: 1px solid #ccc;
       border-radius: 5px;
-    }
-    #waypointsContainer {
-      align-items: center;
     }
     button {
       background-color: #4CAF50;
@@ -75,6 +72,10 @@
       border: none;
       cursor: pointer;
       transition: background 0.3s ease;
+      padding: 0.8rem;
+      margin: 0 5px;
+      flex: 1;
+      border-radius: 5px;
     }
     button:hover {
       background-color: #45a049;
@@ -113,13 +114,13 @@
         <input id="poiType" type="text" placeholder="Enter types of places (e.g., museum, restaurant)" class="input-fixed-width">
       </div>
 
+      <div id="dynamicWaypointsContainer"></div>
+
       <div id="waypointsContainer">
         <button onclick="addWaypoint()" id="waypoint">Add Waypoint</button>
         <button onclick="calculateAndDisplayRoute()" id="submit__button">Get Directions</button>
       </div>
     </div>
-
-    <div id="dynamicWaypointsContainer"></div>
 
     <div id="mapContainer">
       <div id="map"></div>
