@@ -90,23 +90,12 @@ function addWaypoint() {
 function calculateAndDisplayRoute() {
   clearPreviousResults();
 
-  const originInput = document.getElementById("origin");
-  const destinationInput = document.getElementById("destination");
-  const waypointsInputs = Array.from(document.getElementsByClassName('waypoint'));
-
-  const origin = originInput.value;
-  const destination = destinationInput.value;
-  const waypoints = waypointsInputs.map(input => ({
-    location: input.value, 
-    stopover: true
-  })).filter(wp => wp.location !== "");
-
-  // Store coordinates in an array or other structure
-  let coordinates = {
-    origin: { lat: 0, lng: 0 },
-    destination: { lat: 0, lng: 0 },
-    waypoints: []
-  };
+  const origin = document.getElementById("origin").value;
+  const destination = document.getElementById("destination").value;
+  const poiType = document.getElementById("poiType").value;
+  const waypoints = Array.from(document.getElementsByClassName('waypoint'))
+    .map(input => ({ location: input.value, stopover: true }))
+    .filter(wp => wp.location !== "");
 
   const routeRequest = {
     origin: origin,
@@ -119,13 +108,6 @@ function calculateAndDisplayRoute() {
   directionsService.route(routeRequest, (response, status) => {
     if (status === 'OK') {
       directionsRenderer.setDirections(response);
-      // Extract coordinates
-      coordinates.origin = response.routes[0].legs[0].start_location;
-      coordinates.destination = response.routes[0].legs[response.routes[0].legs.length - 1].end_location;
-      coordinates.waypoints = response.routes[0].legs.map(leg => leg.start_location);
-
-      console.log(coordinates); // Output or store coordinates
-
       displayTravelTimesAndFindPOIs(response, poiType);
     } else {
       window.alert('Directions request failed due to ' + status);
@@ -240,19 +222,15 @@ function clearPreviousResults() {
 
 function onPlaceChanged() {
   const place = autocomplete.getPlace();
-  console.log(place); // Log the whole place object to see what data is available
 
-  if (!place.geometry) {
-    console.log("No geometry data available for this place.");
-    return; // Exit the function if no geometry data
+  if (place.geometry) {
+    map.panTo(place.geometry.location);
+    map.setZoom(15);
+    search();
+  } else {
+    document.getElementById("autocomplete").placeholder = "Enter a city";
   }
-
-  const lat = place.geometry.location.lat();
-  const lng = place.geometry.location.lng();
-  console.log("Selected Place Coordinates: Latitude = " + lat + ", Longitude = " + lng);
 }
-
-
 
 let globalMarkerIndex = 0; 
 
