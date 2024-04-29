@@ -75,18 +75,18 @@ function setupAutocomplete(id) {
   });
 }
 
+
 function addWaypoint() {
-  const container = document.getElementById('waypointsContainer');
+  const container = document.getElementById('dynamicWaypointsContainer');
   const input = document.createElement('input');
   input.type = 'text';
   input.placeholder = 'Enter waypoint';
   input.className = 'waypoint';
   input.id = `waypoint-${waypointCount}`;
-  container.insertBefore(input, container.lastChild);
+  container.appendChild(input);
   setupAutocomplete(input.id);
   waypointCount++;
 }
-
 function calculateAndDisplayRoute() {
   clearPreviousResults();
 
