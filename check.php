@@ -1,7 +1,7 @@
 <?php
 session_start();
-$loginst = 0;
+$loginst = 1;
 if (isset($_SESSION["user"])) {
-    $loginst = 1;
+    $loginst = 0;
 }
 ?>
