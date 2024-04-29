@@ -28,12 +28,10 @@
             <a href="search.php" id="search">Search</a>
             <a href="faq.php" id="faq">FAQ</a>
             <a href="contact.php" id="contact">Contact</a>
-            <div class="dropdown">
-                <a onclick="myFunction()" class="dropbtn">Account</a>
-                <div id="myDropdown" class="dropdown-content">
-                    <a href="savedtrips.php">Saved Trips</a>
-                    <a href="logout.php">Log Out</a>
-                </div>
+            <a onclick="myFunction()" class="dropbtn">Account</a>
+            <div id="myDropdown" class="dropdown-content">
+                <a href="savedtrips.php">Saved Trips</a>
+                <a href="logout.php">Log Out</a>
             </div>
         </div>
         <div class="hamburger_menu">
