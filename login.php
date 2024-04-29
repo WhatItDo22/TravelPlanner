@@ -46,7 +46,7 @@
 
                 if ($user) {
                     if (password_verify($password, $user["password"])) {
-                        $_SESSION["user"] = $user;
+                        $_SESSION["user"] = "Great";
                         header("Location: default.php");
                         die();
                     } else {
