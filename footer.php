@@ -3,16 +3,15 @@
     <div class="footer__links">
         <div class="footer__link--wrapper">
             <div class="footer__link--items">
-                <a href="default.php"><strong>Home</strong></a>
+                <p><strong>Plan</strong></p>
+                <a href="default.php">Map</a>
+                <a href="search.php">Search</a>
             </div>
             <div class="footer__link--items">
-                <a href="search.php"><strong>Search</strong></a>
-            </div>
-            <div class="footer__link--items">
-                <a href="faq.php"><strong>FAQ</strong></a>
-            </div>
-            <div class="footer__link--items">
-                <a href="contact.php"><strong>Contact</strong></a>
+                <p><strong>Support</strong></p>
+                <a href="faq.php">FAQ</a>
+                <a href="contact.php">Contact</a>
+                <p>support@itineraease.com</p>
             </div>
         </div>
     </div>
