@@ -90,20 +90,41 @@ function addWaypoint() {
 function calculateAndDisplayRoute() {
   clearPreviousResults();
 
-  const origin = document.getElementById("origin").value;
-  const destination = document.getElementById("destination").value;
-  const poiType = document.getElementById("poiType").value;
-  const waypoints = Array.from(document.getElementsByClassName('waypoint'))
-    .map(input => ({ location: input.value, stopover: true }))
-    .filter(wp => wp.location !== "");
+  const originInput = document.getElementById("origin");
+  const destinationInput = document.getElementById("destination");
+  const waypointsInputs = Array.from(document.getElementsByClassName('waypoint'))
+    .filter(input => input.value !== "");
+
+  // Get latitude and longitude for origin
+  const originPlace = autocomplete.getPlace(); // Assuming origin uses autocomplete
+  const originLat = originPlace.geometry.location.lat();
+  const originLng = originPlace.geometry.location.lng();
+  console.log("Origin: Lat:", originLat, ", Lng:", originLng);
+
+  // Get latitude and longitude for destination
+  const destinationPlace = autocomplete.getPlace(); // Assuming destination uses autocomplete
+  const destinationLat = destinationPlace.geometry.location.lat();
+  const destinationLng = destinationPlace.geometry.location.lng();
+  console.log("Destination: Lat:", destinationLat, ", Lng:", destinationLng);
+
+  // Get latitude and longitude for each waypoint
+  waypointsInputs.forEach((waypointInput, index) => {
+    const waypointPlace = autocomplete.getPlace(); // Assuming waypoints use autocomplete
+    const waypointLat = waypointPlace.geometry.location.lat();
+    const waypointLng = waypointPlace.geometry.location.lng();
+    console.log(`Waypoint ${index + 1}: Lat:`, waypointLat, ", Lng:", waypointLng);
+  });
+
+  const waypoints = waypointsInputs.map(input => ({ location: input.value, stopover: true }));
 
   const routeRequest = {
-    origin: origin,
-    destination: destination,
+    origin: originInput.value,
+    destination: destinationInput.value,
     waypoints: waypoints,
     travelMode: google.maps.TravelMode.DRIVING,
     optimizeWaypoints: waypoints.length > 0
   };
+
 
   directionsService.route(routeRequest, (response, status) => {
     if (status === 'OK') {
