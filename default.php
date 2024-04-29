@@ -24,9 +24,6 @@
             echo "</select>";
             $conn->close();
         ?>
-        <?php
-        print_r($_SESSION);
-        ?>
     <?php include 'footer.php'; ?>
 </body>
 </html>
