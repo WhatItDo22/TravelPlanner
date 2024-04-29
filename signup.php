@@ -81,6 +81,7 @@
 
                     // Execute the prepared statement
                     if (mysqli_stmt_execute($stmt)) {
+                        $conn->close();
                         echo "<div class='alert alert-success' role='alert'>User created successfully</div>";
                         header("Location: login.php");
                     } else {

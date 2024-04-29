@@ -47,7 +47,7 @@
                 if ($user) {
                     if (password_verify($password, $user["password"])) {
                         $_SESSION["user"] = $user;
-                        session_write_close();
+                        $conn->close();
                         header("Location: default.php");
                         die();
                     } else {

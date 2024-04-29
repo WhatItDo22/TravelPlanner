@@ -38,6 +38,7 @@
         } else {
             echo "<h2>No events saved</h2>";
         }
+        $conn->close();
         ?>
     <?php include 'footer.php'; ?>
     </body>
