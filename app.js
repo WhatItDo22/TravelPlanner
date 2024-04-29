@@ -449,27 +449,33 @@ function showEvents(json) {
   items.hide();
   var events = json._embedded.events;
   var item = items.first();
+
   for (var i = 0; i < events.length; i++) {
     item.children('.list-group-item-heading').text(events[i].name);
     item.children('.list-group-item-text').text(events[i].dates.start.localDate);
+
     try {
       item.children('.venue').text(events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name);
     } catch (err) {
       console.log(err);
     }
+
+    // Add the itinerary button or update it if it already exists
+    var btn = item.find('.add-itinerary-btn');
+    if (btn.length === 0) { 
+      btn = $('<button>').addClass('add-itinerary-btn').text('Add to Itinerary');
+      item.append(btn);
+    }
+    btn.off("click"); 
+    btn.on("click", events[i], function(eventObject) {
+      eventObject.stopPropagation();
+      console.log("Adding to itinerary: ", eventObject.data.name);
+      // You can add your logic here to handle adding to the itinerary
+    });
+
     item.show();
-
-    // Remove the previous click event handler
     item.off("click");
-
-    // Create a new container for the event details
-    const eventDetails = $('<div>').addClass('event-details');
-    eventDetails.append(item.children('.list-group-item-heading'));
-    eventDetails.append(item.children('.list-group-item-text'));
-    eventDetails.append(item.children('.venue'));
-
-    // Add click event to the event details container
-    eventDetails.on("click", events[i], function(eventObject) {
+    item.on("click", events[i], function(eventObject) {
       console.log(eventObject.data);
       try {
         getAttraction(eventObject.data._embedded.attractions[0].id);
@@ -478,27 +484,10 @@ function showEvents(json) {
       }
     });
 
-    // Create a new container for the "Add to Itinerary" button
-    const buttonContainer = $('<div>').addClass('button-container');
-
-    // Add the "Add to Itinerary" button
-    const addButton = $('<button>').addClass('add-to-itinerary').text('Add to Itinerary');
-    addButton.on('click', function(event) {
-      event.stopPropagation();
-      console.log(`Added ${events[i].name} to the itinerary`);
-      // Add your logic to handle adding the event to the itinerary
-    });
-
-    buttonContainer.append(addButton);
-
-    // Clear the item's content and append the event details and button containers
-    item.empty();
-    item.append(eventDetails);
-    item.append(buttonContainer);
-
-    item = item.next();
+    item = item.next(); // Move to the next list item
   }
 }
+
 var prevButton = $('#prev');
 var nextButton = $('#next');
 
