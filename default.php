@@ -26,7 +26,9 @@
 
 <div id="mapContainer">
     <div id="map"></div>
-    <button id="addRouteButton">Add route</button>
+    <div id="routeButtonContainer">
+        <button id="addRouteButton">Add route</button>
+    </div>
 </div>
 
 <?php include 'footer.php'; ?>

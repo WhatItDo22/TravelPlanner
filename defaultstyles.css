@@ -55,6 +55,12 @@ header, main, footer {
     justify-content: space-between;
     margin-bottom: 10px;
 }
+#routeButtonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 input[type="text"] {
     padding: 0.8rem;
     margin: 0 5px;

@@ -23,6 +23,7 @@ body {
 /* --------------- navbar styling  -------------*/
 
 .navbar {
+    padding: 0 10%;
     background-color: #fff;
     display: flex;
     height: 90px;
@@ -39,7 +40,6 @@ body {
 }
 
 .navbar__container {
-    padding: 0 10%;
     display: flex;
     justify-content: space-between;
     height: 80px;
@@ -173,9 +173,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 5% 3%;
     border-radius: 30px;
     max-height: 300px;
+    padding-top: 90px;
     color: var(--whiteColor);
 }
 
@@ -185,7 +185,7 @@ body {
 }
 
 .page-header-subtitle {
-    font-size: 14px;
+    font-size: 20px;
     letter-spacing: 1;
     text-align: center;
 }
@@ -230,7 +230,8 @@ body {
 /* --------------- Footer styling  -------------*/
 
 .footer__container {
-    padding: 10px 0;
+    padding-top: 40px;
+    padding-bottom: 10px;
     align-items: center;
     color: #0c0c0c;
     box-shadow: 0 0 1 rgba(0, 0, 0, .5);
