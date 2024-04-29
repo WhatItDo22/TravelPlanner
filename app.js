@@ -97,7 +97,6 @@ function calculateAndDisplayRoute() {
 
   const origin = document.getElementById("origin").value;
   const destination = document.getElementById("destination").value;
-  const poiType = document.getElementById("poiType").value;
   const waypoints = Array.from(document.getElementsByClassName('waypoint'))
     .map(input => ({ location: input.value, stopover: true }))
     .filter(wp => wp.location !== "");
@@ -169,7 +168,7 @@ function calculateAndDisplayRoute() {
   }
 }
 
- function displayCoordinates(response) {
+function displayCoordinates(response) {
   const route = response.routes[0];
   const waypoints = route.waypoint_order;
 
@@ -183,8 +182,7 @@ function calculateAndDisplayRoute() {
 
   coordinatesArray.push(destinationCoords);
 
-  // Continue with the rest of the route calculation and display logic
-  displayTravelTimesAndFindPOIs(response, poiType);
+  // Display the coordinates in order
   displayCoordinatesInOrder();
 }
 
