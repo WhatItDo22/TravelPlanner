@@ -43,13 +43,11 @@
                 $sql = "SELECT * FROM users WHERE username = '$userDetail' OR email = '$userDetail'";
                 $result = mysqli_query($conn, $sql);
                 $user = mysqli_fetch_array($result);
-                var_dump($user);
 
                 if ($user) {
                     if (password_verify($password, $user["password"])) {
                         $_SESSION["user"] = $user;
-                        var_dump($_SESSION["user"]);
-                        // header("Location: default.php");
+                        header("Location: default.php");
                         die();
                     } else {
                         echo "<div class='alert alert-danger'>Incorrect password</div>";
