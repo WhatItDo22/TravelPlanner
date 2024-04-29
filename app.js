@@ -87,7 +87,10 @@ function addWaypoint() {
   setupAutocomplete(input.id);
   waypointCount++;
 }
+
+
 let originCoords, destinationCoords, waypointCoords = [];
+let coordinatesArray = [];
 
 function calculateAndDisplayRoute() {
   clearPreviousResults();
@@ -101,7 +104,7 @@ function calculateAndDisplayRoute() {
 
   const geocoder = new google.maps.Geocoder();
 
-  // Geocode origin
+// Geocode origin
   geocoder.geocode({ address: origin }, (results, status) => {
     if (status === 'OK') {
       originCoords = {
@@ -155,6 +158,11 @@ function calculateAndDisplayRoute() {
     console.log('Destination:', destinationCoords);
     console.log('Waypoints:', waypointCoords);
 
+    // Create an array to store the coordinates in the logical order
+    coordinatesArray = [originCoords];
+    coordinatesArray.push(...waypointCoords);
+    coordinatesArray.push(destinationCoords);
+
     // Continue with the rest of the route calculation and display logic
     const routeRequest = {
       origin: origin,
@@ -168,11 +176,19 @@ function calculateAndDisplayRoute() {
       if (status === 'OK') {
         directionsRenderer.setDirections(response);
         displayTravelTimesAndFindPOIs(response, poiType);
+        displayCoordinatesInOrder();
       } else {
         window.alert('Directions request failed due to ' + status);
       }
     });
   }
+}
+
+function displayCoordinatesInOrder() {
+  console.log('Coordinates in logical order:');
+  coordinatesArray.forEach((coords, index) => {
+    console.log(`Point ${index + 1}: Latitude: ${coords.lat}, Longitude: ${coords.lng}`);
+  });
 }
 function displayTravelTimesAndFindPOIs(directionsResult, poiType) {
   const route = directionsResult.routes[0];
