@@ -44,7 +44,11 @@
                 if ($password !== $repeat_password) {
                     array_push($error, "Passwords do not match");
                 }
-                require_once "config.php";
+                $server = "localhost";
+                $username = "upjomg4jsiwwg";
+                $password = "533%3611n_4`";
+                $db = "dbz0xs4h1mcple";
+                $conn = new mysqli($server, $username, $password);
                 $sql_email = "SELECT * FROM users WHERE email = '$email'";
                 $sql_user = "SELECT * FROM users WHERE username = '$username'";
 
@@ -64,7 +68,6 @@
                         echo "<div class='alert alert-danger' role='alert'>$e</div>";
                     }
                 } else {
-                    require_once "config.php";
                     $query = "INSERT INTO users (username, email, password) VALUES ( ?, ?, ?)";
 
                     $stmt = mysqli_stmt_init($conn);
