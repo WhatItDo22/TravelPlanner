@@ -12,9 +12,6 @@
 </head>
 
 <body> 
-<?php
-print_r($_SESSION);
-?>
 <?php if ($loginst == 1) { ?>
     <div class="navbar">
         <a class="logo" href="default.php" id="home"><img src="images/logo.png" alt="Travel Logo"></a>
