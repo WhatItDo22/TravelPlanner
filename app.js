@@ -132,34 +132,56 @@ function calculateAndDisplayRoute() {
     });
   }
 
- y
-
-function displayCoordinates() {
-  console.log('Origin:', originCoords);
-  console.log('Destination:', destinationCoords);
-  console.log('Waypoints:', waypointCoords);
-
-  // Create an array to store the coordinates in the logical order
-  coordinatesArray = [originCoords, ...waypointCoords, destinationCoords];
-
-  // Continue with the rest of the route calculation and display logic
-  const routeRequest = {
-    origin: origin,
-    destination: destination,
-    waypoints: waypoints.map(wp => ({ location: wp.location, stopover: true })),
-    travelMode: google.maps.TravelMode.DRIVING,
-    optimizeWaypoints: waypoints.length > 0
-  };
-
-  directionsService.route(routeRequest, (response, status) => {
-    if (status === 'OK') {
-      directionsRenderer.setDirections(response);
-      displayTravelTimesAndFindPOIs(response, poiType);
-      displayCoordinatesInOrder();
-    } else {
-      window.alert('Directions request failed due to ' + status);
+  function geocodeWaypoints(index) {
+    if (index === waypoints.length) {
+      // All waypoints geocoded, display coordinates
+      displayCoordinates();
+      return;
     }
-  });
+
+    // Geocode waypoint
+    geocoder.geocode({ address: waypoints[index].location }, (results, status) => {
+      if (status === 'OK') {
+        waypointCoords[index] = {
+          lat: results[0].geometry.location.lat(),
+          lng: results[0].geometry.location.lng()
+        };
+        geocodeWaypoints(index + 1);
+      } else {
+        console.error('Geocode was not successful for the following reason: ' + status);
+      }
+    });
+  }
+
+  function displayCoordinates() {
+    console.log('Origin:', originCoords);
+    console.log('Destination:', destinationCoords);
+    console.log('Waypoints:', waypointCoords);
+
+    // Create an array to store the coordinates in the logical order
+    coordinatesArray = [originCoords];
+    coordinatesArray.push(...waypointCoords);
+    coordinatesArray.push(destinationCoords);
+
+    // Continue with the rest of the route calculation and display logic
+    const routeRequest = {
+      origin: origin,
+      destination: destination,
+      waypoints: waypoints,
+      travelMode: google.maps.TravelMode.DRIVING,
+      optimizeWaypoints: waypoints.length > 0
+    };
+
+    directionsService.route(routeRequest, (response, status) => {
+      if (status === 'OK') {
+        directionsRenderer.setDirections(response);
+        displayTravelTimesAndFindPOIs(response, poiType);
+        displayCoordinatesInOrder();
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+  }
 }
 
 function displayCoordinatesInOrder() {
