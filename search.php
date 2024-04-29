@@ -16,7 +16,7 @@
                     <img src="images/Road_Trip_Illustration.jpg" alt="car facing away from the user and towards the sun">
                     </div>
                     <div class="events-col-2">
-                        <h2 class="sub-title">What would <strong style="color: #ADEFD1;">YOU</strong> like to look at?</h2>
+                        <h2 class="sub-title">What would <strong>YOU</strong> like to look at?</h2>
                         <p>Choose from either three to view listings!</p>
                         <div class="tab-titles">
                             <p class="tab-links active-link" onclick="opentab('events')">Events</p>
