@@ -49,4 +49,4 @@
         </div>
     </div>
 <?php } ?>
-<?php echo "<h2>$loginst</h2>"; ?>
+<?php echo "Favorite animal is " . $_SESSION["user"] . "."; ?>
