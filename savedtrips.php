@@ -1,7 +1,5 @@
 <?php
     session_start();
-    require_once("path/to/config.php");
-    include(ROOT_PATH . "includes/header.php");
     $title = "ItineraEase | Saved Trips";
 ?>
     <?php include 'header.php'; ?>
