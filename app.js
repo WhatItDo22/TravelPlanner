@@ -133,39 +133,38 @@ function calculateAndDisplayRoute() {
     });
   }
 
-  function geocodeWaypoints(index) {
-    if (index === waypoints.length) {
-      // All waypoints geocoded, display coordinates
-      displayCoordinates();
-      return;
+function geocodeWaypoints(index) {
+  if (index === waypoints.length) {
+    // All waypoints geocoded, create the coordinates array and display coordinates
+    const coordinatesArray = [originCoords, ...waypointCoords];
+    
+    // Check if the destination is already included in the waypoints
+    if (!waypointCoords.some(coord => coord.lat === destinationCoords.lat && coord.lng === destinationCoords.lng)) {
+      coordinatesArray.push(destinationCoords);
     }
-
-    // Geocode waypoint
-    geocoder.geocode({ address: waypoints[index].location }, (results, status) => {
-      if (status === 'OK') {
-        waypointCoords[index] = {
-          lat: results[0].geometry.location.lat(),
-          lng: results[0].geometry.location.lng()
-        };
-        geocodeWaypoints(index + 1);
-      } else {
-        console.error('Geocode was not successful for the following reason: ' + status);
-      }
-    });
+    
+    displayCoordinates(coordinatesArray);
+    return;
   }
 
-function displayCoordinates() {
+  // Geocode waypoint
+  geocoder.geocode({ address: waypoints[index].location }, (results, status) => {
+    if (status === 'OK') {
+      waypointCoords[index] = {
+        lat: results[0].geometry.location.lat(),
+        lng: results[0].geometry.location.lng()
+      };
+      geocodeWaypoints(index + 1);
+    } else {
+      console.error('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
+
+function displayCoordinates(coordinatesArray) {
   console.log('Origin:', originCoords);
   console.log('Destination:', destinationCoords);
   console.log('Waypoints:', waypointCoords);
-
-  // Create an array to store the coordinates in the logical order
-  coordinatesArray = [originCoords, ...waypointCoords, destinationCoords];
-
-  // Remove duplicate coordinates
-  coordinatesArray = coordinatesArray.filter((coord, index, self) =>
-    index === self.findIndex((c) => c.lat === coord.lat && c.lng === coord.lng)
-  );
 
   // Continue with the rest of the route calculation and display logic
   const routeRequest = {
@@ -180,14 +179,14 @@ function displayCoordinates() {
     if (status === 'OK') {
       directionsRenderer.setDirections(response);
       displayTravelTimesAndFindPOIs(response, poiType);
-      displayCoordinatesInOrder();
+      displayCoordinatesInOrder(coordinatesArray);
     } else {
       window.alert('Directions request failed due to ' + status);
     }
   });
 }
 
-function displayCoordinatesInOrder() {
+function displayCoordinatesInOrder(coordinatesArray) {
   console.log('Coordinates in logical order:');
   coordinatesArray.forEach((coords, index) => {
     console.log(`Point ${index + 1}: Latitude: ${coords.lat}, Longitude: ${coords.lng}`);
