@@ -48,7 +48,10 @@
                 $username = "upjomg4jsiwwg";
                 $password = "533%3611n_4`";
                 $db = "dbz0xs4h1mcple";
-                $conn = new mysqli($server, $username, $password);
+                $conn = new mysqli($server, $username, $password, $db);
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                  }
                 $sql_email = "SELECT * FROM users WHERE email = '$email'";
                 $sql_user = "SELECT * FROM users WHERE username = '$username'";
 

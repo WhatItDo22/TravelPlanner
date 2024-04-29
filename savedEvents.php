@@ -9,8 +9,10 @@
         $username = "upjomg4jsiwwg";
         $password = "533%3611n_4`";
         $db = "dbeffkmumygldq";
-        $conn_event = new mysqli($server, $username, $password);
-    
+        $conn_event = new mysqli($server, $username, $password, $db);
+        if ($conn_event->connect_error) {
+            die("Connection failed: " . $conn_event->connect_error);
+          }
         $sql = "SELECT * FROM events WHERE username = $userName";
         $result = mysqli_query($conn_event, $sql);
         $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
