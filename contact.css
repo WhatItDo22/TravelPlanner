@@ -1,3 +1,5 @@
+/* --------------- Main Content (#Form) styling  -------------*/
+
 #form select {
     margin-top: 5px;
     margin-bottom: 20px;
@@ -116,6 +118,8 @@ figcaption {
     font-size: 1rem;
 }
 
+/* --------------- Main Content Responsive styling  -------------*/
+
 @media screen and (max-width: 1600px) {
     #form img {
         height: 340px;
@@ -209,23 +213,3 @@ figcaption {
         font-size: 1rem;
    }
 }
-/* @media screen and (max-width: 600px) {
-    #form .container {
-        margin-top: -50px;
-        margin: 0;
-        width: 90%;
-    }
-    #form .contact {
-        width: 90%;
-        float: left;
-        text-align: center;
-        margin-top: 0;
-    }
-    #form h2 {
-        font-size:30px;
-    }
-
-    #form img {
-        width: 100%;
-    }
-} */
