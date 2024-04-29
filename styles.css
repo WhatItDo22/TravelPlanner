@@ -95,6 +95,7 @@ body {
 
 .navbar a.logo {
     margin-right: auto;
+    border-radius: 5px;
     border: 0px;
     padding: 0;
 }
@@ -167,8 +168,6 @@ body {
 
 .page-header {
     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/sky.jpg');
-    background-position: top center;
-    background-repeat: no-repeat;
     background-size: cover;
     display: flex;
     align-items: center;
@@ -176,8 +175,7 @@ body {
     flex-direction: column;
     border-radius: 30px;
     max-height: 300px;
-    padding-top: 150px;
-    color: var(--whiteColor);
+    padding-top: 100px;
 }
 
 .page-header-title {
@@ -191,6 +189,7 @@ body {
     font-size: 20px;
     letter-spacing: 1;
     text-align: center;
+    padding-bottom: 50px;
 }
 
 /* --------------- account login/sign up styling  -------------*/
