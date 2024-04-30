@@ -56,7 +56,6 @@
                         echo "New records created successfully";
                     } else {
                         echo "Error: " . $sql2 . "<br>" . $conn->error;
-                        console.log($tripID, $latitude, $longitude);
                     }
                 }
                 $conn->close();
@@ -70,7 +69,6 @@
 
 <?php include 'footer.php'; ?>
 <script src="app.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places"></script>
 <script>
 let map, geocoder, directionsService, directionsRenderer;
 

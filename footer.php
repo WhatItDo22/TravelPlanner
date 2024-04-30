@@ -11,7 +11,7 @@
                 <p><strong>Support</strong></p>
                 <a href="faq.php">FAQ</a>
                 <a href="contact.php">Contact</a>
-                <p>support@itineraease.com</p>
+                <a href="mailto: support@itineraease.com"> support@itineraease.com</a>
             </div>
             <div class="footer__link--items">
                 <p><strong>Come support us on Shark Tank</strong></p>
