@@ -1,4 +1,3 @@
-
 let map;
 let directionsService;
 let directionsRenderer;
@@ -47,8 +46,14 @@ function initMap() {
 
   places = new google.maps.places.PlacesService(map);
 
-  autocomplete.addListener("place_changed", onPlaceChanged);
-  document.getElementById("search-button").addEventListener("click", search);
+  if (autocomplete) {
+    autocomplete.addListener("place_changed", onPlaceChanged);
+  }
+  
+  const searchButton = document.getElementById("search-button");
+  if (searchButton) {
+    searchButton.addEventListener("click", search);
+  }
 }
 
 function initRestaurantMap() {
@@ -65,29 +70,38 @@ function initRestaurantMap() {
     document.getElementById("restaurant-location")
   );
 
-  restaurantAutocomplete.addListener("place_changed", onRestaurantPlaceChanged);
-  document.getElementById("restaurant-search-button").addEventListener("click", searchRestaurants);
+  if (restaurantAutocomplete) {
+    restaurantAutocomplete.addListener("place_changed", onRestaurantPlaceChanged);
+  }
+  
+  const restaurantSearchButton = document.getElementById("restaurant-search-button");
+  if (restaurantSearchButton) {
+    restaurantSearchButton.addEventListener("click", searchRestaurants);
+  }
 }
 
 function setupAutocomplete(id) {
-  new google.maps.places.Autocomplete(document.getElementById(id), {
-    types: ['geocode']
-  });
+  const inputElement = document.getElementById(id);
+  if (inputElement) {
+    new google.maps.places.Autocomplete(inputElement, {
+      types: ['geocode']
+    });
+  }
 }
-
 
 function addWaypoint() {
   const container = document.getElementById('dynamicWaypointsContainer');
-  const input = document.createElement('input');
-  input.type = 'text';
-  input.placeholder = 'Enter waypoint';
-  input.className = 'waypoint';
-  input.id = `waypoint-${waypointCount}`;
-  container.appendChild(input);
-  setupAutocomplete(input.id);
-  waypointCount++;
+  if (container) {
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = 'Enter waypoint';
+    input.className = 'waypoint';
+    input.id = `waypoint-${waypointCount}`;
+    container.appendChild(input);
+    setupAutocomplete(input.id);
+    waypointCount++;
+  }
 }
-
 
 let originCoords, destinationCoords, waypointCoords = [];
 let coordinatesArray = [];
@@ -104,7 +118,7 @@ function calculateAndDisplayRoute() {
 
   const geocoder = new google.maps.Geocoder();
 
-// Geocode origin
+  // Geocode origin
   geocoder.geocode({ address: origin }, (results, status) => {
     if (status === 'OK') {
       originCoords = {
@@ -184,16 +198,15 @@ function calculateAndDisplayRoute() {
 }
 
 function updateLatLng(coordinatesArray) {
-    $.ajax({
-        url:"default.php",
-        method:"post",
-        data: { coordinatesArray : coordinatesArray },
-        success: function (res) {
-            console.log(coordinatesArray);
-        }
-    })
+  $.ajax({
+    url:"default.php",
+    method:"post",
+    data: { coordinatesArray : coordinatesArray },
+    success: function (res) {
+      console.log(coordinatesArray);
+    }
+  });
 }
-
 
 function displayTravelTimesAndFindPOIs(directionsResult, poiType) {
   const route = directionsResult.routes[0];
@@ -445,7 +458,7 @@ function searchRestaurants() {
           addButton.textContent = "Add to Itinerary";
           addButton.classList.add("add-to-itinerary");
           addButton.onclick = function() {
-            console.log(`Added ${results[i].name} to the itinerary`);
+          console.log(`Added ${results[i].name} to the itinerary`);
             //add logic
           };
           tr.appendChild(addButton);
@@ -456,6 +469,7 @@ function searchRestaurants() {
     });
   }
 }
+
 function clearRestaurantResults() {
   const results = document.getElementById("restaurant-table");
   while (results.childNodes[0]) {
@@ -473,9 +487,9 @@ function clearRestaurantMarkers() {
 }
 
 var page = 0;
-var ticketMatsterWidgetTemplate = document.getElementById('Ticketmaster-widget').outerHTML;
+var ticketMasterWidgetTemplate = document.getElementById('Ticketmaster-widget');
 var searchButton = $(".button");
-var cityI= "Chicago";
+var cityI = "Chicago";
 var stateI = "IL";
 var Today = moment().format('YYYY-MM-DD');
 var dateI = Today;
@@ -505,69 +519,69 @@ function getEvents(page) {
     return;
   }
   if (page > 0) {
-    if (page > getEvents.json.page.totalPages-1) {
-      page=0;
+    if (page > getEvents.json.page.totalPages - 1) {
+      page = 0;
       return;
     }
   }
  
   $.ajax({
-    type:"GET",
-    url:"https://app.ticketmaster.com/discovery/v2/events.json?apikey="+TktAPIKey+"&sort=date,asc"+"&city="+cityI+"&countryCode=US"+"&state="+stateI+"&startedatetime="+dateI+"&size=4&page="+page,
-    async:true,
+    type: "GET",
+    url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TktAPIKey + "&sort=date,asc" + "&city=" + cityI + "&countryCode=US" + "&state=" + stateI + "&startedatetime=" + dateI + "&size=4&page=" + page,
+    async: true,
     dataType: "json",
     success: function(json) {
-          getEvents.json = json;
-          showEvents(json);
-          console.log(json);
-         },
+      getEvents.json = json;
+      showEvents(json);
+      console.log(json);
+    },
     error: function(xhr, status, err) {
-  			  console.log(err);
-  		   }
+      console.log(err);
+    }
   });
 }
 
 function showEvents(json) {
-    var items = $('#events .list-group-item');
-    items.hide();
+  var items = $('#events .list-group-item');
+  items.hide();
+
+  if (json && json._embedded && json._embedded.events) {
     var events = json._embedded.events;
     var item = items.first();
     for (var i = 0; i < events.length; i++) {
-        item.children('.list-group-item-heading').text(events[i].name);
-        item.children('.list-group-item-text').text(events[i].dates.start.localDate);
+      item.children('.list-group-item-heading').text(events[i].name);
+      item.children('.list-group-item-text').text(events[i].dates.start.localDate);
+      try {
+        item.children('.venue').text(events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name);
+      } catch (err) {
+        console.log(err);
+      }
+      item.off("click");
+
+      item.click(events[i], function(eventObject) {
+        console.log(eventObject.data);
         try {
-            item.children('.venue').text(events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name);
+          getAttraction(eventObject.data._embedded.attractions[0].id);
         } catch (err) {
-            console.log(err);
+          console.log(err);
         }
-        item.off("click");
+      });
 
-
-        item.click(events[i], function(eventObject) {
-            console.log(eventObject.data);
-            try {
-                getAttraction(eventObject.data._embedded.attractions[0].id);
-            } catch (err) {
-                console.log(err);
-            }
+      if (item.find('.add-to-itinerary').length === 0) {
+        var addButton = $('<button>').addClass('add-to-itinerary').text('Add to Itinerary');
+        addButton.click(function(e) {
+          e.stopPropagation();
+          console.log('Add to itinerary:', $(this).parent().find('.list-group-item-heading').text());
+          // Add function to handle adding to itinerary here
         });
+        item.append(addButton);
+      }
 
-
-        if (item.find('.add-to-itinerary').length === 0) {
-            var addButton = $('<button>').addClass('add-to-itinerary').text('Add to Itinerary');
-            addButton.click(function(e) {
-                e.stopPropagation();
-                console.log('Add to itinerary:', $(this).parent().find('.list-group-item-heading').text());
-                // Add function to handle adding to itinerary here
-            });
-            item.append(addButton);
-        }
-
-        item.show();
-        item = item.next(); // move to the next item
+      item.show();
+      item = item.next(); // move to the next item
     }
+  }
 }
-
 
 var prevButton = $('#prev');
 var nextButton = $('#next');
@@ -582,16 +596,16 @@ $('#next').click(function() {
 
 function getAttraction(id) {
   $.ajax({
-    type:"GET",
-    url:"https://app.ticketmaster.com/discovery/v2/attractions/"+id+".json?apikey="+TktAPIKey,
-    async:true,
+    type: "GET",
+    url: "https://app.ticketmaster.com/discovery/v2/attractions/" + id + ".json?apikey=" + TktAPIKey,
+    async: true,
     dataType: "json",
     success: function(json) {
-          showAttraction(json);
-  		   },
+      showAttraction(json);
+    },
     error: function(xhr, status, err) {
-  			  console.log(err);
-  		   }
+      console.log(err);
+    }
   });
 }
 
@@ -599,23 +613,28 @@ function showAttraction(json) {
   $('#events-panel').show(); 
   $('#attraction-panel').show();
   
-  $('#attraction .list-group-item-heading').first().text(json.name);
-  $('#attraction img').first().attr('src', json.images[0].url);
-  $('#attraction img').first().css({'width': '80%', 'height': '80%'});
-  $('#classification').text(json.classifications[0].segment.name + " - " + json.classifications[0].genre.name + " - " + json.classifications[0].subGenre.name);
-  console.log(json.classifications[0].genre.name);
+  if (json && json.name && json.images && json.images.length > 0 && json.classifications && json.classifications.length > 0) {
+    $('#attraction .list-group-item-heading').first().text(json.name);
+    $('#attraction img').first().attr('src', json.images[0].url);
+    $('#attraction img').first().css({'width': '80%', 'height': '80%'});
+    $('#classification').text(json.classifications[0].segment.name + " - " + json.classifications[0].genre.name + " - " + json.classifications[0].subGenre.name);
+    console.log(json.classifications[0].genre.name);
+  }
 }
 
 function reloadTicketmasterWidget() {
-  $('#Ticketmaster-widget').fadeOut(400, function() {
-    var newTemplate = $(ticketMatsterWidgetTemplate);
-    newTemplate.attr('w-city', cityI, 'w-state', stateI);
-    $('#Ticketmaster-widget').html(newTemplate);
-    var s = document.createElement('script');
-    s.src = 'https://ticketmaster-api-staging.github.io/products-and-docs/widgets/event-discovery/1.0.0/lib/main-widget.js';
-    document.body.appendChild(s);
-    $('#Ticketmaster-widget').fadeIn(400);
-  });
+  if (ticketMasterWidgetTemplate) {
+    $('#Ticketmaster-widget').fadeOut(400, function() {
+      var newTemplate = $(ticketMasterWidgetTemplate.outerHTML);
+      newTemplate.attr('w-city', cityI);
+      newTemplate.attr('w-state', stateI);
+      $('#Ticketmaster-widget').html(newTemplate);
+      var s = document.createElement('script');
+      s.src = 'https://ticketmaster-api-staging.github.io/products-and-docs/widgets/event-discovery/1.0.0/lib/main-widget.js';
+      document.body.appendChild(s);
+      $('#Ticketmaster-widget').fadeIn(400);
+    });
+  }
 }
 
 getEvents(page);
