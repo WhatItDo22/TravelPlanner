@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Road Trip Planner</title>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places&async"></script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <style>
@@ -117,7 +117,7 @@
         <input id="poiType" type="text" placeholder="Enter types of places (e.g., museum, restaurant)" class="input-fixed-width">
       </div>
 
-<div id="dynamicWaypointsContainer"></div>
+      <div id="dynamicWaypointsContainer"></div>
       <div id="waypointsContainer">
         <button onclick="addWaypoint()" id="waypoint">Add Waypoint</button>
         <button onclick="calculateAndDisplayRoute()" id="submit__button">Get Directions</button>
@@ -126,7 +126,6 @@
     <div id="mapContainer">
       <div id="map"></div>
     </div>
-
   </main>
 
   <footer class="footer__container">
@@ -180,10 +179,12 @@
       const hamburger = document.querySelector('.hamburger_menu');
       const navMenu = document.querySelector('.nav_menu');
 
-      hamburger.addEventListener('click', function() {
-        this.classList.toggle('change');
-        navMenu.classList.toggle('change');
-      });
+      if (hamburger && navMenu) {
+        hamburger.addEventListener('click', function() {
+          this.classList.toggle('change');
+          navMenu.classList.toggle('change');
+        });
+      }
     });
   </script>
 </body>
