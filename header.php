@@ -22,7 +22,7 @@
 
 <body> 
 <?php if ($loginst == 1) { ?>
-    <div class="navbar">
+<!--     <div class="navbar">
         <a class="logo" href="default.php" id="home"><img src="images/logo.jpg" alt="Travel Logo"></a>
         <div class="nav_menu">
             <a href="search.php" id="search">Search</a>
@@ -41,9 +41,34 @@
             <span></span>
             <span></span>
         </div>
-    </div>
-<?php } else { ?>
+    </div> -->
     <div class="navbar">
+      <div class="navbar__container">
+          <a class="logo" href="default.php" id="home">
+              <img src="images/logo.jpg" alt="Travel Logo">
+              <h1 class="logo__text">ItineraEase</h1>
+          </a>
+          <div class="nav_menu">
+                <a href="search.php" id="search">Search</a>
+                <a href="faq.php" id="faq">FAQ</a>
+                <a href="contact.php" id="contact">Contact</a>
+                <div class="dropdown">
+                    <a onclick="myFunction()" class="dropbtn">Account</a>
+                    <div id="myDropdown" class="dropdown-content">
+                        <a href="savedtrips.php">Saved Trips</a>
+                        <a href="logout.php">Log Out</a>
+                </div>
+            </div>
+          </div>
+          <div class="hamburger_menu">
+              <span></span>
+              <span></span>
+              <span></span>
+          </div>
+      </div>
+  </div>
+<?php } else { ?>
+<!--     <div class="navbar">
         <a class="logo" href="default.php" id="home"><img src="images/logo.jpg" alt="Travel Logo"></a>
         <div class="nav_menu">
             <a href="search.php" id="search">Search</a>
@@ -56,5 +81,24 @@
             <span></span>
             <span></span>
         </div>
-    </div>
+    </div> -->
+    <div class="navbar">
+      <div class="navbar__container">
+          <a class="logo" href="default.php" id="home">
+              <img src="images/logo.jpg" alt="Travel Logo">
+              <h1 class="logo__text">ItineraEase</h1>
+          </a>
+          <div class="nav_menu">
+              <a href="search.php" id="search">Search</a>
+              <a href="faq.php" id="faq">FAQ</a>
+              <a href="contact.php" id="contact">Contact</a>
+              <a href="login.php" id="login">Log In</a>
+          </div>
+          <div class="hamburger_menu">
+              <span></span>
+              <span></span>
+              <span></span>
+          </div>
+      </div>
+  </div>
 <?php } ?>
