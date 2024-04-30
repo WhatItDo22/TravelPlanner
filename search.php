@@ -1,8 +1,7 @@
 <?php
     session_start();
     $title = "ItineraEase | Search";
-    // $style = "searchstyles.css";
-    $style = "events.css";
+    $style = "searchstyles.css";
 ?>
     <?php include 'header.php'; ?>
     <div class="page-header">

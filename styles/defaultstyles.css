@@ -75,3 +75,7 @@ button, .btn1 {
 button:hover {
     background-color: #45a049;
 }
+
+.footer__container {
+    padding-top: 100px !important;
+}
