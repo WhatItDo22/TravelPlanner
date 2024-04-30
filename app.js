@@ -160,6 +160,7 @@ function calculateAndDisplayRoute() {
 
     // Create an array to store the coordinates in the logical order
     coordinatesArray = [waypointCoords];
+    updateLatLng(coordinatesArray);
 
     // Continue with the rest of the route calculation and display logic
     const routeRequest = {
@@ -180,6 +181,17 @@ function calculateAndDisplayRoute() {
       }
     });
   }
+}
+
+function updateLatLng(coordinatesArray) {
+    $.ajax({
+        url:"default.php",
+        method:"post",
+        data: { coordinatesArray : coordinatesArray },
+        success: function (res) {
+            console.log(coordinatesArray);
+        }
+    })
 }
 
 
