@@ -29,16 +29,17 @@
     <div id="routeButtonContainer">
         <?php
             if (isset($_POST['btn-route'])) {
-                $server = 'localhost';
-                $username = 'upjomg4jsiwwg';
-                $password = '533%3611n_4`';
-                $db = 'dbbucggrkugs9b';
+              $server = 'localhost';
+              $username = 'upjomg4jsiwwg';
+              $password = '533%3611n_4`';
+              $db = 'dbbucggrkugs9b';
                 $conn = new mysqli($server, $username, $password, $db);
                 if ($conn->connect_error) {
                     die('Connection failed: ' . $conn->connect_error);
                 }
-                $sql = "SELECT MAX(TripID) AS NumTrips FROM waypoints";
+                $sql = "SELECT MAX(tripID) AS NumTrips FROM waypoints";
                 $result = $conn->query($sql);
+
                 if ($result->num_rows > 0) {
                     $row = $result->fetch_assoc();
                     $tripID = $row["tripID"] + 1;
@@ -46,21 +47,22 @@
                 else {
                     $tripID = 1;
                 }
-                $coordinatesArray = json_decode($_POST['coordinatesArray'], true); 
+                $coord= json_decode($_POST['coordinatesArray'], true);
+                $coordinatesArray = $coord[0];
+                $user = $_SESSION['user'];
+                $username = $user['username'];
                 foreach ($coordinatesArray as $coordinates) {
                     $latitude = $coordinates['lat'];
                     $longitude = $coordinates['lng'];
-                    $sql2 = "INSERT INTO waypoints (tripID, latitude, longitude)
-                        VALUES ('$tripID', '$latitude', '$longitude')";
+                    
+                    $sql2 = "INSERT INTO waypoints (tripID, latitude, longitude, username)
+                        VALUES ('$tripID', '$latitude', '$longitude', '$username')";
                     if ($conn->query($sql2) === TRUE) {
                         echo "New records created successfully";
                     } else {
                         echo "Error: " . $sql2 . "<br>" . $conn->error;
                     }
                 }
-                echo "<pre>";
-                print_r($coordinatesArray); 
-                echo "</pre>";
                 $conn->close();
             }
         ?>
