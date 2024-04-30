@@ -197,16 +197,15 @@ body {
 
 /* --------------- account login/sign up styling  -------------*/
 
-.signup-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 50px;
-    margin-top: 10%;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-}
-
 .form-class {
     margin-bottom: 30px;
+}
+
+.form-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
 }
 
 .returnHome {

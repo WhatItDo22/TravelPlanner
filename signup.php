@@ -9,13 +9,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles/styles.css">
     <style>
         h1 {
             text-align: center;
             font-size: 2rem;
             margin-bottom: 1rem;
             color: #333;
+        }
+        .signup-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 50px;
+            margin-top: 7%;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         }
     </style>
 </head>
