@@ -46,7 +46,7 @@
                 else {
                     $tripID = 1;
                 }
-                $coordinatesArray = $_REQUEST['coordinatesArray'];
+                $coordinatesArray = json_decode($_POST['coordinatesArray'], true); 
                 foreach ($coordinatesArray as $coordinates) {
                     $latitude = $coordinates['lat'];
                     $longitude = $coordinates['lng'];
@@ -58,6 +58,9 @@
                         echo "Error: " . $sql2 . "<br>" . $conn->error;
                     }
                 }
+                echo "<pre>";
+                print_r($coordinatesArray); 
+                echo "</pre>";
                 $conn->close();
             }
         ?>
