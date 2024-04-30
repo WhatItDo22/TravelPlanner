@@ -40,6 +40,7 @@
                 $sql = "SELECT MAX(TripID) AS NumTrips FROM waypoints";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
                     $tripID = $row["tripID"] + 1;
                 }
                 else {
@@ -47,14 +48,18 @@
                 }
                 $coordinatesArray = $_REQUEST['coordinatesArray'];
                 foreach ($coordinatesArray as $coordinates) {
+                    $latitude = $coordinates['lat'];
+                    $longitude = $coordinates['lng'];
                     $sql2 = "INSERT INTO waypoints (tripID, latitude, longitude)
-                    VALUES ('$tripID', $coordinates.lat, $coordinates.lng)";
+                        VALUES ('$tripID', '$latitude', '$longitude')";
+                    if ($conn->query($sql2) === TRUE) {
+                        echo "New records created successfully";
+                    } else {
+                        echo "Error: " . $sql2 . "<br>" . $conn->error;
+                        console.log($tripID, $latitude, $longitude);
+                    }
                 }
-                if ($conn->query($sql2) === TRUE) {
-                    echo "New records created successfully";
-                } else {
-                    echo "Error: " . $sql2 . "<br>" . $conn->error;
-                }
+                conn->close();
             }
         ?>
         <form method="post">

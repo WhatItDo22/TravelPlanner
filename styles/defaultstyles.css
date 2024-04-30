@@ -69,7 +69,7 @@ button, .btn1 {
 }
 
 .btn1 {
-    padding: 30px;
+    margin-top: 30px;
 }
 
 button:hover {
