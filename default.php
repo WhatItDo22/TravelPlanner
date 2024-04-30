@@ -62,6 +62,7 @@
             }
         ?>
         <form method="post">
+            <input type="hidden" name="coordinatesArray" id="coordinatesArrayInput"> 
             <input type="submit" class="btn1" name="btn-route" value="Add Route">
         </form>
     </div>
