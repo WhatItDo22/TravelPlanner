@@ -174,6 +174,7 @@ function calculateAndDisplayRoute() {
 
     // Create an array to store the coordinates in the logical order
     coordinatesArray = [waypointCoords];
+    document.getElementById('coordinatesArrayInput').value = JSON.stringify(coordinatesArray);
     updateLatLng(coordinatesArray);
 
     // Continue with the rest of the route calculation and display logic
