@@ -11,7 +11,8 @@ body {
     width: 100%;
     height: auto;
     padding: 0 10%;
-    background-color: #dbdedd;
+/*     background-color: #dbdedd; */
+    background-color: #fff;
 }
 
 .container {
