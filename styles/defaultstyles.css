@@ -67,6 +67,11 @@ button, .btn1 {
     flex: 1;
     border-radius: 5px;
 }
+
+.btn1 {
+    padding: 30px;
+}
+
 button:hover {
     background-color: #45a049;
 }
