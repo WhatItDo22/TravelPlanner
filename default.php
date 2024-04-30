@@ -59,7 +59,7 @@
                         console.log($tripID, $latitude, $longitude);
                     }
                 }
-                conn->close();
+                $conn->close();
             }
         ?>
         <form method="post">
