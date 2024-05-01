@@ -72,7 +72,6 @@
                     $sql2 = "UPDATE users SET numTrips = numTrips + 1 WHERE username = '$username'";
                     if ($conn2->query($sql2) === TRUE) {
                         echo "Record updated successfully";
-                        echo $username;
                     } else {
                         echo "Error updating record: " . $conn2->error;
                     }

@@ -40,12 +40,7 @@
 ?>
 <?php
     if (isset($_POST['btn-route'])) {
-        echo "<h2>TRIPTRIPTRIP</h2>";
-        $tripID = $_POST['trip_route'];
-        echo "<h2>$tripID</h2>";
-        $_SESSION['tripNum'] = $tripID;
-        echo "<h3>$tripID</h3";
-        echo $_SESSION['tripNum'];
+        $tripID = 1;
         $username = $user["username"];
         $server = 'localhost';
         $dbusername = 'upjomg4jsiwwg';
@@ -55,7 +50,7 @@
         if ($conn->connect_error) {
             die('Connection failed: ' . $conn->connect_error);
         }
-        $sql = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID = '$tripID'";
+        $sql = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID = $tripID";
         $result = $conn->query($sql);
 
         $waypoints = array();
@@ -65,10 +60,8 @@
                     'lat' => $row['latitude'],
                     'lng' => $row['longitude']
                 );
-                echo "<h2>THIS WORKS</h2>";
             }
         }
-        echo "<h2>THIS WORKS TOO $waypoints</h2>";
         $conn->close();
     }
 ?>
