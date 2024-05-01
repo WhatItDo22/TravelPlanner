@@ -1,193 +1,122 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Road Trip Planner</title>
-  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-  <style>
-    main {
-    margin-top: 5%;
-    padding-top: 10%;
-    }
-   .nav_menu.change {
-      left: 0;
-    }
-    .hamburger_menu.change span:nth-child(1) {
-      transform: translateY(10px) rotate(45deg);
-    }
-    .hamburger_menu.change span:nth-child(2) {
-      opacity: 0;
-    }
-    .hamburger_menu.change span:nth-child(3) {
-      transform: translateY(-10px) rotate(-45deg);
-    }
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Arial, sans-serif;
-    }
-    header, main, footer {
-      padding: 1rem;
-    }
-    #mapContainer, #map {
-      height: 80vh;
-      margin: 0 auto; 
-    }
-    #controlPanel {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-    #controlPanel input[type="text"] {
-      flex-basis: calc(33.33% - 10px);
-      margin-bottom: 10px;
-    }
-    #dynamicWaypointsContainer {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-    #dynamicWaypointsContainer input[type="text"] {
-      flex-basis: calc(33.33% - 10px);
-      margin-bottom: 10px;
-      padding: 0.8rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    #waypointsContainer {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-    input[type="text"] {
-      padding: 0.8rem;
-      margin: 0 5px;
-      flex: 1;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      padding: 0.8rem;
-      margin: 0 5px;
-      flex: 1;
-      border-radius: 5px;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-  </style>
-  <link rel="stylesheet" href="styles/styles.css">
-  <link rel="stylesheet" href="styles/defaultstyles.css">
-</head>
-<body>
-<header>
-  <div class="navbar">
-    <div class="navbar__container">
-      <a class="logo" href="default.php" id="home">
-        <img src="images/logo.jpg" alt="Travel Logo">
-        <h1 class="logo__text">ItineraEase</h1>
-      </a>
-      <div class="nav_menu">
-        <a href="search.php" id="search">Search</a>
-        <a href="faq.php" id="faq">FAQ</a>
-        <a href="contact.php" id="contact">Contact</a>
-        <a href="login.php" id="login">Log In</a>
-      </div>
-      <div class="hamburger_menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+<?php
+    session_start();
+    $title = "ItineraEase | Saved Trips";
+    $style = "profilestyles.css";
+?>
+    <?php include 'header.php'; ?>
+    <div class="page-header">
+        <h1 class="page-header-title">Saved Trips</h1>
+        <p class="page-header-subtitle">Find the next unforgettable part of your trip</p>
     </div>
-  </div>
-</header>
-<main>
-  <div class="container">
-    <div id="controlPanel">
-      <input id="origin" type="text" placeholder="Enter origin" class="waypoint input-fixed-width">
-      <input id="destination" type="text" placeholder="Enter destination" class="waypoint input-fixed-width">
-      <input id="poiType" type="text" placeholder="Enter types of places (e.g., museum, restaurant)" class="input-fixed-width">
-    </div>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+    <?php
+        $user = $_SESSION["user"];
+        $username = $user["username"];
+        $server = "localhost";
+        $dbusername = "upjomg4jsiwwg";
+        $dbpassword = "533%3611n_4`";
+        $db = "dbz0xs4h1mcple";
+        $conn = new mysqli($server, $dbusername, $dbpassword, $db);
+        if ($conn_event->connect_error) {
+            die("Connection failed: " . $conn_event->connect_error);
+        }
+        $sql = "SELECT numTrips FROM users WHERE username = '$username'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                for ($i = 1; $i <= $row['numTrips']; $i++) {
+                    $_SESSION['numTrips'] = $row['numTrips'];
+                    echo "<div class='container'><div class=trip_container>";
+                    echo "<h2>Trip $i</h2>";
+                    echo "<div class='buttons_container'";
+                    echo "<form method='post'>";
+                    echo "<input type='hidden' name='trip_route' id='trip_route'>";
+                    echo "<input type='submit' class='trip_btn' name='btn-route' id='route_$i' value='Route'>";
+                    echo "</form></div></div></div>";
+                }
+            }
+        }
+        $conn->close();
+    ?>
+    <?php
+        if (isset($_POST['btn-route'])) {
+            $username = $user["username"];
+            $server = 'localhost';
+            $dbusername = 'upjomg4jsiwwg';
+            $dbpassword = '533%3611n_4`';
+            $db = 'dbbucggrkugs9b';
+            $conn = new mysqli($server, $dbusername, $dbpassword, $db);
+            if ($conn->connect_error) {
+                die('Connection failed: ' . $conn->connect_error);
+            }
+            $tripID = $_Session['tripNum'];
+            $sql = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID = '$tripID'";
+            $result = $conn->query($sql);
 
-    <div id="dynamicWaypointsContainer"></div>
-    <div id="waypointsContainer">
-      <button onclick="addWaypoint()" id="waypoint">Add Waypoint</button>
-      <button onclick="calculateAndDisplayRoute()" id="submit__button">Get Directions</button>
-    </div>
+            $waypoints = array();
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $waypoints[] = array(
+                        'lat' => $row['latitude'],
+                        'lng' => $row['longitude']
+                    );
+                }
+            }
+            $conn->close();
+        }
+    ?>
+    <?php include 'footer.php'; ?>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places"></script>
+    <script>
+    var map;
+    var directionsService;
+    var directionsRenderer;
 
-    <input type="hidden" id="coordinatesArrayInput" name="coordinatesArray">
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 0, lng: 0},
+            zoom: 8
+        });
 
-    <div id="mapContainer">
-      <div id="map"></div>
-    </div>
-  </div>
-</main>
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+        directionsRenderer.setMap(map);
 
-  <footer class="footer__container">
-    <p id="footer__id">ItineraEase Group:</p>
-    <div class="footer__links">
-        <div class="footer__link--wrapper">
-            <div class="footer__link--items">
-                <p><strong>Company</strong></p>
-                <a href="#">About</a>
-                <a href="#">Jobs</a>
-                <a href="#">Partnerships</a>
-                <a href="#">Newsroom</a>
-                <a href="#">Advertising</a>
-                <a href="#">Feedback</a>
-            </div>
-            <div class="footer__link--items">
-                <p><strong>Explore</strong></p>
-                <a href="#">Hotels in United States of America</a>
-                <a href="#">United States of America travel guide</a>
-                <a href="#">Domestic Flights</a>
-            </div>
-            <div class="footer__link--items">
-                <p><strong>Policies</strong></p>
-                <a href="#">Privacy</a>
-                <a href="#">Terms of use</a>
-                <a href="#">One Key<sup>TM</sup> terms and conditions</a>
-                <a href="#">Accessibility</a>
-                <a href="#">Your privacy choices</a>
-            </div>
-            <div class="footer__link--items">
-                <p><strong>Help</strong></p>
-                <a href="#">Support</a>
-                <a href="#">Cancel your hotel</a>
-                <a href="#">Refund timelines, policies & processes</a>
-                <a href="#">Use a ItineraEase coupon</a>
-            </div>
-        </div>
-    </div>
-    <hr style="border: .1px solid lightgrey;">
-    <div class="social__media">
-        <div class="social__media--wrap">
-            <p class="website__rights"> © 2024 ItineraEase, Inc., an ItineraEase 
-              Group company. All rights reserved. ItineraEase and the ItineraEase 
-              Logo are trademarks of ItineraEase, Inc.</p>
-        </div>
-    </div>
-  </footer>
-  <script src="app.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const hamburger = document.querySelector('.hamburger_menu');
-      const navMenu = document.querySelector('.nav_menu');
+        var waypoints = <?php echo json_encode($waypoints); ?>;
+        if (waypoints.length > 1) {
+            var origin = waypoints[0];
+            var destination = waypoints[1];
+            var midpoints = waypoints.slice(2);
 
-      hamburger.addEventListener('click', function() {
-        this.classList.toggle('change');
-        navMenu.classList.toggle('change');
-      });
-    });
-  </script>
+            var request = {
+                origin: new google.maps.LatLng(origin.lat, origin.lng),
+                destination: new google.maps.LatLng(destination.lat, destination.lng),
+                waypoints: midpoints.map(function(location) {
+                    return {
+                        location: new google.maps.LatLng(location.lat, location.lng),
+                        stopover: true
+                    };
+                }),
+                optimizeWaypoints: true,
+                travelMode: 'DRIVING'
+            };
+
+            directionsService.route(request, function(result, status) {
+                if (status === 'OK') {
+                    directionsRenderer.setDirections(result);
+                }
+            });
+        }
+    }
+
+    var numTrips = <?php echo $_SESSION['numTrips'] ?>;
+    for (var i = 1; i <= numTrips; i++) {
+        document.getElementById("route_" + i).addEventListener("click", function() {
+            <?php $_SESSION['tripNum']  ?>= i;
+        });
+    }
+
+    google.maps.event.addDomListener(window, 'load', initMap);
+    </script>
 </body>
 </html>
