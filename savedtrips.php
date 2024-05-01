@@ -1,122 +1,122 @@
 <?php
-session_start();
-$title = "ItineraEase | Saved Trips";
-$style = "profilestyles.css";
+    session_start();
+    $title = "ItineraEase | Saved Trips";
+    $style = "profilestyles.css";
 ?>
-<?php include 'header.php'; ?>
-<div class="page-header">
-    <h1 class="page-header-title">Saved Trips</h1>
-    <p class="page-header-subtitle">Click on the "Route" buttons below to see each of your individual trips</p>
-</div>
-<div id="map" style="height: 500px; width: 100%;"></div>
-<?php
-$user = $_SESSION["user"];
-$username = $user["username"];
-$server = "localhost";
-$dbusername = "upjomg4jsiwwg";
-$dbpassword = "533%3611n_4`";
-$db = "dbz0xs4h1mcple";
-$conn = new mysqli($server, $dbusername, $dbpassword, $db);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-$sql = "SELECT numTrips FROM users WHERE username = '$username'";
-$result = $conn->query($sql);
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        for ($i = 1; $i <= $row['numTrips']; $i++) {
-            $_SESSION['numTrips'] = $row['numTrips'];
-            echo "<div class='container'><div class=trip_container>";
-            echo "<h2>Trip $i</h2>";
-            echo "<div class='buttons_container'";
-            echo "<form method='post'>";
-            echo "<input type='hidden' name='trip_route' value='$i'>";
-            echo "<input type='submit' class='trip_btn' name='btn-route' id='route_$i' value='Route'>";
-            echo "</form></div></div></div>";
+    <?php include 'header.php'; ?>
+    <div class="page-header">
+        <h1 class="page-header-title">Saved Trips</h1>
+        <p class="page-header-subtitle">Find the next unforgettable part of your trip</p>
+    </div>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+    <?php
+        $user = $_SESSION["user"];
+        $username = $user["username"];
+        $server = "localhost";
+        $dbusername = "upjomg4jsiwwg";
+        $dbpassword = "533%3611n_4`";
+        $db = "dbz0xs4h1mcple";
+        $conn = new mysqli($server, $dbusername, $dbpassword, $db);
+        if ($conn_event->connect_error) {
+            die("Connection failed: " . $conn_event->connect_error);
         }
-    }
-}
-$conn->close();
-?>
-<?php
-$locations = array();
-if (isset($_POST['btn-route'])) {
-    $tripID = $_POST['trip_route'];
-    $username = $user["username"];
-    $server = 'localhost';
-    $dbusername = 'upjomg4jsiwwg';
-    $dbpassword = '533%3611n_4`';
-    $db = 'dbz0xs4h1mcple';
-    $conn = new mysqli($server, $dbusername, $dbpassword, $db);
-    if ($conn->connect_error) {
-        die('Connection failed: ' . $conn->connect_error);
-    }
-$sql = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID = 1";
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $locations[] = array(
-                'lat' => $row['latitude'],
-                'lng' => $row['longitude']
-            );
-        }
-    }
-    $conn->close();
-}
-?>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places"></script>
-<script type="text/javascript">
-var map;
-var Markers = {};
-var infowindow;
-var locations = [
-<?php for($i=0;$i<sizeof($locations);$i++){ $j=$i+1;?>
-[
-'Waypoint <?php echo $j; ?>',
-<?php echo $locations[$i]['lat'];?>,
-<?php echo $locations[$i]['lng'];?>,
-<?php echo $i; ?>
-]<?php if($j!=sizeof($locations))echo ","; }?>
-];
-
-function initialize() {
-    if (locations.length > 0) {
-        var origin = new google.maps.LatLng(locations[0][1], locations[0][2]);
-        var mapOptions = {
-            zoom: 9,
-            center: origin
-        };
-        map = new google.maps.Map(document.getElementById('map'), mapOptions);
-        infowindow = new google.maps.InfoWindow();
-        for (i = 0; i < locations.length; i++) {
-            var position = new google.maps.LatLng(locations[i][1], locations[i][2]);
-            var marker = new google.maps.Marker({
-                position: position,
-                map: map,
-            });
-            google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                return function() {
-                    infowindow.setContent(locations[i][0]);
-                    infowindow.open(map, marker);
+        $sql = "SELECT numTrips FROM users WHERE username = '$username'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                for ($i = 1; $i <= $row['numTrips']; $i++) {
+                    $_SESSION['numTrips'] = $row['numTrips'];
+                    echo "<div class='container'><div class=trip_container>";
+                    echo "<h2>Trip $i</h2>";
+                    echo "<div class='buttons_container'";
+                    echo "<form method='post'>";
+                    echo "<input type='hidden' name='trip_route' id='trip_route'>";
+                    echo "<input type='submit' class='trip_btn' name='btn-route' id='route_$i' value='Route'>";
+                    echo "</form></div></div></div>";
                 }
-            })(marker, i));
-            Markers[locations[i][3]] = marker;
+            }
         }
-        locate(0);
-    } else {
-        console.log("No locations found.");
-    }
-}
+        $conn->close();
+    ?>
+    <?php
+        if (isset($_POST['btn-route'])) {
+            $username = $user["username"];
+            $server = 'localhost';
+            $dbusername = 'upjomg4jsiwwg';
+            $dbpassword = '533%3611n_4`';
+            $db = 'dbbucggrkugs9b';
+            $conn = new mysqli($server, $dbusername, $dbpassword, $db);
+            if ($conn->connect_error) {
+                die('Connection failed: ' . $conn->connect_error);
+            }
+            $tripID = $_Session['tripNum'];
+            $sql = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID = '$tripID'";
+            $result = $conn->query($sql);
 
-function locate(marker_id) {
-    if (Markers[marker_id]) {
-        var myMarker = Markers[marker_id];
-        var markerPosition = myMarker.getPosition();
-        map.setCenter(markerPosition);
-        google.maps.event.trigger(myMarker, 'click');
-    }
-}
+            $waypoints = array();
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $waypoints[] = array(
+                        'lat' => $row['latitude'],
+                        'lng' => $row['longitude']
+                    );
+                }
+            }
+            $conn->close();
+        }
+    ?>
+    <?php include 'footer.php'; ?>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places"></script>
+    <script>
+    var map;
+    var directionsService;
+    var directionsRenderer;
 
-google.maps.event.addDomListener(window, 'load', initialize);
-</script>
-<?php include 'footer.php'; ?>
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 0, lng: 0},
+            zoom: 8
+        });
+
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+        directionsRenderer.setMap(map);
+
+        var waypoints = <?php echo json_encode($waypoints); ?>;
+        if (waypoints.length > 1) {
+            var origin = waypoints[0];
+            var destination = waypoints[1];
+            var midpoints = waypoints.slice(2);
+
+            var request = {
+                origin: new google.maps.LatLng(origin.lat, origin.lng),
+                destination: new google.maps.LatLng(destination.lat, destination.lng),
+                waypoints: midpoints.map(function(location) {
+                    return {
+                        location: new google.maps.LatLng(location.lat, location.lng),
+                        stopover: true
+                    };
+                }),
+                optimizeWaypoints: true,
+                travelMode: 'DRIVING'
+            };
+
+            directionsService.route(request, function(result, status) {
+                if (status === 'OK') {
+                    directionsRenderer.setDirections(result);
+                }
+            });
+        }
+    }
+
+    var numTrips = <?php echo $_SESSION['numTrips'] ?>;
+    for (var i = 1; i <= numTrips; i++) {
+        document.getElementById("route_" + i).addEventListener("click", function() {
+            <?php $_SESSION['tripNum']  ?>= i;
+        });
+    }
+
+    google.maps.event.addDomListener(window, 'load', initMap);
+    </script>
+</body>
+</html>
