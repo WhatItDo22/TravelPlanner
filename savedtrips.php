@@ -26,7 +26,6 @@
                     echo "<h2>Trip $i</h2>";
                     echo "<div class='buttons_container'";
                     echo "<a class='trip_btn' id='route_$i' href='savedroutes.php'>Route</a>";
-                    echo "<a class='trip_btn' id='events_$i' href='savedevents.php'>Events</a>";
                     echo "</div></div></div>";
                 }
             }
