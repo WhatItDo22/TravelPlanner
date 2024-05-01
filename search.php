@@ -3,10 +3,11 @@
     $title = "ItineraEase | Search";
     $style = "searchstyles.css";
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["itinerary"])) {
-  $itineraryData = json_decode($_POST["itinerary"], true);
-  $restaurants = $itineraryData["restaurants"];
-  $events = $itineraryData["events"];
-  $hotels = $itineraryData["hotels"];
+        $itineraryData = json_decode($_POST["itinerary"], true);
+        $restaurants = $itineraryData["restaurants"];
+        $events = $itineraryData["events"];
+        $hotels = $itineraryData["hotels"];
+    }
 ?>
     <?php include 'header.php'; ?>
     <div class="page-header">
