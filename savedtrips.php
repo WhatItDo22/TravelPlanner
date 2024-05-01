@@ -42,6 +42,8 @@
         if (isset($_POST['btn-route'])) {
             $tripID = $_POST['trip_route'];
             $_SESSION['tripNum'] = $tripID;
+            echo $tripID;
+            echo $_SESSION['tripNum'];
             $username = $user["username"];
             $server = 'localhost';
             $dbusername = 'upjomg4jsiwwg';
@@ -63,6 +65,7 @@
                     );
                 }
             }
+            echo $waypoints;
             $conn->close();
         }
     ?>
@@ -108,15 +111,6 @@
                 }
             });
         }
-    }
-
-    var numTrips = <?php echo $_SESSION['numTrips'] ?>;
-    for (var i = 1; i <= numTrips; i++) {
-        (function(tripNum) {
-            document.getElementById("route_" + tripNum).addEventListener("click", function() {
-                <?php echo "\$_SESSION['tripNum'] = " . tripNum . ";" ?>;
-            });
-        })(i);
     }
 
     google.maps.event.addDomListener(window, 'load', initMap);
