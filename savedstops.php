@@ -5,7 +5,8 @@
 ?>
 <?php include 'header.php'; ?>
     <div class="page-header">
-        <h1 class="page-header-title">Events</h1>
+        <h1 class="page-header-title">Stops</h1>
+        <p class="page-header-subtitle">Listed below are all of the stops that you saved for your trips</p>
     </div>
     <?php
         $user = $_SESSION["user"];
