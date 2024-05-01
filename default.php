@@ -71,7 +71,7 @@
                     if ($conn2->connect_error) {
                         die('Connection failed: ' . $conn2->connect_error);
                     }
-                    $sql2 = "UPDATE MyGuests SET numTrips = numTrips + 1 WHERE username = $username";
+                    $sql2 = "UPDATE users SET numTrips = numTrips + 1 WHERE username = $username";
                     if ($conn2->query($sql2) === TRUE) {
                         echo "Record updated successfully";
                     } else {
