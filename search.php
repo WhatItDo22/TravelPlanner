@@ -4,6 +4,7 @@
     $style = "searchstyles.css";
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["itinerary"])) {
         $itineraryData = json_decode($_POST["itinerary"], true);
+        print_r($itineraryData);
         $restaurants = $itineraryData["restaurants"];
         $events = $itineraryData["events"];
         $hotels = $itineraryData["hotels"];
