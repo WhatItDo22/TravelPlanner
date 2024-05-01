@@ -18,14 +18,12 @@
                 <div class="events-col-2">
                     <h2 class="sub-title">What would <strong>YOU</strong> like to look at?</h2>
                     <p>Choose from either three to view listings!</p>
-                </div>
-                <div class="block3">
                     <div class="tab-titles">
                         <p class="tab-links active-link" onclick="opentab('events')">Events</p>
                         <p class="tab-links" onclick="opentab('hotels')" >Hotel</p>
                         <p class="tab-links" onclick="opentab('restaurants')">Restaurant</p>
                     </div>
-
+    
                     <!---------- ticketmaster ------------->
                     <div class="tab-contents active-tab" id="events">
                         <section class="events-container">
@@ -94,7 +92,7 @@
                             </div>
                         </div>
                     <div id="Ticketmaster-widget"></div>
-
+    
                     <!---------- hotels ------------->
                     <div class="tab-contents" id="hotels">
                         <section class="hotel-search-container">
