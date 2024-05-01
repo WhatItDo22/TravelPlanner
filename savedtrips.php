@@ -45,7 +45,6 @@
         }
         for ($i = 1; $i <= $_SESSION['numTrips']; $i++) {
             $sql2 = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID=$i";
-            echo "SQL Query: $sql2";
             $result2 = $conn->query($sql2);
             $waypoints = array();
             if ($result2->num_rows > 0) {
@@ -57,6 +56,7 @@
                 }
             }
             $tripWaypoints[$i] = $waypoints;
+            echo "Trip Waypoints Array: $tripWaypoints[$i]";
         }
         $conn2->close();
     ?>
