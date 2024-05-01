@@ -118,13 +118,15 @@
                         <h3 class="panel-title">Events</h3>
                       </div>
                       <div class="panel-body">
-                        <div id="events" class="list-group">
-                          <a href="#" class="list-group-item">
-                            <h4 class="list-group-item-heading"></h4>
-                            <p class="list-group-item-text"></p>
-                            <p class="venue" style="margin-bottom=5px;"></p>
-                          </a>
-                        </div>
+                      <div id="events" class="list-group">
+                        <a href="#" class="list-group-item">
+                          <h4 class="list-group-item-heading"></h4>
+                          <p class="list-group-item-text"></p>
+                          <p class="venue" style="margin-bottom=5px;"></p>
+                          <button class="add-to-itinerary" data-type="event" data-info="">Add to Itinerary</button>
+                          <input type="hidden" name="eventInfo" value="">
+                        </a>
+                      </div>
                       </div>
                     </div>
                   </div>
@@ -164,7 +166,15 @@
                   </div>
                   <div id="map"></div>
                   <div id="hotel-results">
-                    <table id="results"></table>
+                  <table id="results">
+                    <tr>
+                      <!-- ... -->
+                      <td>
+                        <button class="add-to-itinerary" data-type="hotel" data-info="">Add to Itinerary</button>
+                        <input type="hidden" name="hotelInfo" value="">
+                      </td>
+                    </tr>
+                  </table>
                   </div>
                 </div>
               </section>
@@ -182,7 +192,15 @@
                   </div>
                   <div id="restaurant-map"></div>
                   <div id="restaurant-results">
-                    <table id="restaurant-table"></table>
+                  <table id="restaurant-table">
+                    <tr>
+                      <!-- ... -->
+                      <td>
+                        <button class="add-to-itinerary" data-type="restaurant" data-info="">Add to Itinerary</button>
+                        <input type="hidden" name="restaurantInfo" value="">
+                      </td>
+                    </tr>
+                  </table>
                   </div>
                 </div>
               </section>
