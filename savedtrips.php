@@ -46,13 +46,13 @@
         for ($i = 1; $i <= $_SESSION['numTrips']; $i++) {
             $sql2 = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID=$i";
             $result2 = $conn->query($sql2);
-            $waypoints = array();
             if ($result2->num_rows > 0) {
                 while($row2 = $result2->fetch_assoc()) {
-                    $waypoints[] = array(
+                    $waypoints = array(
                         'lat' => $row2['latitude'],
                         'lng' => $row2['longitude']
                     );
+                    echo "$waypoints";
                 }
             }
             $tripWaypoints[$i] = $waypoints;
