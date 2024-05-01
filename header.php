@@ -26,7 +26,7 @@
       <div class="navbar__container">
           <a class="logo" href="default.php" id="home">
               <img src="images/logo.jpg" alt="Travel Logo">
-              <h1 class="logo__text">ItineraEase</h1>
+              <p class="logo__text">ItineraEase</p>
           </a>
           <div class="nav_menu">
                 <a href="search.php" id="search">Search</a>
