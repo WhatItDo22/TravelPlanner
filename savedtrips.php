@@ -90,7 +90,7 @@
         if (waypoints.length > 1) {
             var origin = waypoints[0];
             var destination = waypoints[1];
-            var midpoints = waypoints.slice(1, 0);
+            var midpoints = waypoints.slice(2);
 
             var request = {
                 origin: new google.maps.LatLng(origin.lat, origin.lng),
