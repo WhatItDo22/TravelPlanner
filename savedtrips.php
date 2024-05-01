@@ -30,8 +30,10 @@
                     echo "<div class='container'><div class=trip_container>";
                     echo "<h2>Trip $i</h2>";
                     echo "<div class='buttons_container'";
-                    echo "<div class='trip_btn' id='route_$i>Route</div>";
-                    echo "</div></div></div>";
+                    echo "<form method='post'>";
+                    echo "<input type='hidden' name='trip_route' id='trip_route'>";
+                    echo "<input type='submit' class='trip_btn' name='btn-route' id='route_$i' value='Route'>";
+                    echo "</form></div></div></div>";
                 }
             }
         }
