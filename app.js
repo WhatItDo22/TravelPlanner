@@ -270,36 +270,17 @@ function displayPOIs(places) {
         <div>
           <strong>${place.name}</strong><br>
           Rating: ${place.rating || 'N/A'}<br>
-          <button class="add-to-itinerary">Add to Itinerary</button>
-        </div>
-      `
+          </div>
+      ` // Removed the button element here
     });
 
     marker.addListener('click', () => {
       infowindow.open(map, marker);
     });
 
-    // Add click event listener to the "Add to Itinerary" button
-    google.maps.event.addListener(infowindow, 'domready', () => {
-      const addButton = infowindow.getContent().querySelector('.add-to-itinerary');
-      addButton.addEventListener('click', () => {
-        const placeName = place.name;
-        const placeLocation = place.geometry.location;
-        const placeType = "event"
-        placeItinerary.push({
-          name: placeName,
-          location: placeLocation,
-          type: placeType
-        });
-        console.log(`Added ${place.name} to the itinerary`);
-
-      });
-    });
-
     markers.push(marker);
   });
 }
-
 function displayEndOfRouteInfo(leg, totalTime, totalDistance) {
   const marker = new google.maps.Marker({
     position: leg.end_location,
