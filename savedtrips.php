@@ -64,6 +64,16 @@
     var directionsService;
     var directionsRenderer;
 
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 0, lng: 0},
+            zoom: 8
+        });
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+        directionsRenderer.setMap(map);
+    }
+
     function initMap(i) {
         map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: 0, lng: 0},
@@ -75,7 +85,7 @@
         directionsRenderer.setMap(map);
 
         var waypoints = <?php echo json_encode($tripWaypoints[i]); ?>;
-        if (waypoints.length > 1) {
+        if (Objects.keys(waypoints).length > 1) {
             var origin = waypoints[0];
             var destination = waypoints[1];
             var midpoints = waypoints.slice(2);
