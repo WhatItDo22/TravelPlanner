@@ -40,12 +40,13 @@
                     if ($conn->connect_error) {
                         die('Connection failed: ' . $conn->connect_error);
                     }
-                    $sql = "SELECT MAX(tripID) AS NumTrips FROM waypoints";
+                    $sql = "SELECT MAX(tripID) AS NumTrips FROM waypoints WHERE username = $username";
                     $result = $conn->query($sql);
 
                     if ($result->num_rows > 0) {
                         $row = $result->fetch_assoc();
-                        $tripID = $row["tripID"] + 1;
+                        $tripID = $row["NumTrips"] + 1;
+                        console.log("New size");
                     }
                     else {
                         $tripID = 1;
@@ -72,9 +73,9 @@
                     $sql2 = "UPDATE MyGuests SET numTrips = numTrips + 1 WHERE username = $username";
                     if ($conn2->query($sql2) === TRUE) {
                         console.log("Record updated successfully");
-                      } else {
+                    } else {
                         console.log("Error updating record: " . $conn->error);
-                      }
+                    }
                 }
                 else {
                     header("Location: login.php");
