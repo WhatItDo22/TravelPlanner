@@ -6,7 +6,7 @@
 <?php include 'header.php'; ?>
 <div class="page-header">
     <h1 class="page-header-title">Saved Trips</h1>
-    <p class="page-header-subtitle">Find the next unforgettable part of your trip</p>
+    <p class="page-header-subtitle">Click on the "Route" buttons below to see each of your individual trips</p>
 </div>
 <div id="map" style="height: 500px; width: 100%;"></div>
 <?php
@@ -40,12 +40,7 @@
 ?>
 <?php
     if (isset($_POST['btn-route'])) {
-        echo "<h2>TRIPTRIPTRIP</h2>";
-        $tripID = $_POST['trip_route'];
-        echo "<h2>$tripID</h2>";
-        $_SESSION['tripNum'] = $tripID;
-        echo "<h3>$tripID</h3";
-        echo $_SESSION['tripNum'];
+        $tripID = 1;
         $username = $user["username"];
         $server = 'localhost';
         $dbusername = 'upjomg4jsiwwg';
@@ -55,7 +50,7 @@
         if ($conn->connect_error) {
             die('Connection failed: ' . $conn->connect_error);
         }
-        $sql = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID = '$tripID'";
+        $sql = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID = $tripID";
         $result = $conn->query($sql);
 
         $waypoints = array();
@@ -65,10 +60,8 @@
                     'lat' => $row['latitude'],
                     'lng' => $row['longitude']
                 );
-                echo "<h2>THIS WORKS</h2>";
             }
         }
-        echo "<h2>THIS WORKS TOO $waypoints</h2>";
         $conn->close();
     }
 ?>
@@ -78,7 +71,6 @@
 var map;
 var directionsService;
 var directionsRenderer;
-var waypoints = <?php echo isset($waypoints) ? json_encode($waypoints) : '[]'; ?>;
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -90,7 +82,9 @@ function initMap() {
     directionsRenderer = new google.maps.DirectionsRenderer();
     directionsRenderer.setMap(map);
 
-    if (waypoints && waypoints.length > 1) {
+    var waypoints = <?php echo json_encode($waypoints); ?>;
+    var count = Object.keys(waypoints).length;
+    if (count > 1) {
         var origin = waypoints[0];
         var destination = waypoints[1];
         var midpoints = waypoints.slice(2);
