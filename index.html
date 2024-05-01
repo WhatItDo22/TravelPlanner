@@ -110,25 +110,27 @@
     </div>
   </div>
 </header>
-  <main>
-    <div class="container">
-      <div id="controlPanel">
-        <input id="origin" type="text" placeholder="Enter origin" class="waypoint input-fixed-width">
-        <input id="destination" type="text" placeholder="Enter destination" class="waypoint input-fixed-width">
-        <input id="poiType" type="text" placeholder="Enter types of places (e.g., museum, restaurant)" class="input-fixed-width">
-      </div>
-
-<div id="dynamicWaypointsContainer"></div>
-      <div id="waypointsContainer">
-        <button onclick="addWaypoint()" id="waypoint">Add Waypoint</button>
-        <button onclick="calculateAndDisplayRoute()" id="submit__button">Get Directions</button>
-      </div>
+<main>
+  <div class="container">
+    <div id="controlPanel">
+      <input id="origin" type="text" placeholder="Enter origin" class="waypoint input-fixed-width">
+      <input id="destination" type="text" placeholder="Enter destination" class="waypoint input-fixed-width">
+      <input id="poiType" type="text" placeholder="Enter types of places (e.g., museum, restaurant)" class="input-fixed-width">
     </div>
+
+    <div id="dynamicWaypointsContainer"></div>
+    <div id="waypointsContainer">
+      <button onclick="addWaypoint()" id="waypoint">Add Waypoint</button>
+      <button onclick="calculateAndDisplayRoute()" id="submit__button">Get Directions</button>
+    </div>
+
+    <input type="hidden" id="coordinatesArrayInput" name="coordinatesArray">
+
     <div id="mapContainer">
       <div id="map"></div>
     </div>
-
-  </main>
+  </div>
+</main>
 
   <footer class="footer__container">
     <p id="footer__id">ItineraEase Group:</p>
