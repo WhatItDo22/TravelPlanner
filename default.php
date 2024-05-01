@@ -29,8 +29,7 @@
     <div id="routeButtonContainer">
         <?php
             if (isset($_POST['btn-route'])) {
-                if (isset($_SESSION["user"])) {
-                    $user = $_SESSION["user"];
+                if ($loginst == 1) {
                     $username = $user["username"];
                     echo $username;
                     $server = 'localhost';
@@ -51,7 +50,6 @@
                     else {
                         $tripID = 1;
                     }
-                    echo $tripID;
                     $coord= json_decode($_POST['coordinatesArray'], true);
                     $coordinatesArray = $coord[0];
                     foreach ($coordinatesArray as $coordinates) {
