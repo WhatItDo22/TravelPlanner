@@ -6,7 +6,7 @@
     <?php include 'header.php'; ?>
     <div class="page-header">
         <h1 class="page-header-title">Saved Trips</h1>
-        <p class="page-header-subtitle">Find the next unforgettable part of your trip</p>
+        <p class="page-header-subtitle">Click on the "Route" buttons below to see each of your individual trips</p>
     </div>
     <div id="map" style="height: 500px; width: 100%;"></div>
     <?php
@@ -17,9 +17,10 @@
         $dbpassword = "533%3611n_4`";
         $db = "dbz0xs4h1mcple";
         $conn = new mysqli($server, $dbusername, $dbpassword, $db);
-        if ($conn_event->connect_error) {
-            die("Connection failed: " . $conn_event->connect_error);
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
         }
+        $tripWaypoints = array();
         $sql = "SELECT numTrips FROM users WHERE username = '$username'";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
@@ -29,41 +30,32 @@
                     echo "<div class='container'><div class=trip_container>";
                     echo "<h2>Trip $i</h2>";
                     echo "<div class='buttons_container'";
-                    echo "<form method='post'>";
-                    echo "<input type='hidden' name='trip_route' id='trip_route'>";
-                    echo "<input type='submit' class='trip_btn' name='btn-route' id='route_$i' value='Route'>";
-                    echo "</form></div></div></div>";
+                    echo "<div class='trip_btn' id='route_$i>Route</div>";
+                    echo "</div></div></div>";
                 }
             }
         }
         $conn->close();
-    ?>
-    <?php
-        if (isset($_POST['btn-route'])) {
-            $username = $user["username"];
-            $server = 'localhost';
-            $dbusername = 'upjomg4jsiwwg';
-            $dbpassword = '533%3611n_4`';
-            $db = 'dbbucggrkugs9b';
-            $conn = new mysqli($server, $dbusername, $dbpassword, $db);
-            if ($conn->connect_error) {
-                die('Connection failed: ' . $conn->connect_error);
-            }
-            $tripID = $_SESSION['tripNum'];
-            $sql = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID = '$tripID'";
-            $result = $conn->query($sql);
-
+        $db2 = 'dbbucggrkugs9b';
+        $conn2 = new mysqli($server, $dbusername, $dbpassword, $db2);
+        if ($conn2->connect_error) {
+            die("Connection failed: " . $conn_event->connect_error);
+        }
+        for ($i = 1; $i <= $_SESSION['numTrips']; $i++) {
+            $sql2 = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID='$i'";
+            $result2 = $conn->query($sql2);
             $waypoints = array();
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
+            if ($result2->num_rows > 0) {
+                while($row2 = $result2->fetch_assoc()) {
                     $waypoints[] = array(
-                        'lat' => $row['latitude'],
-                        'lng' => $row['longitude']
+                        'lat' => $row2['latitude'],
+                        'lng' => $row2['longitude']
                     );
                 }
             }
-            $conn->close();
+            $tripWaypoints[$i] = $waypoints;
         }
+        $conn2->close();
     ?>
     <?php include 'footer.php'; ?>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places"></script>
@@ -72,7 +64,7 @@
     var directionsService;
     var directionsRenderer;
 
-    function initMap() {
+    function initMap(i) {
         map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: 0, lng: 0},
             zoom: 8
@@ -82,7 +74,7 @@
         directionsRenderer = new google.maps.DirectionsRenderer();
         directionsRenderer.setMap(map);
 
-        var waypoints = <?php echo json_encode($waypoints); ?>;
+        var waypoints = <?php echo json_encode($tripWaypoints[i]); ?>;
         if (waypoints.length > 1) {
             var origin = waypoints[0];
             var destination = waypoints[1];
@@ -109,14 +101,13 @@
         }
     }
 
-    var numTrips = <?php echo $_SESSION['numTrips'] ?>;
-    for (var i = 1; i <= numTrips; i++) {
-        document.getElementById("route_" + i).addEventListener("click", function() {
-            <?php $_SESSION['tripNum']  ?>= i;
-        });
-    }
-
     google.maps.event.addDomListener(window, 'load', initMap);
+    document.addEventListener('DOMContentLoaded', function() {
+        var buttons = document.getElementsByClassName('trip_btn');
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener('click', initMap(i));
+        }
+    });
     </script>
 </body>
 </html>
