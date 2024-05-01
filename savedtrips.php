@@ -2,13 +2,15 @@
 session_start();
 $title = "ItineraEase | Saved Trips";
 $style = "profilestyles.css";
+include 'header.php';
 ?>
-<?php include 'header.php'; ?>
+
 <div class="page-header">
     <h1 class="page-header-title">Saved Trips</h1>
     <p class="page-header-subtitle">Click on the "Route" buttons below to see each of your individual trips</p>
 </div>
 <div id="map" style="height: 500px; width: 100%;"></div>
+
 <?php
 $user = $_SESSION["user"];
 $username = $user["username"];
@@ -38,6 +40,7 @@ if ($result->num_rows > 0) {
 }
 $conn->close();
 ?>
+
 <?php
 if (isset($_POST['btn-route'])) {
     $tripID = $_POST['trip_route'];
@@ -63,6 +66,7 @@ if (isset($_POST['btn-route'])) {
     $conn->close();
 }
 ?>
+
 <script>
 function initMap() {
     var mapOptions = {
@@ -79,28 +83,10 @@ function initMap() {
         strokeOpacity: 1.0,
         strokeWeight: 10
     });
-    mark = 'img/mark.png';
-    flag = 'img/flag.png';
-    startPoint = {<?php echo isset($coordinates[0]) ? $coordinates[0] : 'lat: 0, lng: 0'; ?>};
-    endPoint = {<?php echo isset($coordinates[$lastcount]) ? $coordinates[$lastcount] : 'lat: 0, lng: 0'; ?>};
-    var marker = new google.maps.Marker({
-        position: startPoint,
-        map: map,
-        icon: mark,
-        title: "Start point!",
-        animation: google.maps.Animation.BOUNCE
-    });
-    var marker = new google.maps.Marker({
-        position: endPoint,
-        map: map,
-        icon: flag,
-        title: "End point!",
-        animation: google.maps.Animation.DROP
-    });
     RoutePath.setMap(map);
 }
 google.maps.event.addDomListener(window, 'load', initMap);
 </script>
-  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places"></script>
 
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places"></script>
 <?php include 'footer.php'; ?>
