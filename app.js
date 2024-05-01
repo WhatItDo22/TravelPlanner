@@ -369,8 +369,6 @@ function search() {
           const hotelType = "hotel";
           hotelItinerary.push({
             name: hotelName,
-            location: hotelLocation,
-            state: state,
             type: hotelType
           });
             console.log(`Added ${hotelName} to the itinerary`);
@@ -466,7 +464,6 @@ function searchRestaurants() {
           // Add to restaurantItinerary array
           restaurantItinerary.push({
             name: restaurantName,
-            location: restaurantLocation,
             type: "restaurant"
           });
           console.log(`Added ${restaurantName} to the itinerary`);
@@ -586,8 +583,6 @@ function showEvents(json) {
           const eventDate = $(this).parent().find('.list-group-item-text').text();
           eventItinerary.push({
             name: eventName,
-            date: eventDate,
-            city: selectedCity,
             type: "event"
           });
           console.log('Add to itinerary:', eventName);
