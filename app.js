@@ -419,7 +419,7 @@ function updateItinerary() {
   };
 
   $.ajax({
-    url: "search.php", // Assuming search.php is in the same directory
+    url: "search.php",
     method: "POST",
     data: { itinerary: JSON.stringify(itineraryData) },
     success: function(response) {
