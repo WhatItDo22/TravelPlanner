@@ -88,11 +88,9 @@
         directionsRenderer = new google.maps.DirectionsRenderer();
         directionsRenderer.setMap(map);
 
+        <?php var_dump($tripWaypoints[i]); ?>
         var waypoints = <?php echo json_encode($tripWaypoints[i]); ?>;
-        console.log(waypoints || {});
-        var destinationObj = {};
-        Object.assign(destinationObj, waypoints);
-        if (Object.keys(destinationObj).length > 1) {
+        if (Object.keys(waypoints).length > 1) {
             var origin = destinationObj[0];
             var destination = destinationObj[1];
             var midpoints = destinationObj.slice(2);
