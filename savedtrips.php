@@ -43,19 +43,20 @@
         if ($conn2->connect_error) {
             die("Connection failed: " . $conn_event->connect_error);
         }
+        $waypoints = array();
         for ($i = 1; $i <= $_SESSION['numTrips']; $i++) {
             $sql2 = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID=$i";
             $result2 = $conn2->query($sql2);
             if ($result2->num_rows > 0) {
                 while($row2 = $result2->fetch_assoc()) {
-                    echo "POPULATE THIS PLEASE";
-                    $waypoints = array(
+                    $waypoints[] = array(
                         'lat' => $row2['latitude'],
                         'lng' => $row2['longitude']
                     );
                 }
             }
             $tripWaypoints[$i] = $waypoints;
+            var_dump($tripWaypoints[$i]);
             echo "Trip Waypoints Array: $tripWaypoints[$i]";
         }
         $conn2->close();
