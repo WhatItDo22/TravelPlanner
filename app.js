@@ -3,10 +3,7 @@ let directionsService;
 let directionsRenderer;
 let markers = [];
 let waypointCount = 0;
-let restaurantItinerary = [];
-let hotelItinerary = [];
-let eventItinerary = [];
-let placeItinerary= [];
+let itinerary = [];
 
 // Hotel search variables
 let places;
@@ -286,7 +283,7 @@ function displayPOIs(places) {
         const placeName = place.name;
         const placeLocation = place.geometry.location;
         const placeType = "event"
-        placeItinerary.push({
+        itinerary.push({
           name: placeName,
           location: placeLocation,
           type: placeType
@@ -386,7 +383,7 @@ function search() {
           const hotelName = results[i].name;
           const hotelLocation = results[i].geometry.location;
           const hotelType = "hotel";
-          hotelItinerary.push({
+          itinerary.push({
             name: hotelName,
             location: hotelLocation,
             type: hotelType
@@ -478,16 +475,8 @@ function searchRestaurants() {
           addButton.textContent = "Add to Itinerary";
           addButton.classList.add("add-to-itinerary");
           addButton.onclick = function() {
-                      const restaurantName = results[i].name;
-          const restaurantLocation = results[i].geometry.location;
-          
-          // Add to restaurantItinerary array
-          restaurantItinerary.push({
-            name: restaurantName,
-            location: restaurantLocation,
-            type: "restaurant"
-          });
-          console.log(`Added ${restaurantName} to the itinerary`);
+          console.log(`Added ${results[i].name} to the itinerary`);
+            //add logic
           };
           tr.appendChild(addButton);
 
@@ -601,9 +590,10 @@ function showEvents(json) {
           e.stopPropagation();
           const eventName = $(this).parent().find('.list-group-item-heading').text();
           const eventDate = $(this).parent().find('.list-group-item-text').text();
-          eventItinerary.push({
+          itinerary.push({
             name: eventName,
             date: eventDate,
+            // ... (other event details)
             type: "event"
           });
           console.log('Add to itinerary:', eventName);
