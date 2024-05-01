@@ -194,7 +194,7 @@ body {
     font-size: 20px;
     letter-spacing: 1;
     text-align: center;
-    padding-bottom: 50px;
+    padding: 0px 30px 50px;
 }
 
 /* --------------- account login/sign up styling  -------------*/
