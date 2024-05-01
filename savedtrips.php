@@ -111,9 +111,11 @@
 
     var numTrips = <?php echo $_SESSION['numTrips'] ?>;
     for (var i = 1; i <= numTrips; i++) {
-        document.getElementById("route_" + i).addEventListener("click", function() {
-            <?php $_SESSION['tripNum']  ?>= i;
-        });
+        (function(tripNum) {
+            document.getElementById("route_" + tripNum).addEventListener("click", function() {
+                <?php echo "\$_SESSION['tripNum'] = " . tripNum . ";" ?>;
+            });
+        })(i);
     }
 
     google.maps.event.addDomListener(window, 'load', initMap);
