@@ -63,7 +63,10 @@
         }
         $conn->close();
     }
-    echo "<script>loadWaypoints();</script>"
+    echo '<script type="text/javascript">',
+     'loadWaypoints();',
+     '</script>'
+;
 ?>
 <?php include 'footer.php'; ?>
 
