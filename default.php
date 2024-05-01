@@ -8,7 +8,7 @@
 <?php include 'header.php'; ?>
 <div class="page-header">
         <h1 class="page-header-title">ItineraEase</h1>
-        <p class="page-header-subtitle">Start here to plan your next great roadtrip!</p>
+        <p class="page-header-subtitle">Start here to plan your next great roadtrip</p>
     </div>
 <div class="container">
     <div id="controlPanel">
