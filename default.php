@@ -46,11 +46,12 @@
                     if ($result->num_rows > 0) {
                         $row = $result->fetch_assoc();
                         $tripID = $row["NumTrips"] + 1;
-                        console.log("New size");
                     }
                     else {
                         $tripID = 1;
                     }
+                    echo $tripID;
+                    echo $tripID + 1;
                     $coord= json_decode($_POST['coordinatesArray'], true);
                     $coordinatesArray = $coord[0];
                     foreach ($coordinatesArray as $coordinates) {
@@ -59,9 +60,9 @@
                         $sql2 = "INSERT INTO waypoints (tripID, latitude, longitude, username)
                             VALUES ('$tripID', '$latitude', '$longitude', '$username')";
                         if ($conn->query($sql2) === TRUE) {
-                            console.log("New records created successfully");
+                            echo "New records created successfully";
                         } else {
-                            console.log("Error: " . $sql2 . "<br>" . $conn->error);
+                            echo "Error: " . $sql2 . "<br>" . $conn->error;
                         }
                     }
                     $conn->close();
@@ -72,9 +73,9 @@
                     }
                     $sql2 = "UPDATE MyGuests SET numTrips = numTrips + 1 WHERE username = $username";
                     if ($conn2->query($sql2) === TRUE) {
-                        console.log("Record updated successfully");
+                        echo "Record updated successfully";
                     } else {
-                        console.log("Error updating record: " . $conn->error);
+                        echo "Error updating record: " . $conn->error;
                     }
                 }
                 else {
