@@ -44,7 +44,8 @@
             die("Connection failed: " . $conn_event->connect_error);
         }
         for ($i = 1; $i <= $_SESSION['numTrips']; $i++) {
-            $sql2 = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID='$i'";
+            $sql2 = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID=$i";
+            echo "SQL Query: $sql2";
             $result2 = $conn->query($sql2);
             $waypoints = array();
             if ($result2->num_rows > 0) {
@@ -87,6 +88,7 @@
         directionsRenderer.setMap(map);
 
         var waypoints = <?php echo json_encode($tripWaypoints[i]); ?>;
+        console.log(waypoints);
         if (Object.keys(waypoints).length > 1) {
             var origin = waypoints[0];
             var destination = waypoints[1];
