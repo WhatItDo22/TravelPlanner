@@ -1,12 +1,8 @@
 <?php
     session_start();
+    ob_start();
     $style = "defaultstyles.css";
     $title = "ItineraEase";
-    $user = $_SESSION["user"];
-    $loginst = 0;
-    if ($user) {
-        $loginst = 1;
-    }
 ?>
 
 <?php include 'header.php'; ?>
@@ -34,7 +30,7 @@
     <div id="routeButtonContainer">
         <?php
             if (isset($_POST['btn-route'])) {
-                if ($loginst == 1) {
+                if (isset($_SESSION["user"])) {
                     $username = $user["username"];
                     echo $username;
                     $server = 'localhost';
