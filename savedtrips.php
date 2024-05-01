@@ -17,8 +17,8 @@
         $dbpassword = "533%3611n_4`";
         $db = "dbz0xs4h1mcple";
         $conn = new mysqli($server, $dbusername, $dbpassword, $db);
-        if ($conn_event->connect_error) {
-            die("Connection failed: " . $conn_event->connect_error);
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
         }
         $sql = "SELECT numTrips FROM users WHERE username = '$username'";
         $result = $conn->query($sql);
@@ -30,7 +30,7 @@
                     echo "<h2>Trip $i</h2>";
                     echo "<div class='buttons_container'";
                     echo "<form method='post'>";
-                    echo "<input type='hidden' name='trip_route' id='trip_route'>";
+                    echo "<input type='hidden' name='trip_route' value='$i'>";
                     echo "<input type='submit' class='trip_btn' name='btn-route' id='route_$i' value='Route'>";
                     echo "</form></div></div></div>";
                 }
@@ -40,6 +40,8 @@
     ?>
     <?php
         if (isset($_POST['btn-route'])) {
+            $tripID = $_POST['trip_route'];
+            $_SESSION['tripNum'] = $tripID;
             $username = $user["username"];
             $server = 'localhost';
             $dbusername = 'upjomg4jsiwwg';
@@ -49,7 +51,6 @@
             if ($conn->connect_error) {
                 die('Connection failed: ' . $conn->connect_error);
             }
-            $tripID = $_Session['tripNum'];
             $sql = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID = '$tripID'";
             $result = $conn->query($sql);
 
@@ -85,8 +86,8 @@
         var waypoints = <?php echo json_encode($waypoints); ?>;
         if (waypoints.length > 1) {
             var origin = waypoints[0];
-            var destination = waypoints[1];
-            var midpoints = waypoints.slice(2);
+            var destination = waypoints[waypoints.length - 1];
+            var midpoints = waypoints.slice(1, -1);
 
             var request = {
                 origin: new google.maps.LatLng(origin.lat, origin.lng),
@@ -107,15 +108,6 @@
                 }
             });
         }
-    }
-
-    var numTrips = <?php echo $_SESSION['numTrips'] ?>;
-    for (var i = 1; i <= numTrips; i++) {
-        (function(tripNum) {
-            document.getElementById("route_" + tripNum).addEventListener("click", function() {
-                <?php echo "\$_SESSION['tripNum'] = " . tripNum . ";" ?>;
-            });
-        })(i);
     }
 
     google.maps.event.addDomListener(window, 'load', initMap);
