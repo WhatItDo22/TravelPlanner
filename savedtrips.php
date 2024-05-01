@@ -46,10 +46,9 @@
         for ($i = 1; $i <= $_SESSION['numTrips']; $i++) {
             $sql2 = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID=$i";
             $result2 = $conn2->query($sql2);
-            echo "$result2: REACHED THIS";
             if ($result2->num_rows > 0) {
-                echo "How about this?";
                 while($row2 = $result2->fetch_assoc()) {
+                    echo "POPULATE THIS PLEASE";
                     $waypoints = array(
                         'lat' => $row2['latitude'],
                         'lng' => $row2['longitude']
