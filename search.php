@@ -131,6 +131,21 @@
             </div>
         </div>
     </div>
+    <?php 
+        if ($_POST["add-to-itinerary"]) {
+            $server = "localhost";
+            $username = "upjomg4jsiwwg";
+            $password = "533%3611n_4`";
+            $db = "dbeffkmumygldq";
+            $new_conn = new mysqli($server, $username, $password, $db);
+            if ($new_conn->connect_error) {
+                die("Connection failed: " . $new_conn->connect_error);
+            }
+
+            $saved = json_decode($_POST["add-to-itinerary"], true);
+            
+        }
+    ?>
     <?php include 'footer.php'; ?>
     <script src="app.js"></script>
 </body>
