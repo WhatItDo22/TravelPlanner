@@ -69,10 +69,10 @@ button, .btn1 {
 }
 
 .btn1 {
-    margin-top: 30px;
+    margin-top: 15px;
 }
 
-button:hover {
+button:hover, .btn1 {
     background-color: #45a049;
 }
 
