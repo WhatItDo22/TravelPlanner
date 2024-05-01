@@ -63,6 +63,7 @@
         }
         $conn->close();
     }
+    echo "<script>loadWaypoints();</script>"
 ?>
 <?php include 'footer.php'; ?>
 
@@ -70,6 +71,7 @@
 var map;
 var directionsService;
 var directionsRenderer;
+var waypointsLoaded = false;
 
 function initMap() {
     if (!waypointsLoaded) {
@@ -113,22 +115,12 @@ function initMap() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    var buttons = document.getElementsByClassName('trip_btn');
-    for (var i = 0; i < buttons.length; i++) {
-        buttons[i].addEventListener('click', function() {
-            if (!waypointsLoaded) {
-                console.log("Waypoints not loaded yet");
-                return;
-            }
-            initMap();
-        });
-    }
-});
-
-<?php if (isset($_POST['btn-route']) && $waypoints): ?>
+function loadWaypoints() {
     waypointsLoaded = true;
-<?php endif; ?>
+    if (waypointsLoaded) {
+        initMap();
+    }
+}
 </script>
 </body>
 </html>
