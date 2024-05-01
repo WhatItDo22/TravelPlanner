@@ -89,6 +89,7 @@
         var waypoints = <?php echo json_encode($tripWaypoints); ?>;
         var tripIndex = i;
         var tripWaypoints = waypoints[tripIndex];
+        console.log(tripWaypoints);
         if (Object.keys(tripWaypoints).length > 1) {
             var origin = tripWaypoints[0];
             var destination = tripWaypoints[1];
