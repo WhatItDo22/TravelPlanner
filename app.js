@@ -362,6 +362,7 @@ function search() {
           const addButton = document.createElement("button");
           addButton.textContent = "Add to Itinerary";
           addButton.classList.add("add-to-itinerary");
+          addButton.name = "itinerary";
           addButton.onclick = function() {
           const hotelName = results[i].name;
           const hotelLocation = document.getElementById("City").value;
