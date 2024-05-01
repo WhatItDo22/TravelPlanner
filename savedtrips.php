@@ -101,5 +101,5 @@ function initMap() {
 }
 google.maps.event.addDomListener(window, 'load', initMap);
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-dFHYjTqEVLndbN2gdvXsx09jfJHmNc8&callback=initMap"></script>
 <?php include 'footer.php'; ?>
