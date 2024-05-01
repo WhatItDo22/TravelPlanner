@@ -90,10 +90,12 @@
 
         var waypoints = <?php echo json_encode($tripWaypoints[i]); ?>;
         console.log(waypoints || {});
-        if (Object.keys(waypoints || {}).length > 1) {
-            var origin = waypoints[0];
-            var destination = waypoints[1];
-            var midpoints = waypoints.slice(2);
+        var destinationObj = {};
+        Object.assign(destinationObj, waypoints);
+        if (Object.keys(destinationObj).length > 1) {
+            var origin = destinationObj[0];
+            var destination = destinationObj[1];
+            var midpoints = destinationObj.slice(2);
 
             var request = {
                 origin: new google.maps.LatLng(origin.lat, origin.lng),
