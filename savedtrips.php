@@ -43,10 +43,10 @@
         if ($conn2->connect_error) {
             die("Connection failed: " . $conn_event->connect_error);
         }
-        $waypoints = array();
         for ($i = 1; $i <= $_SESSION['numTrips']; $i++) {
             $sql2 = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID=$i";
             $result2 = $conn2->query($sql2);
+            $waypoints = array();
             if ($result2->num_rows > 0) {
                 while($row2 = $result2->fetch_assoc()) {
                     $waypoints[] = array(
@@ -76,7 +76,8 @@
         directionsRenderer.setMap(map);
     }
 
-    function initMap(i) {
+    function initMap(x) {
+        var tripIndex = x;
         map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: 0, lng: 0},
             zoom: 8
@@ -86,14 +87,14 @@
         directionsRenderer = new google.maps.DirectionsRenderer();
         directionsRenderer.setMap(map);
 
-        var waypoints = <?php echo json_encode($tripWaypoints); ?>;
-        var tripIndex = i;
-        var tripWaypoints = waypoints[tripIndex];
+        var tripWaypoints = <?php echo json_encode($tripWaypoints); ?>;
+        console.log(tripIndex);
         console.log(tripWaypoints);
-        if (Object.keys(tripWaypoints).length > 1) {
-            var origin = tripWaypoints[0];
-            var destination = tripWaypoints[1];
-            var midpoints = tripWaypoints.slice(2);
+        var waypoints = tripWaypoints[tripIndex];
+        if (Object.keys(waypoints).length > 1) {
+            var origin = waypoints[0];
+            var destination = waypoints[1];
+            var midpoints = waypoints.slice(2);
 
             var request = {
                 origin: new google.maps.LatLng(origin.lat, origin.lng),
@@ -118,11 +119,13 @@
 
     google.maps.event.addDomListener(window, 'load', initMap);
     document.addEventListener('DOMContentLoaded', function() {
-        var buttons = document.getElementsByClassName('trip_btn');
-        for (var i = 0; i < buttons.length; i++) {
-            buttons[i].addEventListener('click', function() { initMap(i); });
-        }
-    });
+    var buttons = document.getElementsByClassName('trip_btn');
+    for (var x = 0; x < buttons.length; x++) {
+        (function(index) {
+            buttons[index].addEventListener('click', function() { initMap(index); });
+        })(x);
+    }
+});
     </script>
 </body>
 </html>
