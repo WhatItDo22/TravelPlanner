@@ -282,22 +282,24 @@ function displayPOIs(places) {
     // Add click event listener to the "Add to Itinerary" button
     google.maps.event.addListener(infowindow, 'domready', () => {
       const addButton = infowindow.getContent().querySelector('.add-to-itinerary');
-      addButton.onclick = function() {
+      addButton.addEventListener('click', () => {
         const placeName = place.name;
         const placeLocation = place.geometry.location;
-        const placeType = "event";
+        const placeType = "event"
         placeItinerary.push({
           name: placeName,
           location: placeLocation,
           type: placeType
         });
-        console.log(`Added ${placeName} to the itinerary`);
-      };
+        console.log(`Added ${place.name} to the itinerary`);
+
+      });
     });
 
     markers.push(marker);
   });
 }
+
 function displayEndOfRouteInfo(leg, totalTime, totalDistance) {
   const marker = new google.maps.Marker({
     position: leg.end_location,
