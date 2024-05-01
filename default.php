@@ -58,12 +58,23 @@
                         $sql2 = "INSERT INTO waypoints (tripID, latitude, longitude, username)
                             VALUES ('$tripID', '$latitude', '$longitude', '$username')";
                         if ($conn->query($sql2) === TRUE) {
-                            echo "New records created successfully";
+                            console.log("New records created successfully");
                         } else {
-                            echo "Error: " . $sql2 . "<br>" . $conn->error;
+                            console.log("Error: " . $sql2 . "<br>" . $conn->error);
                         }
                     }
                     $conn->close();
+                    $db2 = "dbz0xs4h1mcple";
+                    $conn2 = new mysqli($server, $dbusername, $dbpassword, $db2);
+                    if ($conn2->connect_error) {
+                        die('Connection failed: ' . $conn2->connect_error);
+                    }
+                    $sql2 = "UPDATE MyGuests SET numTrips = numTrips + 1 WHERE username = $username";
+                    if ($conn2->query($sql2) === TRUE) {
+                        console.log("Record updated successfully");
+                      } else {
+                        console.log("Error updating record: " . $conn->error);
+                      }
                 }
                 else {
                     header("Location: login.php");
