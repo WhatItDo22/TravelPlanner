@@ -46,12 +46,12 @@
                     if ($result->num_rows > 0) {
                         $row = $result->fetch_assoc();
                         $tripID = $row["NumTrips"] + 1;
+                        echo $row['NumTrips'] + 1;
                     }
                     else {
                         $tripID = 1;
                     }
                     echo $tripID;
-                    echo $tripID + 1;
                     $coord= json_decode($_POST['coordinatesArray'], true);
                     $coordinatesArray = $coord[0];
                     foreach ($coordinatesArray as $coordinates) {
