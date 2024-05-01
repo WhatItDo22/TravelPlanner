@@ -1,4 +1,4 @@
-\<?php
+<?php
     session_start();
     $title = "ItineraEase | Search";
     $style = "searchstyles.css";
