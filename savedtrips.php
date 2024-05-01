@@ -49,7 +49,7 @@
             if ($conn->connect_error) {
                 die('Connection failed: ' . $conn->connect_error);
             }
-            $tripID = $_Session['tripNum'];
+            $tripID = $_SESSION['tripNum'];
             $sql = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID = '$tripID'";
             $result = $conn->query($sql);
 
