@@ -194,7 +194,6 @@ function calculateAndDisplayRoute() {
       if (status === 'OK') {
         directionsRenderer.setDirections(response);
         displayTravelTimesAndFindPOIs(response, poiType);
-        displayCoordinatesInOrder();
       } else {
         window.alert('Directions request failed due to ' + status);
       }
