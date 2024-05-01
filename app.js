@@ -281,17 +281,19 @@ function displayPOIs(places) {
 
     // Add click event listener to the "Add to Itinerary" button
     google.maps.event.addListener(infowindow, 'domready', () => {
-      const addButton = infowindow.getContent().querySelector('.add-to-itinerary');
-      addButton.addEventListener('click', () => {
-        const placeName = place.name;
-        const placeLocation = place.geometry.location;
-        const placeType = "event"
-        placeItinerary.push({
-          name: placeName,
-          location: placeLocation,
-          type: placeType
-        });
-        console.log(`Added ${place.name} to the itinerary`);
+    const addButton = document.createElement("button");
+    addButton.textContent = "Add to Itinerary";
+    addButton.classList.add("add-to-itinerary");
+    addButton.onclick = function() {
+      const placeName = place.name;
+      const placeLocation = place.geometry.location;
+      const placeType = "event";
+      placeItinerary.push({
+        name: placeName,
+        location: placeLocation,
+        type: placeType
+      });
+        console.log(`Added ${placeName} to the itinerary`);
 
       });
     });
