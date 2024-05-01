@@ -3,6 +3,7 @@ let directionsService;
 let directionsRenderer;
 let markers = [];
 let waypointCount = 0;
+let itinerary = [];
 
 // Hotel search variables
 let places;
@@ -279,9 +280,16 @@ function displayPOIs(places) {
     google.maps.event.addListener(infowindow, 'domready', () => {
       const addButton = infowindow.getContent().querySelector('.add-to-itinerary');
       addButton.addEventListener('click', () => {
-        // Handle the button click event here
+        const placeName = place.name;
+        const placeLocation = place.geometry.location;
+        const placeType = "event"
+        itinerary.push({
+          name: placeName,
+          location: placeLocation,
+          type: placeType
+        });
         console.log(`Added ${place.name} to the itinerary`);
-        //add logic
+
       });
     });
 
@@ -372,7 +380,15 @@ function search() {
           addButton.textContent = "Add to Itinerary";
           addButton.classList.add("add-to-itinerary");
           addButton.onclick = function() {
-            console.log(`Added ${results[i].name} to the itinerary`);
+          const hotelName = results[i].name;
+          const hotelLocation = results[i].geometry.location;
+          const hotelType = "hotel";
+          itinerary.push({
+            name: hotelName,
+            location: hotelLocation,
+            type: hotelType
+          });
+            console.log(`Added ${hotelName} to the itinerary`);
             // add logic
           };
           tr.appendChild(addButton);
@@ -572,7 +588,15 @@ function showEvents(json) {
         var addButton = $('<button>').addClass('add-to-itinerary').text('Add to Itinerary');
         addButton.click(function(e) {
           e.stopPropagation();
-          console.log('Add to itinerary:', $(this).parent().find('.list-group-item-heading').text());
+          const eventName = $(this).parent().find('.list-group-item-heading').text();
+          const eventDate = $(this).parent().find('.list-group-item-text').text();
+          itinerary.push({
+            name: eventName,
+            date: eventDate,
+            // ... (other event details)
+            type: "event"
+          });
+          console.log('Add to itinerary:', eventName);
           // Add function to handle adding to itinerary here
         });
         item.append(addButton);
