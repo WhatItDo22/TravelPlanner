@@ -6,7 +6,7 @@
     <?php include 'header.php'; ?>
     <div class="page-header">
         <h1 class="page-header-title">Saved Trips</h1>
-        <p class="page-header-subtitle">Find the next unforgettable part of your trip</p>
+        <p class="page-header-subtitle">Click on the "Route" buttons below to see each of your individual trips</p>
     </div>
     <div id="map" style="height: 500px; width: 100%;"></div>
     <?php
@@ -40,12 +40,6 @@
     ?>
     <?php
         if (isset($_POST['btn-route'])) {
-            echo "<h2>TRIPTRIPTRIP</h2>";
-            $tripID = $_POST['trip_route'];
-            echo "<h2>$tripID</h2>";
-            $_SESSION['tripNum'] = $tripID;
-            echo "<h3>$tripID</h3";
-            echo $_SESSION['tripNum'];
             $username = $user["username"];
             $server = 'localhost';
             $dbusername = 'upjomg4jsiwwg';
@@ -65,10 +59,8 @@
                         'lat' => $row['latitude'],
                         'lng' => $row['longitude']
                     );
-                    echo "<h2>THIS WORKS</h2>";
                 }
             }
-            echo "<h2>THIS WORKS TOO $waypoints</h2>";
             $conn->close();
         }
     ?>
@@ -90,7 +82,6 @@
         directionsRenderer.setMap(map);
 
         var waypoints = <?php echo json_encode($waypoints); ?>;
-        <?php echo $waypoints; ?>;
         if (waypoints.length > 1) {
             var origin = waypoints[0];
             var destination = waypoints[1];
