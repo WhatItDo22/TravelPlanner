@@ -87,6 +87,7 @@
         directionsRenderer.setMap(map);
 
         var waypoints = <?php echo json_encode($waypoints); ?>;
+        <?php echo $waypoints; ?>;
         if (waypoints.length > 1) {
             var origin = waypoints[0];
             var destination = waypoints[1];
