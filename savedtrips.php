@@ -36,6 +36,7 @@
             }
         }
     }
+    $waypoints = isset($waypoints) ? $waypoints : array();
     $conn->close();
 ?>
 <?php
@@ -52,8 +53,6 @@
         }
         $sql = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID = $tripID";
         $result = $conn->query($sql);
-
-        $waypoints = array();
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $waypoints[] = array(
