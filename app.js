@@ -149,7 +149,7 @@ function calculateAndDisplayRoute() {
       }
     });
   }
-
+   
   function geocodeWaypoints(index) {
     if (index === waypoints.length) {
       // All waypoints geocoded, display coordinates
@@ -371,6 +371,7 @@ function search() {
             name: hotelName,
             type: hotelType
           });
+            updateItinerary(); 
             console.log(`Added ${hotelName} to the itinerary`);
             // add logic
           };
@@ -410,7 +411,25 @@ function onRestaurantPlaceChanged() {
     document.getElementById("restaurant-location").placeholder = "Enter a location";
   }
 }
+function updateItinerary() {
+  const itineraryData = {
+    restaurants: restaurantItinerary,
+    events: eventItinerary,
+    hotels: hotelItinerary
+  };
 
+  $.ajax({
+    url: "search.php", // Assuming search.php is in the same directory
+    method: "POST",
+    data: { itinerary: JSON.stringify(itineraryData) },
+    success: function(response) {
+      console.log("Itinerary data sent to server:", response);
+    },
+    error: function(error) {
+      console.error("Error sending itinerary data:", error);
+    }
+  });
+}
 function searchRestaurants() {
   const location = document.getElementById("restaurant-location").value;
   const query = document.getElementById("restaurant-query").value;
@@ -466,6 +485,7 @@ function searchRestaurants() {
             name: restaurantName,
             type: "restaurant"
           });
+          updateItinerary(); 
           console.log(`Added ${restaurantName} to the itinerary`);
           };
           tr.appendChild(addButton);
@@ -585,6 +605,7 @@ function showEvents(json) {
             name: eventName,
             type: "event"
           });
+          updateItinerary(); 
           console.log('Add to itinerary:', eventName);
           // Add function to handle adding to itinerary here
         });
