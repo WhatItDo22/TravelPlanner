@@ -89,8 +89,8 @@
         var waypoints = <?php echo json_encode($waypoints); ?>;
         if (waypoints.length > 1) {
             var origin = waypoints[0];
-            var destination = waypoints[waypoints.length - 1];
-            var midpoints = waypoints.slice(1, -1);
+            var destination = waypoints[1];
+            var midpoints = waypoints.slice(1, 0);
 
             var request = {
                 origin: new google.maps.LatLng(origin.lat, origin.lng),
