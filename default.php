@@ -2,6 +2,11 @@
     session_start();
     $style = "defaultstyles.css";
     $title = "ItineraEase";
+    $user = $_SESSION["user"];
+    $loginst = 0;
+    if ($user) {
+        $loginst = 1;
+    }
 ?>
 
 <?php include 'header.php'; ?>
