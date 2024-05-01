@@ -169,31 +169,32 @@ body {
         text-decoration: none;
     }
 }
+
 .page-header {
-    background-image: linear-gradient(rgba(170, 170, 170, 0.7), rgba(170, 170, 170, 0.7)), url('images/sky.jpg');
-    background-position: top center;
-    background-repeat: no-repeat;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/sky.jpg');
+    background-image: linear-gradient(rgba(93, 93, 93, 0.7), rgba(93, 93, 93, 0.7)), url('../images/sky.jpg');
     background-size: cover;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    padding: 5% 3%;
-    margin-top: 12vh;
-    margin-bottom: 20px;
+    justify-content: center;
+    flex-direction: column;
     border-radius: 30px;
     max-height: 300px;
-    color: var(--whiteColor);
+    padding-top: 140px;
 }
 
 .page-header-title {
     font-size: 40px;
+    text-align: center;
     letter-spacing: 1.5;
+    margin-bottom: 10px;
 }
 
 .page-header-subtitle {
-    font-size: 14px;
+    font-size: 20px;
     letter-spacing: 1;
     text-align: center;
+    padding-bottom: 50px;
 }
 
 /* --------------- account login/sign up styling  -------------*/
