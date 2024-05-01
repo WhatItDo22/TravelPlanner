@@ -29,41 +29,45 @@
     <div id="routeButtonContainer">
         <?php
             if (isset($_POST['btn-route'])) {
-              $server = 'localhost';
-              $username = 'upjomg4jsiwwg';
-              $password = '533%3611n_4`';
-              $db = 'dbbucggrkugs9b';
-                $conn = new mysqli($server, $username, $password, $db);
-                if ($conn->connect_error) {
-                    die('Connection failed: ' . $conn->connect_error);
-                }
-                $sql = "SELECT MAX(tripID) AS NumTrips FROM waypoints";
-                $result = $conn->query($sql);
+                $user = $_SESSION["user"];
+                if ($user) {
+                    $username = $user["username"];
+                    $server = 'localhost';
+                    $dbusername = 'upjomg4jsiwwg';
+                    $dbpassword = '533%3611n_4`';
+                    $db = 'dbbucggrkugs9b';
+                    $conn = new mysqli($server, $dbusername, $dbpassword, $db);
+                    if ($conn->connect_error) {
+                        die('Connection failed: ' . $conn->connect_error);
+                    }
+                    $sql = "SELECT MAX(tripID) AS NumTrips FROM waypoints";
+                    $result = $conn->query($sql);
 
-                if ($result->num_rows > 0) {
-                    $row = $result->fetch_assoc();
-                    $tripID = $row["tripID"] + 1;
+                    if ($result->num_rows > 0) {
+                        $row = $result->fetch_assoc();
+                        $tripID = $row["tripID"] + 1;
+                    }
+                    else {
+                        $tripID = 1;
+                    }
+                    $coord= json_decode($_POST['coordinatesArray'], true);
+                    $coordinatesArray = $coord[0];
+                    foreach ($coordinatesArray as $coordinates) {
+                        $latitude = $coordinates['lat'];
+                        $longitude = $coordinates['lng'];
+                        $sql2 = "INSERT INTO waypoints (tripID, latitude, longitude, username)
+                            VALUES ('$tripID', '$latitude', '$longitude', '$username')";
+                        if ($conn->query($sql2) === TRUE) {
+                            echo "New records created successfully";
+                        } else {
+                            echo "Error: " . $sql2 . "<br>" . $conn->error;
+                        }
+                    }
+                    $conn->close();
                 }
                 else {
-                    $tripID = 1;
+                    header("Location: login.php");
                 }
-                $coord= json_decode($_POST['coordinatesArray'], true);
-                $coordinatesArray = $coord[0];
-                $user = $_SESSION['user'];
-                $username = $user['username'];
-                foreach ($coordinatesArray as $coordinates) {
-                    $latitude = $coordinates['lat'];
-                    $longitude = $coordinates['lng'];
-                    
-                    $sql2 = "INSERT INTO waypoints (tripID, latitude, longitude, username)
-                        VALUES ('$tripID', '$latitude', '$longitude', '$username')";
-                    if ($conn->query($sql2) === TRUE) {
-                        echo "New records created successfully";
-                    } else {
-                        echo "Error: " . $sql2 . "<br>" . $conn->error;
-                    }
-                }
-                $conn->close();
             }
         ?>
         <form method="post">
