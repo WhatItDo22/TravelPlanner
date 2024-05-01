@@ -87,7 +87,7 @@
         directionsRenderer.setMap(map);
 
         var waypoints = <?php echo json_encode($tripWaypoints[i]); ?>;
-        if (Objects.keys(waypoints).length > 1) {
+        if (Object.keys(waypoints).length > 1) {
             var origin = waypoints[0];
             var destination = waypoints[1];
             var midpoints = waypoints.slice(2);
@@ -117,7 +117,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         var buttons = document.getElementsByClassName('trip_btn');
         for (var i = 0; i < buttons.length; i++) {
-            buttons[i].addEventListener('click', initMap(i));
+            buttons[i].addEventListener('click', function() { initMap(i); });
         }
     });
     </script>
