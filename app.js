@@ -364,11 +364,13 @@ function search() {
           addButton.classList.add("add-to-itinerary");
           addButton.onclick = function() {
           const hotelName = results[i].name;
-          const hotelLocation = results[i].geometry.location;
+          const hotelLocation = document.getElementById("City").value;
+          const state = document.getElementById("state").value;
           const hotelType = "hotel";
           hotelItinerary.push({
             name: hotelName,
             location: hotelLocation,
+            state: state,
             type: hotelType
           });
             console.log(`Added ${hotelName} to the itinerary`);
