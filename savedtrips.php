@@ -86,12 +86,11 @@
         directionsRenderer = new google.maps.DirectionsRenderer();
         directionsRenderer.setMap(map);
 
-        console.log(<?php echo json_encode($tripWaypoints); ?>);
-        var waypoints = <?php echo json_encode($tripWaypoints[i]); ?>;
+        var waypoints = <?php echo json_encode($tripWaypoints); ?>;
         if (Object.keys(waypoints).length > 1) {
-            var origin = destinationObj[0];
-            var destination = destinationObj[1];
-            var midpoints = destinationObj.slice(2);
+            var origin = waypoints[i][0];
+            var destination = waypoints[i][1];
+            var midpoints = waypoints[i].slice(2);
 
             var request = {
                 origin: new google.maps.LatLng(origin.lat, origin.lng),
