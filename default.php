@@ -34,7 +34,7 @@
     <div id="routeButtonContainer">
         <?php
             if (isset($_POST['btn-route'])) {
-                if ($loginst == 0) {
+                if ($loginst == 1) {
                     $username = $user["username"];
                     echo $username;
                     $server = 'localhost';
@@ -77,6 +77,7 @@
                     $sql2 = "UPDATE users SET numTrips = numTrips + 1 WHERE username = '$username'";
                     if ($conn2->query($sql2) === TRUE) {
                         echo "Record updated successfully";
+                        echo $username;
                     } else {
                         echo "Error updating record: " . $conn2->error;
                     }
