@@ -515,6 +515,7 @@ function selectQuery() {
   cityI = $('#City').val();
   stateI = $('#state').val(); 
   dateI = $('#eventDate').val();
+  selectedCity = cityI;
   console.log(' City entered: ' + cityI);
   console.log(' State entered: ' + stateI);
   console.log(' Date entered: ' + dateI);
@@ -586,6 +587,7 @@ function showEvents(json) {
           eventItinerary.push({
             name: eventName,
             date: eventDate,
+            city: selectedCity,
             type: "event"
           });
           console.log('Add to itinerary:', eventName);
