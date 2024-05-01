@@ -11,7 +11,7 @@
     <?php include 'header.php'; ?>
     <div class="page-header">
         <h1 class="page-header-title">Search</h1>
-        <p class="page-header-subtitle">Find the next unforgettable part of your trip!</p>
+        <p class="page-header-subtitle">Find the next unforgettable part of your trip</p>
     </div>
     <!---------- events page page selector ------------->
     <div id="events__page">
