@@ -29,8 +29,8 @@
     <div id="routeButtonContainer">
         <?php
             if (isset($_POST['btn-route'])) {
-                $user = $_SESSION["user"];
-                if ($user) {
+                if (isset($_SESSION["user"])) {
+                    $user = $_SESSION["user"];
                     $username = $user["username"];
                     $server = 'localhost';
                     $dbusername = 'upjomg4jsiwwg';
