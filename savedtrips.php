@@ -42,7 +42,7 @@
         if (isset($_POST['btn-route'])) {
             $tripID = $_POST['trip_route'];
             $_SESSION['tripNum'] = $tripID;
-            echo $tripID;
+            echo "<h3>$tripID</h3";
             echo $_SESSION['tripNum'];
             $username = $user["username"];
             $server = 'localhost';
@@ -63,9 +63,10 @@
                         'lat' => $row['latitude'],
                         'lng' => $row['longitude']
                     );
+                    echo "<h2>THIS WORKS</h2>";
                 }
             }
-            echo $waypoints;
+            echo "<h2>THIS WORKS TOO $waypoints</h2>";
             $conn->close();
         }
     ?>
