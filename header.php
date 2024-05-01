@@ -36,6 +36,7 @@
                     <a onclick="myFunction()" class="dropbtn">Account</a>
                     <div id="myDropdown" class="dropdown-content">
                         <a href="savedtrips.php">Saved Trips</a>
+                        <a href="savedstops.php">Saved Stops</a>
                         <a href="logout.php">Log Out</a>
                 </div>
             </div>
