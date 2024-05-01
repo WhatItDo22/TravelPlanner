@@ -4,7 +4,10 @@
     $style = "profilestyles.css";
 ?>
     <?php include 'header.php'; ?>
-    <h1>Saved Trips</h1>
+    <div class="page-header">
+        <h1 class="page-header-title">Saved Trips</h1>
+        <p class="page-header-subtitle">Click on the "Route" buttons below to see each of your individual trips!</p>
+    </div>
     <?php
         $user = $_SESSION["user"];
         $username = $user["username"];
