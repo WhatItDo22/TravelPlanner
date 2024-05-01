@@ -72,6 +72,10 @@ var directionsService;
 var directionsRenderer;
 
 function initMap() {
+    if (!waypointsLoaded) {
+        console.log("Waypoints not loaded yet");
+        return;
+    }
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 0, lng: 0},
         zoom: 8
@@ -112,9 +116,19 @@ function initMap() {
 document.addEventListener('DOMContentLoaded', function() {
     var buttons = document.getElementsByClassName('trip_btn');
     for (var i = 0; i < buttons.length; i++) {
-        buttons[i].addEventListener('click', initMap);
+        buttons[i].addEventListener('click', function() {
+            if (!waypointsLoaded) {
+                console.log("Waypoints not loaded yet");
+                return;
+            }
+            initMap();
+        });
     }
 });
+
+<?php if (isset($_POST['btn-route']) && $waypoints): ?>
+    waypointsLoaded = true;
+<?php endif; ?>
 </script>
 </body>
 </html>
