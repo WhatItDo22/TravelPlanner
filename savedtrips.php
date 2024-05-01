@@ -64,7 +64,7 @@ if (isset($_POST['btn-route'])) {
 ?>
 <?php include 'footer.php'; ?>
 <div id="map" style="height: 500px; width: 100%;"></div>
-<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
 <script>
 var map;
 var directionsService;
@@ -81,15 +81,15 @@ function initMap() {
     directionsRenderer.setMap(map);
 
     var waypoints = <?php echo json_encode($waypoints); ?>;
-    if (waypoints.length > 0) {
+    if (waypoints.length > 1) {
         var origin = waypoints[0];
-        var destination = waypoints[waypoints.length - 1];
-        var waypointLocations = waypoints.slice(1, -1);
+        var destination = waypoints[1];
+        var midpoints = waypoints.slice(2);
 
         var request = {
             origin: new google.maps.LatLng(origin.lat, origin.lng),
             destination: new google.maps.LatLng(destination.lat, destination.lng),
-            waypoints: waypointLocations.map(function(location) {
+            waypoints: midpoints.map(function(location) {
                 return {
                     location: new google.maps.LatLng(location.lat, location.lng),
                     stopover: true
