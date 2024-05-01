@@ -41,13 +41,12 @@
                     if ($conn->connect_error) {
                         die('Connection failed: ' . $conn->connect_error);
                     }
-                    $sql = "SELECT MAX(tripID) AS NumTrips FROM waypoints WHERE username = $username";
+                    $sql = "SELECT MAX(tripID) AS NumTrips FROM waypoints WHERE username = '$username'";
                     $result = $conn->query($sql);
 
                     if ($result->num_rows > 0) {
                         $row = $result->fetch_assoc();
                         $tripID = $row["NumTrips"] + 1;
-                        echo $row['NumTrips'] + 1;
                     }
                     else {
                         $tripID = 1;
@@ -72,7 +71,7 @@
                     if ($conn2->connect_error) {
                         die('Connection failed: ' . $conn2->connect_error);
                     }
-                    $sql2 = "UPDATE users SET numTrips = numTrips + 1 WHERE username = $username";
+                    $sql2 = "UPDATE users SET numTrips = numTrips + 1 WHERE username = '$username'";
                     if ($conn2->query($sql2) === TRUE) {
                         echo "Record updated successfully";
                     } else {
