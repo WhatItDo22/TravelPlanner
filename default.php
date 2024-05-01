@@ -32,6 +32,7 @@
                 if (isset($_SESSION["user"])) {
                     $user = $_SESSION["user"];
                     $username = $user["username"];
+                    echo $username;
                     $server = 'localhost';
                     $dbusername = 'upjomg4jsiwwg';
                     $dbpassword = '533%3611n_4`';
@@ -75,8 +76,9 @@
                     if ($conn2->query($sql2) === TRUE) {
                         echo "Record updated successfully";
                     } else {
-                        echo "Error updating record: " . $conn->error;
+                        echo "Error updating record: " . $conn2->error;
                     }
+                    $conn2->close();
                 }
                 else {
                     header("Location: login.php");
