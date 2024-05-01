@@ -40,6 +40,7 @@
     ?>
     <?php
         if (isset($_POST['btn-route'])) {
+            $tripID = 1;
             $username = $user["username"];
             $server = 'localhost';
             $dbusername = 'upjomg4jsiwwg';
