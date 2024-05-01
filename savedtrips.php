@@ -56,8 +56,6 @@
                 }
             }
             $tripWaypoints[$i] = $waypoints;
-            var_dump($tripWaypoints[$i]);
-            echo "Trip Waypoints Array: $tripWaypoints[$i]";
         }
         $conn2->close();
     ?>
