@@ -26,16 +26,11 @@
         if (count($events) > 0) {
             echo "<div class='events'>";
             foreach ($events as $event) {
-                $day = date("d", strtotime($event["eventDate"]));
-                $month = date("F", strtotime($event["eventDate"]));
-                $year = date("Y", strtotime($event["eventDate"]));
                 echo "<div class='event-container'>";
                 echo "<div class='event-date'>";
-                echo "<h2 class='event-date-info'>" . $month . "<br>" . $day . "<br>" . $year . "</h2>";
                 echo "</div>";
                 echo "<div class='event-info'>";
                 echo "<h2 class='event-name'>" . $event["name"] . "</h2>";
-                echo "<h4 class='event-location'>" . $event["address"] . ", ". $event["city"] . ", " . $event["state"] . "</h4>";
                 echo "<h4 class='event-category'>" . $event["category"] . "</h4>";
                 echo "</div>";
                 echo "</div>";
