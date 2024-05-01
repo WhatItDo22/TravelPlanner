@@ -2,15 +2,13 @@
 session_start();
 $title = "ItineraEase | Saved Trips";
 $style = "profilestyles.css";
-include 'header.php';
 ?>
-
+<?php include 'header.php'; ?>
 <div class="page-header">
     <h1 class="page-header-title">Saved Trips</h1>
     <p class="page-header-subtitle">Click on the "Route" buttons below to see each of your individual trips</p>
 </div>
 <div id="map" style="height: 500px; width: 100%;"></div>
-
 <?php
 $user = $_SESSION["user"];
 $username = $user["username"];
@@ -40,53 +38,76 @@ if ($result->num_rows > 0) {
 }
 $conn->close();
 ?>
-
 <?php
+$locations = array();
 if (isset($_POST['btn-route'])) {
     $tripID = $_POST['trip_route'];
     $username = $user["username"];
     $server = 'localhost';
     $dbusername = 'upjomg4jsiwwg';
     $dbpassword = '533%3611n_4`';
-    $db = 'dbbucggrkugs9b';
+    $db = 'dbz0xs4h1mcple';
     $conn = new mysqli($server, $dbusername, $dbpassword, $db);
     if ($conn->connect_error) {
         die('Connection failed: ' . $conn->connect_error);
     }
     $sql = "SELECT latitude, longitude FROM waypoints WHERE username = '$username' AND tripID = $tripID ORDER BY waypointID";
     $result = $conn->query($sql);
-    $coordinates = array();
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            $coordinates[] = 'new google.maps.LatLng(' . $row['latitude'] . ',' . $row['longitude'] . '),';
+            $locations[] = array(
+                'lat' => $row['latitude'],
+                'lng' => $row['longitude']
+            );
         }
     }
-    $lastcount = count($coordinates) - 1;
-    $coordinates[$lastcount] = trim($coordinates[$lastcount], ",");
     $conn->close();
 }
 ?>
-
-<script>
-function initMap() {
-    var mapOptions = {
-        zoom: 8,
-        center: {<?php echo isset($coordinates[0]) ? $coordinates[0] : 'lat: 0, lng: 0'; ?>},
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-    var RouteCoordinates = [<?php echo isset($coordinates) ? implode(" ", $coordinates) : ''; ?>];
-    var RoutePath = new google.maps.Polyline({
-        path: RouteCoordinates,
-        geodesic: true,
-        strokeColor: '#1100FF',
-        strokeOpacity: 1.0,
-        strokeWeight: 10
-    });
-    RoutePath.setMap(map);
-}
-google.maps.event.addDomListener(window, 'load', initMap);
-</script>
-
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places"></script>
+<script type="text/javascript">
+var map;
+var Markers = {};
+var infowindow;
+var locations = [
+<?php for($i=0;$i<sizeof($locations);$i++){ $j=$i+1;?>
+[
+'Waypoint <?php echo $j; ?>',
+<?php echo $locations[$i]['lat'];?>,
+<?php echo $locations[$i]['lng'];?>,
+<?php echo $i; ?>
+]<?php if($j!=sizeof($locations))echo ","; }?>
+];
+var origin = new google.maps.LatLng(locations[0][1], locations[0][2]);
+function initialize() {
+var mapOptions = {
+zoom: 9,
+center: origin
+};
+map = new google.maps.Map(document.getElementById('map'), mapOptions);
+infowindow = new google.maps.InfoWindow();
+for(i=0; i<locations.length; i++) {
+var position = new google.maps.LatLng(locations[i][1], locations[i][2]);
+var marker = new google.maps.Marker({
+position: position,
+map: map,
+});
+google.maps.event.addListener(marker, 'click', (function(marker, i) {
+return function() {
+infowindow.setContent(locations[i][0]);
+infowindow.open(map, marker);
+}
+}) (marker, i));
+Markers[locations[i][3]] = marker;
+}
+locate(0);
+}
+function locate(marker_id) {
+var myMarker = Markers[marker_id];
+var markerPosition = myMarker.getPosition();
+map.setCenter(markerPosition);
+google.maps.event.trigger(myMarker, 'click');
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
 <?php include 'footer.php'; ?>
