@@ -34,7 +34,7 @@
     <div id="routeButtonContainer">
         <?php
             if (isset($_POST['btn-route'])) {
-                if ($loginst == 1) {
+                if ($loginst == 0) {
                     $username = $user["username"];
                     echo $username;
                     $server = 'localhost';
