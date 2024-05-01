@@ -40,7 +40,9 @@
     ?>
     <?php
         if (isset($_POST['btn-route'])) {
+            echo "<h2>TRIPTRIPTRIP</h2>";
             $tripID = $_POST['trip_route'];
+            echo "<h2>$tripID</h2>";
             $_SESSION['tripNum'] = $tripID;
             echo "<h3>$tripID</h3";
             echo $_SESSION['tripNum'];

@@ -32,7 +32,6 @@
             if (isset($_POST['btn-route'])) {
                 if (isset($_SESSION["user"])) {
                     $username = $user["username"];
-                    echo $username;
                     $server = 'localhost';
                     $dbusername = 'upjomg4jsiwwg';
                     $dbpassword = '533%3611n_4`';
