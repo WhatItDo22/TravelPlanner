@@ -41,7 +41,7 @@ $conn->close();
 <?php
 $locations = array();
 if (isset($_POST['btn-route'])) {
-    $tripID = $_POST['trip_route'];
+    $tripID = 1;
     $username = $user["username"];
     $server = 'localhost';
     $dbusername = 'upjomg4jsiwwg';
