@@ -556,7 +556,7 @@ function getEvents(page) {
  
   $.ajax({
     type: "GET",
-    url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TktAPIKey + "&sort=date,asc" + "&city=" + cityI + "&countryCode=US" + "&state=" + stateI + "&startedatetime=" + dateI + "&size=4&page=" + page,
+    url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TktAPIKey + "&sort=date,asc" + "&city=" + cityI + "&countryCode=US" + "&startedatetime=" + dateI + "&size=4&page=" + page,
     async: true,
     dataType: "json",
     success: function(json) {

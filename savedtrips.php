@@ -60,7 +60,6 @@
         $conn2->close();
     ?>
     <?php include 'footer.php'; ?>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhUuWak2CTtiOWi0ycSLTJU43cJVch2_w&libraries=places"></script>
     <script>
     var map;
     var directionsService;

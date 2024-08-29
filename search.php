@@ -4,7 +4,6 @@
     $style = "searchstyles.css";
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["itinerary"])) {
         $itineraryData = json_decode($_POST["itinerary"], true);
-        print_r($itineraryData);
         $restaurants = $itineraryData["restaurants"];
         $events = $itineraryData["events"];
         $hotels = $itineraryData["hotels"];
@@ -38,27 +37,6 @@
                                 <h2>Events</h2>
                                 <div class="search-form">
                                     <input id="City" type="text" placeholder="Enter city">
-                                    <?php
-                                        $server = "localhost";
-                                        $username = "upjomg4jsiwwg";
-                                        $password = "533%3611n_4`";
-                                        $db = "dbxr6uvbrsv2dg";
-                                        $conn = new mysqli($server, $username, $password);
-                                        if ($conn->connect_error) {
-                                            die("Connection failed: " . $conn->connect_error);
-                                        }
-                                        $conn->select_db($db);
-                                        $sql = "SELECT Name, Abbreviation FROM States";
-                                        $result = $conn->query($sql);
-                                        echo "<select name='state' id='state'>";
-                                        if ($result->num_rows > 0) {
-                                            while($row = $result->fetch_assoc()) {
-                                                echo "<option value='{$row['Abbreviation']}'>{$row['Name']}</option>";
-                                            }
-                                        }
-                                        echo "</select>";
-                                        $conn->close();
-                                    ?>
                                     <input type="date" id="eventDate">
                                     <button class="button">Search</button>
                                 </div>

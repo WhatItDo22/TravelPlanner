@@ -58,9 +58,9 @@
                         $sql2 = "INSERT INTO waypoints (tripID, latitude, longitude, username)
                             VALUES ('$tripID', '$latitude', '$longitude', '$username')";
                         if ($conn->query($sql2) === TRUE) {
-                            echo "New records created successfully";
+                            console.log("New records created successfully");
                         } else {
-                            echo "Error: " . $sql2 . "<br>" . $conn->error;
+                            console.log("Error: " . $sql2 . "<br>" . $conn->error);
                         }
                     }
                     $conn->close();
@@ -71,9 +71,9 @@
                     }
                     $sql2 = "UPDATE users SET numTrips = numTrips + 1 WHERE username = '$username'";
                     if ($conn2->query($sql2) === TRUE) {
-                        echo "Record updated successfully";
+                        console.log("Record updated successfully");
                     } else {
-                        echo "Error updating record: " . $conn2->error;
+                        console.log("Error updating record: " . $conn2->error);
                     }
                     $conn2->close();
                 }

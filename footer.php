@@ -13,10 +13,6 @@
                 <a href="contact.php">Contact</a>
                 <a href="mailto: support@itineraease.com"> support@itineraease.com</a>
             </div>
-            <div class="footer__link--items">
-                <p><strong>Come support us on Shark Tank</strong></p>
-                <a href="https://docs.google.com/presentation/d/159DZ_4OCnmovnvx2PBxVvSsWoq-dv0GSvQpX_mwk27w/edit?usp=sharing" target="_blank">Presentation</a>
-            </div>
         </div>
     </div>
     <hr style="border: .1px solid lightgrey;">
